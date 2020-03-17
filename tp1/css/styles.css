@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,500,700,900&display=swap");
-/* @import url("https://fonts.googleapis.com/css?family=IBM+Plex+Mono:300,500,700,900&display=swap"); */
+/* @import url("https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,500,700,900&display=swap"); */
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Mono:300,500,700,900&display=swap");
 /* @import url("https://fonts.googleapis.com/css?family=IBM+Plex+Serif:300,500,700,900&display=swap"); */
 
 html {
@@ -7,9 +7,12 @@ html {
 }
 
 body {
-    font-family: IBM Plex Sans;
-    /* font-family: IBM Plex Mono; */
+  /* font-family: IBM Plex Sans; */
+  /* font-family: IBM Plex Mono; */
   /* font-family: IBM Plex Serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   font-weight: 300;
   line-height: 1;
   padding: 1rem;
@@ -72,6 +75,7 @@ i {
   color: #92b9bd;
 }
 em {
+  font-family: IBM Plex Mono;
   font-weight: 500;
   color: #92b9bd;
   font-style: normal;
@@ -94,6 +98,7 @@ h3 {
 }
 
 h1 {
+  font-family: IBM Plex Mono;
   text-align: center;
   font-size: 3.5rem;
   margin-bottom: 0rem;
@@ -155,8 +160,8 @@ ul li {
 }
 
 figure {
-margin: 0 16% 0 auto;
-    width: 50%;
+  margin: 0 16% 0 auto;
+  width: 50%;
 }
 .img-auto {
   width: 66%;
@@ -173,50 +178,48 @@ margin: 0 16% 0 auto;
   margin: -16px 10px 0px 0px;
   border: 8px solid #d9e2ea;
   /* flex-grow: 1; */
-
 }
 
 .popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.6);
-    text-decoration-line: overline;
-    text-decoration-thickness: 8px;
-    text-decoration-color: #444444;
-    color: #e8f044;
-
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  text-decoration-line: overline;
+  text-decoration-thickness: 8px;
+  text-decoration-color: #444444;
+  color: #e8f044;
 }
 
-.popup:hover{
-    text-decoration-color: #e8f044;
-    text-decoration-style: solid;
-    text-decoration-thickness: 8px;
+.popup:hover {
+  text-decoration-color: #e8f044;
+  text-decoration-style: solid;
+  text-decoration-thickness: 8px;
 }
 
 .popup img {
-    margin: 4rem 0 0 0;
-    max-width: 80%;
-    max-height: 80%;
-    -webkit-box-shadow: 2px 3px 7px 1px #3b3854;
-    -moz-box-shadow: 2px 3px 7px 1px #3b3854;
-    box-shadow: 2px 3px 7px 1px #3b3854;
-    border: 32px solid #eaf3fa;
+  margin: 4rem 0 0 0;
+  max-width: 80%;
+  max-height: 80%;
+  -webkit-box-shadow: 2px 3px 7px 1px #3b3854;
+  -moz-box-shadow: 2px 3px 7px 1px #3b3854;
+  box-shadow: 2px 3px 7px 1px #3b3854;
+  border: 32px solid #eaf3fa;
 }
-.popup:after{
-    content: "JIM BIG";
-    color: #e8f044;
-    text-decoration-line: none;
+.popup:after {
+  content: "JIM BIG";
+  color: #e8f044;
+  text-decoration-line: none;
 }
 
 .popup:target {
-    /* outline: none; */
-    display: block;
+  /* outline: none; */
+  display: block;
 }
 /* .cv-photo-list {
   flex-grow: 4;
@@ -224,12 +227,11 @@ margin: 0 16% 0 auto;
 .clear-float {
   clear: both;
 }
-.container-sig{
-    grid-area: sig;
-    text-align: end;
+.container-sig {
+  grid-area: sig;
+  text-align: end;
 }
 .sig {
-
   color: #e8f044;
   /* max-width: 43rem; */
   /* margin: 0px 5px 0px 0px; */
