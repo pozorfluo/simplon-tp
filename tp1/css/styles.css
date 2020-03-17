@@ -1,0 +1,234 @@
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Mono:300,500,700,900&display=swap");
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: IBM Plex Mono;
+  font-weight: 300;
+  line-height: 1;
+  padding: 1rem;
+  color: #444;
+  background: linear-gradient(
+        135deg,
+        rgba(84, 56, 180, 0.2) 25%,
+        transparent 25%
+      ) -50px 0px,
+    linear-gradient(225deg, rgba(84, 56, 180, 0.1) 25%, transparent 25%) -50px 0px,
+    linear-gradient(315deg, rgba(84, 56, 180, 0.2) 25%, transparent 25%) 0px 0px,
+    linear-gradient(45deg, rgba(84, 56, 180, 0.1) 25%, transparent 25%) 0px 0px;
+  background-size: 100px 100px;
+  background-color: #c446cd;
+}
+
+/* background: linear-gradient(
+    135deg,
+    rgba(84, 56, 180, 0.3) 33%,
+    transparent 33%
+  ) -33px 0px,
+linear-gradient(225deg, rgba(84, 56, 180, 0.2) 33%, transparent 33%) -33px 0px,
+  linear-gradient(315deg, rgba(84, 56, 180, 0.3) 33%, transparent 33%) 66px 0px,
+  linear-gradient(45deg, rgba(84, 56, 180, 0.2) 33%, transparent 33%) 66px 0px;
+background-size: 100px 100px;
+background-color: #c446cd;
+} */
+
+.grid-container {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 0.75fr;
+  grid-template-rows: 1fr 2rem;
+  grid-template-areas: "article" "sig";
+}
+
+article {
+  /* margin: auto; */
+  grid-area: article;
+  /* max-width: 43rem; */
+  border-radius: 16px 16px 2px 2px;
+  background: #ffffff;
+  padding: 1rem 1rem;
+  -webkit-box-shadow: 0px 2px 7px 0px #3b3854;
+  -moz-box-shadow: 0px 2px 7px 0px #3b3854;
+  box-shadow: 0px 2px 7px 0px #3b3854;
+}
+
+b {
+  font-weight: 700;
+}
+
+strong {
+  font-weight: 700;
+  color: #92b9bd;
+}
+
+i {
+  font-weight: 500;
+  color: #92b9bd;
+}
+em {
+  font-weight: 500;
+  color: #92b9bd;
+  font-style: normal;
+}
+em:before {
+  content: "{";
+  color: #d9e2ea;
+}
+em:after {
+  content: "}";
+  color: #d9e2ea;
+}
+mark {
+  background-color: #d9e2ea;
+}
+h1,
+h2,
+h3 {
+  font-weight: 300;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3.5rem;
+  margin-bottom: 0rem;
+  letter-spacing: -0.2rem;
+}
+h1:before {
+  content: "{ ";
+  color: #d9e2ea;
+}
+h1:after {
+  content: " }";
+  color: #d9e2ea;
+}
+
+h2 {
+  padding-top: 0.5rem;
+}
+
+p {
+  line-height: normal;
+}
+
+a {
+  color: #c446cd;
+  font-weight: 900;
+  padding: 1em 0;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: 1.5px;
+  /* text-decoration-color : #d9e2ea; */
+}
+
+a:hover,
+a:focus {
+  text-decoration-thickness: auto;
+  -webkit-text-decoration-style: wavy;
+  text-decoration-style: wavy;
+  -webkit-text-decoration-color: initial;
+  text-decoration-color: initial;
+  /* text-decoration-thickness: 1.5px; */
+}
+
+hr {
+  background-color: #d9e2ea;
+  height: 3px;
+  border: none;
+  border-radius: 5px;
+}
+
+ul {
+  background: #d9e2ea;
+  padding: 15px;
+}
+ul li {
+  color: #444444;
+  margin-left: 35px;
+  padding: 5px 0px 0px 0px;
+  list-style-type: square;
+  list-style-position: inside;
+}
+
+figure {
+margin: 0 16% 0 auto;
+    width: 50%;
+}
+.img-auto {
+  width: 66%;
+  height: auto;
+}
+/* .photo-flex {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+} */
+
+.cv-photo {
+  float: left;
+  margin: -16px 10px 0px 0px;
+  border: 8px solid #d9e2ea;
+  /* flex-grow: 1; */
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    text-decoration-line: overline;
+    text-decoration-thickness: 8px;
+    text-decoration-color: #444444;
+    color: #e8f044;
+}
+
+.popup:hover{
+    text-decoration-color: #444444;
+    text-decoration-style: solid;
+    text-decoration-thickness: 8px;
+}
+
+.popup img {
+    margin: 4rem 0 0 0;
+    max-width: 80%;
+    max-height: 80%;
+    border: 8px solid #444444;
+}
+.popup:after{
+    content: "JIM BIG";
+    color: #e8f044;
+    text-decoration-line: none;
+}
+
+.popup:target {
+    /* outline: none; */
+    display: block;
+}
+/* .cv-photo-list {
+  flex-grow: 4;
+} */
+.clear-float {
+  clear: both;
+}
+.container-sig{
+    grid-area: sig;
+    text-align: end;
+}
+.sig {
+
+  color: #e8f044;
+  /* max-width: 43rem; */
+  /* margin: 0px 5px 0px 0px; */
+  text-decoration-thickness: 2px;
+}
+
+.svg-sig {
+  margin: -2px;
+  fill: #e8f044;
+  vertical-align: text-bottom;
+}
