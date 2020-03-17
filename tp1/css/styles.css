@@ -1,11 +1,15 @@
-@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Mono:300,500,700,900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,500,700,900&display=swap");
+/* @import url("https://fonts.googleapis.com/css?family=IBM+Plex+Mono:300,500,700,900&display=swap"); */
+/* @import url("https://fonts.googleapis.com/css?family=IBM+Plex+Serif:300,500,700,900&display=swap"); */
 
 html {
   height: 100%;
 }
 
 body {
-  font-family: IBM Plex Mono;
+    font-family: IBM Plex Sans;
+    /* font-family: IBM Plex Mono; */
+  /* font-family: IBM Plex Serif; */
   font-weight: 300;
   line-height: 1;
   padding: 1rem;
@@ -169,6 +173,7 @@ margin: 0 16% 0 auto;
   margin: -16px 10px 0px 0px;
   border: 8px solid #d9e2ea;
   /* flex-grow: 1; */
+
 }
 
 .popup {
@@ -185,10 +190,11 @@ margin: 0 16% 0 auto;
     text-decoration-thickness: 8px;
     text-decoration-color: #444444;
     color: #e8f044;
+
 }
 
 .popup:hover{
-    text-decoration-color: #444444;
+    text-decoration-color: #e8f044;
     text-decoration-style: solid;
     text-decoration-thickness: 8px;
 }
@@ -197,7 +203,10 @@ margin: 0 16% 0 auto;
     margin: 4rem 0 0 0;
     max-width: 80%;
     max-height: 80%;
-    border: 8px solid #444444;
+    -webkit-box-shadow: 2px 3px 7px 1px #3b3854;
+    -moz-box-shadow: 2px 3px 7px 1px #3b3854;
+    box-shadow: 2px 3px 7px 1px #3b3854;
+    border: 32px solid #eaf3fa;
 }
 .popup:after{
     content: "JIM BIG";
