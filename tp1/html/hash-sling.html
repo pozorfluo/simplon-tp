@@ -1,141 +1,341 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>simplon TP1</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/hash-sling.css" />
-</head>
+  </head>
 
-<body>
+  <body>
+
     <div class="grid-container">
-        <article>
-            <h1><b>TP</b>1</h1>
-            <h2><b>THIERRY</b>LAFRONDE HASHING</h2>
-            <hr />
-            <p>
-                
+      <article>
+        <h1><b>TP</b>1</h1>
 
-                <p>
-                    <a
-                    href="#cover-popup"
-                    title="Cliquez pour ouvrir la photo en grand"
-                  >
-                    <img src="../images/cover-tlf.jpg"
-                    class="cv-photo"
-                    alt="cover" width="150"/>
-                  </a>
-                        <!-- hidden popup image container -->
-                <a href="#_" class="popup" id="cover-popup">
-                    <img src="../images/cover-tlf.jpg">
-                </a>
-                
-                <h3><em>Slingshot the rich !</em></h3>
-                <p>
-                    &emsp;<b>Thierry la Fronde</b> hashing aims to achieve the same 
-                    result as <b>Robin hood</b> hashing without swapping entries.
-
-                    Instead, it only pushes entries to empty (or considered empty)
-                    buckets, thus resulting in <mark>fewer read/write operations</mark>.
-                </p> 
-                </p>
-               <br class="clear-float" />
-                <h3 ><em>Implementation wip</em></h3>
-                <p>
-                    &emsp;When trying to insert a new entry in the table we check if the key
-                    already exists or find the first empty bucket available. This is
-                    the <b>candidate bucket</b>. 
-                </p>
-                <p>
-                    &emsp;The <b>home bucket</b> is the exact bucket a 
-                    given key hashes to.
-                    By definition there should be no other empty bucket between the home  
-                    bucket and candidate bucket.<br />
-                </p>
-                <p>
-                    &emsp;To <b>slingshot</b> an entry is to move it without 
-                    mercy to a known safe place to overwrite. We use metadata to
-                    track the status of buckets and help finding entries in the
-                    table.
-                </p>
-                <p>
-                    <ul>
-                        <li>Hold given new entry.</li>
-                        <li>Go backwards from candidate empty bucket to home bucket.</li>
-                        <ul>
-                            <li>If current entry distance to its home bucket is lower or equal than the entry upstream's own.</li>
-                            <li>Slingshot it to candidate empty bucket !</li>
-                            <li>Make current entry's old bucket the new candidate empty bucket.</li>
-                        </ul>
-
-                        <li>Slingshot given new entry to wherever candidate empty bucket is.</li>
-                        <li>Increment table entry count.</li>
-                    </ul>
-                </p>
-
-            </p>
-            <h3><em>Example</em></h3>
-            <div class="bucket a"><span class="key">ace</span></div>
-            <div class="bucket b"><span class="key">bad</span></div>
-            <div class="bucket c"><span class="key">cat</span></div>
-            <div class="bucket d"><span class="key">dog</span></div>
-            <div class="bucket e"><span class="key">eat</span></div>
-            <div class="bucket f"><span class="key">fly</span></div>
-            <div class="bucket g"><span class="key">gym</span></div>
-            <div class="bucket h"><span class="key">hot</span></div>
-            <div class="bucket i"><span class="key">ice</span></div>
-            <div class="bucket j"><span class="key">joy</span></div>
-            <div class="bucket k"><span class="key">kit</span></div>
-            <div class="bucket l"><span class="empty"></span></div>
-
-            <h3><em>SIMD</em></h3>
-            <p>
-                &emsp;Key lookup is largely based on the work of the Abseil Team.
-                It uses SIMD instructions to probe chunks of metadata at once.
-            </p>
-            <p>
-                &emsp;Current implementation uses 2 bytes of metadata. One is used
-                mostly like in the "Swiss Tables" of the Abseil Team. The other
-                one tracks the distance from home bucket for the Thierry la Fronde
-                portion. An alternate implementation ditches the first byte and
-                propose a modified probe function which looks for entries related
-                to the current bucket of interest. It trades space for slightly
-                higher number of final key comparisons.
-            </p>
-
-            <p>
-                &emsp;It is likely that the backward Thierry la fronde loop can
-                be replaced with same kind of SIMD probe. Eg., by constructing
-                a filter with shifted chunk of entries distances.
-            </p>
-            <h3><em>Credits</em></h3>
-            <p>
-                &emsp;Based on the work of the Abseil Team and publications of Daniel Lemire, Peter Kankowski, Malte Skarupke, Maurice Herlihy, Nir Shavit, Moran Tzafrir.
-            </p>
-            
-            <hr />
-            <em><a href="../index.html">Retour !</a></em>
-        </article>
-        <div class="container-sig">
-            <!--- keep svg element inline for ease of styling via css -->
-            <a class="sig" href="https://github.com/pozorfluo/simplon-tp">
-        pozorfluo<svg
-          class="svg-sig"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-label="GitHub"
-          role="img"
-          width="24px"
-          height="24px"
-          viewBox="0 0 512 512"
-        >
-          <path
-            d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"
-          />
-        </svg>
-      </a>
+        <div class="demo-container">
+          <div class="bucket a">
+            <span class="key">ace</span>
+          </div>
+          <div class="bucket b">
+            <span class="key">bad</span>
+          </div>
+          <div class="bucket c">
+            <span class="key">cat</span>
+          </div>
+          <div class="bucket d">
+            <span class="key">dog</span>
+          </div>
+          <div class="bucket e">
+            <span class="key">eat</span>
+          </div>
+          <div class="bucket f">
+            <span class="key">fly</span>
+          </div>
+          <div class="bucket g">
+            <span class="key">gym</span>
+          </div>
+          <div class="bucket h">
+            <span class="key">hot</span>
+          </div>
+          <div class="bucket i">
+            <span class="key">ice</span>
+          </div>
+          <div class="bucket j">
+            <span class="key">joy</span>
+          </div>
+          <div class="bucket l">
+            <span class="empty"></span>
+          </div>
+          <div class="bucket k">
+            <span class="key">kit</span>
+          </div>
         </div>
-    </div>
-</body>
+        <h2><b>THIERRY</b>LAFRONDE HASHING</h2>
 
+        <hr />
+        <!-- <br /> -->
+        <p>
+          <a href="#cover-popup" title="Cliquez pour ouvrir la photo en grand">
+            <img
+              src="../images/cover-tlf.jpg"
+              class="cv-photo"
+              alt="cover"
+              width="300"
+            />
+          </a>
+          <!-- hidden popup image container -->
+          <a href="#_" class="popup" id="cover-popup">
+            <img src="../images/cover-tlf.jpg" />
+          </a>
+        </p>
+        <h3>
+            <em>Slingshot the rich !</em>
+          </h3>
+        <p>
+          <b>Thierry la Fronde</b> hashing aims to achieve the same result as
+          <b>Robin hood</b> hashing without swapping entries. Instead, it only
+          pushes entries to empty (or considered empty) buckets, thus resulting
+          in <mark>fewer read/write operations</mark>.
+        </p>
+        <h4>Robin Hood</h4>
+        <div class="demo-container">
+          <div class="bucket a">
+            <span class="key">a</span>
+          </div>
+          <div class="bucket b">
+            <span class="key">b</span>
+          </div>
+          <div class="bucket c">
+            <span class="key">c</span>
+          </div>
+          <div class="bucket d">
+            <span class="key">d</span>
+          </div>
+          <div class="bucket e">
+            <span class="key">e</span>
+          </div>
+          <div class="bucket f">
+            <span class="key">f</span>
+          </div>
+          <div class="bucket g">
+            <span class="key">g</span>
+          </div>
+          <div class="bucket h">
+            <span class="key">h</span>
+          </div>
+          <div class="bucket i">
+            <span class="key">i</span>
+          </div>
+          <div class="bucket j">
+            <span class="key">j</span>
+          </div>
+          <div class="bucket l">
+            <span class="empty"></span>
+          </div>
+          <div class="bucket k">
+            <span class="key">k</span>
+          </div>
+        </div>
+        <h4>Thierry la Fronde</h4>
+        <div class="demo-container">
+          <div class="bucket a">
+            <span class="key">a</span>
+          </div>
+          <div class="bucket b">
+            <span class="key">b</span>
+          </div>
+          <div class="bucket c">
+            <span class="key">c</span>
+          </div>
+          <div class="bucket d">
+            <span class="key">d</span>
+          </div>
+          <div class="bucket e">
+            <span class="key">e</span>
+          </div>
+          <div class="bucket f">
+            <span class="key">f</span>
+          </div>
+          <div class="bucket g">
+            <span class="key">g</span>
+          </div>
+          <div class="bucket h">
+            <span class="key">h</span>
+          </div>
+          <div class="bucket i">
+            <span class="key">i</span>
+          </div>
+          <div class="bucket j">
+            <span class="key">j</span>
+          </div>
+          <div class="bucket l">
+            <span class="empty"></span>
+          </div>
+          <div class="bucket k">
+            <span class="key">k</span>
+          </div>
+        </div>
+        <br class="clear-float" />
+        <h2><b>IMPLEMENTATION</b>WIP</h2>
+        <hr />
+        <h3>
+          <em>Insertion</em>
+        </h3>
+        <p>
+          When trying to insert a new entry in the table we check if the key
+          already exists or find the first empty bucket available. This is the
+          <b>candidate bucket</b>.
+        </p>
+        <p>
+          The
+          <b>home bucket</b> is the exact bucket a given key hashes to. By
+          definition there should be no other empty bucket between the home
+          bucket and candidate bucket.
+          <br />
+        </p>
+        <p>
+          To
+          <b>slingshot</b> an entry is to move it without mercy to a known safe
+          place to overwrite. We use metadata to track the status of buckets and
+          help finding entries in the table.
+        </p>
+        <p></p>
+        <ul class="algo">
+          <li>Hold given new entry.</li>
+          <li>Go backwards from candidate empty bucket to home bucket.</li>
+          <ul class="algo-sub">
+            <li>
+              If current entry distance to its home bucket is lower or equal
+              than the entry upstream's own.
+            </li>
+            <ul class="algo-sub">
+              <li>Slingshot it to candidate empty bucket !</li>
+              <li>
+                Make current entry's old bucket the new candidate empty bucket.
+              </li>
+            </ul>
+          </ul>
+          <li>
+            Slingshot given new entry to wherever candidate empty bucket is.
+          </li>
+          <li>Increment table entry count.</li>
+        </ul>
+        <h3>
+          <em>Deletion</em>
+        </h3>
+        <p><mark>backward shift deletion</mark>.</p>
+
+        <h3>
+          <em>Lookup</em>
+        </h3>
+        <p>
+          Key lookup is largely based on the work of the Abseil Team. It uses
+          <mark>SIMD instructions to probe chunks of metadata</mark> at once.
+        </p>
+        <p>
+          Current implementation uses <b>2 bytes</b> of metadata. One is used
+          mostly like in the "Swiss Tables" of the Abseil Team as
+          <b>bucket status and extra hash precision</b>. The other one tracks
+          the <b>distance from home bucket</b> for the Thierry la Fronde
+          portion.
+        </p>
+        <p>
+          An alternate implementation ditches the first byte and propose a
+          modified probe function which looks for entries related to the current
+          bucket of interest. It trades space for slightly higher number of
+          final key comparisons.
+        </p>
+        <p>
+          It is likely that the backward Thierry la fronde loop can be replaced
+          with same kind of SIMD probe. Eg., by constructing a filter with
+          shifted chunk of entries distances.
+        </p>
+        <h3>
+          <em>Hash function</em>
+        </h3>
+        <p>
+          Thierry la Fronde hashing is not tied to a specific hash function.
+        </p>
+        <p>
+          Current implementation uses a custom
+          <mark>tabulation style</mark> hash function with a large spatial
+          overhead of 256 size_t elements (2048 bytes on a 64bit system) and is
+          not suitable for very small tables. It does not however rely on modulo
+          operations or masking or fastrange style reduction.
+        </p>
+        <h3>
+          <em>Memory Layout</em>
+        </h3>
+        <p>
+          <mark>Structure of array</mark>, work on
+          <b>contiguous memory</b> blocks.
+        </p>
+        <h3>
+          <em>Entries</em>
+        </h3>
+        <p>
+          <mark>Node style pointers</mark>, custom allocator, key deduplication
+          vs aliasing.
+        </p>
+        <p>
+          Storing small, size-limited keys in contiguous memory directly inside
+          the table ?
+        </p>
+        <p>
+          Storing small values in contiguous memory directly inside the table ?
+        </p>
+        <h3>
+          <em>Complexity</em>
+        </h3>
+        <p>
+          I would love some <mark>help</mark> to properly assess current
+          implementation's complexity.
+        </p>
+        <h3>
+          <em>Benchmark</em>
+        </h3>
+        <p>
+          I am using a terribly <mark>naive</mark> approach right now and need
+          to investigate this matter further.
+        </p>
+        <h2><b>SOURCE</b>CODE</h2>
+        <hr />
+        <p>
+          The source code is
+          <mark
+            >available on
+            <a
+              href="https://github.com/pozorfluo/build-your-own-lisp"
+              target="_blank"
+              >github</a
+            ></mark
+          >.
+        </p>
+        <p>
+          It is written in C and currently lives inside another student project
+          for which it is developped and will ultimately have its own repo.
+        </p>
+        <h3>
+          <em>Interface</em>
+        </h3>
+        <p>
+          I need to look at what kind of interface other hashtable implentations
+          in C, like uthash or libcfu/cfuhash offers.
+        </p>
+        <h3>
+          <em>Credits</em>
+        </h3>
+        <p>
+          Based on the work of the Abseil Team and publications of Daniel
+          Lemire, Peter Kankowski, Malte Skarupke, Maurice Herlihy, Nir Shavit,
+          Moran Tzafrir.
+        </p>
+        <hr />
+        <em>
+          <a href="../index.html">Retour !</a>
+        </em>
+      </article>
+      <div class="container-sig">
+        <!--- keep svg element inline for ease of styling via css -->
+        <a class="sig" href="https://github.com/pozorfluo/simplon-tp">
+          pozorfluo
+          <svg
+            class="svg-sig"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-label="GitHub"
+            role="img"
+            width="24px"
+            height="24px"
+            viewBox="0 0 512 512"
+          >
+            <path
+              d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"
+            />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </body>
 </html>
