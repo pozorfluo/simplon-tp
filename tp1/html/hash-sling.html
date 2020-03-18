@@ -15,16 +15,33 @@
             <h2><b>THIERRY</b>LAFRONDE HASHING</h2>
             <hr />
             <p>
-                <h3><em>Slingshot the rich !</em></h3>
+                
 
+                <p>
+                    <a
+                    href="#cover-popup"
+                    title="Cliquez pour ouvrir la photo en grand"
+                  >
+                    <img src="../images/cover-tlf.jpg"
+                    class="cv-photo"
+                    alt="cover" width="150"/>
+                  </a>
+                        <!-- hidden popup image container -->
+                <a href="#_" class="popup" id="cover-popup">
+                    <img src="../images/cover-tlf.jpg">
+                </a>
+                
+                <h3><em>Slingshot the rich !</em></h3>
                 <p>
                     &emsp;<b>Thierry la Fronde</b> hashing aims to achieve the same 
                     result as <b>Robin hood</b> hashing without swapping entries.
 
                     Instead, it only pushes entries to empty (or considered empty)
                     buckets, thus resulting in <mark>fewer read/write operations</mark>.
+                </p> 
                 </p>
-                <h3><em>Implementation wip</em></h3>
+               <br class="clear-float" />
+                <h3 ><em>Implementation wip</em></h3>
                 <p>
                     &emsp;When trying to insert a new entry in the table we check if the key
                     already exists or find the first empty bucket available. This is
@@ -44,14 +61,15 @@
                 </p>
                 <p>
                     <ul>
+                        <li>Hold given new entry.</li>
                         <li>Go backwards from candidate empty bucket to home bucket.</li>
                         <ul>
                             <li>If current entry distance to its home bucket is lower or equal than the entry upstream's own.</li>
                             <li>Slingshot it to candidate empty bucket !</li>
-                            <li>Make current entry the new candidate empty bucket.</li>
+                            <li>Make current entry's old bucket the new candidate empty bucket.</li>
                         </ul>
 
-                        <li>Slingshot given entry to wherever candidate empty bucket is.</li>
+                        <li>Slingshot given new entry to wherever candidate empty bucket is.</li>
                         <li>Increment table entry count.</li>
                     </ul>
                 </p>
