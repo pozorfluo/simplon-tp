@@ -1,0 +1,122 @@
+@keyframes slingshot-d {
+  0% {
+    background-color: red;
+    left: 0px;
+    top: 0px;
+  }
+  25% {
+    background-color: yellow;
+    left: 10rem;
+    top: 0px;
+  }
+  50% {
+    background-color: blue;
+    left: 10rem;
+    top: 10rem;
+  }
+  75% {
+    background-color: green;
+    left: 0px;
+    top: 10rem;
+  }
+  100% {
+    background-color: red;
+    left: 0px;
+    top: 0px;
+  }
+}
+
+@keyframes distance-d {
+  0% {
+    content: "2";
+  }
+  50% {
+    color: white;
+  }
+  100% {
+    content: "5";
+  }
+}
+
+div.bucket {
+  width: 5rem;
+  height: 5rem;
+  background-color: #92b9bd;
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-style: dashed;
+  border-width: 0px 0px 2px 0px;
+  border-radius: 6px;
+}
+
+.key {
+  font-family: IBM Plex Serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #ffffff;
+  /* background-color: #444444; */
+}
+.empty {
+  font-family: IBM Plex Mono;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #444444;
+  /* background-color: #444444; */
+}
+div.a {
+  background-color: #bfabff;
+  animation: slingshot-a 5s linear 2s infinite alternate;
+}
+div.b {
+  background-color: #a63aff;
+}
+div.c {
+  background-color: #b500e3;
+}
+div.d {
+  background-color: #4100b0;
+  animation: slingshot-d 5s linear 2s 1 forwards;
+}
+div.e {
+  background-color: #040084;
+}
+div.f {
+  background-color: #1300f9;
+}
+div.g {
+  background-color: #83c8ff;
+}
+div.h {
+  background-color: #5b9ccc;
+}
+div.i {
+  background-color: #02cec0;
+}
+div.j {
+  background-color: #c4fffc;
+}
+div.k {
+  background-color: #bfabff;
+}
+div.l {
+  background-color: #92b9bd;
+}
+/* .d {
+
+} */
+.a:after {
+    content: "0";
+  }
+/* .d {
+
+} */
+.d:after {
+  animation: distance-d 3s linear infinite alternate;
+  display: block;
+  content: "2";
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>simplon TP1</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/hash-sling.css" />
+</head>
+
+<body>
+    <div class="grid-container">
+        <article>
+            <h1><b>TP</b>1</h1>
+            <h2><b>THIERRY</b>LAFRONDE HASHING</h2>
+            <hr />
+            <p>
+                <h3><em>Slingshot the rich !</em></h3>
+
+                <p>
+                    &emsp;<b>Thierry la Fronde</b> hashing aims to achieve the same 
+                    result as <b>Robin hood</b> hashing without swapping entries.
+
+                    Instead, it only pushes entries to empty (or considered empty)
+                    buckets, thus resulting in <mark>fewer read/write operations</mark>.
+                </p>
+                <h3><em>Implementation wip</em></h3>
+                <p>
+                    &emsp;When trying to insert a new entry in the table we check if the key
+                    already exists or find the first empty bucket available. This is
+                    the <b>candidate bucket</b>. 
+                </p>
+                <p>
+                    &emsp;The <b>home bucket</b> is the exact bucket a 
+                    given key hashes to.
+                    By definition there should be no other empty bucket between the home  
+                    bucket and candidate bucket.<br />
+                </p>
+                <p>
+                    &emsp;To <b>slingshot</b> an entry is to move it without 
+                    mercy to a known safe place to overwrite. We use metadata to
+                    track the status of buckets and help finding entries in the
+                    table.
+                </p>
+                <p>
+                    <ul>
+                        <li>Go backwards from candidate empty bucket to home bucket.</li>
+                        <ul>
+                            <li>If current entry distance is lower or equal than the entry upstream.</li>
+                            <li>Slingshot it to candidate empty bucket !</li>
+                            <li>Make current entry the new candidate empty bucket.</li>
+                        </ul>
+
+                        <li>Slingshot given entry to wherever candidate empty bucket is.</li>
+                        <li>Increment table entry count.</li>
+                    </ul>
+                </p>
+
+            </p>
+            <h3><em>Example</em></h3>
+            <div class="bucket a"><span class="key">ace</span></div>
+            <div class="bucket b"><span class="key">bad</span></div>
+            <div class="bucket c"><span class="key">cat</span></div>
+            <div class="bucket d"><span class="key">dog</span></div>
+            <div class="bucket e"><span class="key">eat</span></div>
+            <div class="bucket f"><span class="key">fly</span></div>
+            <div class="bucket g"><span class="key">gym</span></div>
+            <div class="bucket h"><span class="key">hot</span></div>
+            <div class="bucket i"><span class="key">ice</span></div>
+            <div class="bucket j"><span class="key">joy</span></div>
+            <div class="bucket k"><span class="key">kit</span></div>
+            <div class="bucket l"><span class="empty"></span></div>
+
+            <h3><em>SIMD</em></h3>
+            <p>
+                &emsp;Key lookup is largely based on the work of the Abseil Team.
+                It uses SIMD instructions to probe chunks of metadata at once.
+            </p>
+            <p>
+                &emsp;Current implementation uses 2 bytes of metadata. One is used
+                mostly like in the "Swiss Tables" of the Abseil Team. The other
+                one tracks the distance from home bucket for the Thierry la Fronde
+                portion. An alternate implementation ditches the first byte and
+                propose a modified probe function which looks for entries related
+                to the current bucket of interest. It trades space for slightly
+                higher number of final key comparisons.
+            </p>
+
+            <p>
+                &emsp;It is likely that the backward Thierry la fronde loop can
+                be replaced with same kind of SIMD probe. Eg., by constructing
+                a filter with shifted chunk of entries distances.
+            </p>
+            <h3><em>Credits</em></h3>
+            <p>
+                &emsp;Based on the work of the Abseil Team and publications of Daniel Lemire, Peter Kankowski, Malte Skarupke, Maurice Herlihy, Nir Shavit, Moran Tzafrir.
+            </p>
+            
+            <hr />
+            <em><a href="../index.html">Retour !</a></em>
+        </article>
+        <div class="container-sig">
+            <!--- keep svg element inline for ease of styling via css -->
+            <a class="sig" href="https://github.com/pozorfluo/simplon-tp">
+        pozorfluo<svg
+          class="svg-sig"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-label="GitHub"
+          role="img"
+          width="24px"
+          height="24px"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"
+          />
+        </svg>
+      </a>
+        </div>
+    </div>
+</body>
+
+</html>
