@@ -9,60 +9,23 @@
   </head>
 
   <body>
-
     <div class="grid-container">
       <article>
         <h1><b>TP</b>1</h1>
 
-        <div class="demo-container">
-          <div class="bucket a">
-            <span class="key">ace</span>
-          </div>
-          <div class="bucket b">
-            <span class="key">bad</span>
-          </div>
-          <div class="bucket c">
-            <span class="key">cat</span>
-          </div>
-          <div class="bucket d">
-            <span class="key">dog</span>
-          </div>
-          <div class="bucket e">
-            <span class="key">eat</span>
-          </div>
-          <div class="bucket f">
-            <span class="key">fly</span>
-          </div>
-          <div class="bucket g">
-            <span class="key">gym</span>
-          </div>
-          <div class="bucket h">
-            <span class="key">hot</span>
-          </div>
-          <div class="bucket i">
-            <span class="key">ice</span>
-          </div>
-          <div class="bucket j">
-            <span class="key">joy</span>
-          </div>
-          <div class="bucket l">
-            <span class="empty"></span>
-          </div>
-          <div class="bucket k">
-            <span class="key">kit</span>
-          </div>
-        </div>
         <h2><b>THIERRY</b>LAFRONDE HASHING</h2>
 
         <hr />
         <!-- <br /> -->
         <p>
-          <a href="#cover-popup" title="Cliquez pour ouvrir la photo en grand">
+          <a
+            href="#cover-popup"
+            title="Aucun lien de parenté avec le chevalier de Pardaillec."
+          >
             <img
-              src="../images/cover-tlf.jpg"
-              class="cv-photo"
-              alt="cover"
-              width="300"
+              src="../images/thierry_cutout.png"
+              class="cutout"
+              alt="Thierry la Fronde"
             />
           </a>
           <!-- hidden popup image container -->
@@ -71,92 +34,74 @@
           </a>
         </p>
         <h3>
-            <em>Slingshot the rich !</em>
-          </h3>
+          <em>Slingshot the rich !</em>
+        </h3>
         <p>
-          <b>Thierry la Fronde</b> hashing aims to achieve the same result as
-          <b>Robin hood</b> hashing without swapping entries. Instead, it only
+          <b>Thierry la Fronde</b> hashing uses open adressing and linear
+          probing to resolve collisions.
+        </p>
+        <p>
+          It is an alternate take on <b>Robin hood</b> hashing and aims to
+          achieve the same result without swapping entries. Instead, it only
           pushes entries to empty (or considered empty) buckets, thus resulting
           in <mark>fewer read/write operations</mark>.
         </p>
+        <p>
+          It relies on the presence of at least one empty bucket in the table
+          and properties of the re-ordering scheme to short circuit probing
+          during lookups and walk backwards during insertions.
+        </p>
+        <h3 class="clear-float">
+          <em>Example</em>
+        </h3>
+        <p>
+          Description of a contrived example on a busy hash table.
+        </p>
         <h4>Robin Hood</h4>
-        <div class="demo-container">
-          <div class="bucket a">
-            <span class="key">a</span>
-          </div>
-          <div class="bucket b">
-            <span class="key">b</span>
-          </div>
-          <div class="bucket c">
-            <span class="key">c</span>
-          </div>
-          <div class="bucket d">
-            <span class="key">d</span>
-          </div>
-          <div class="bucket e">
-            <span class="key">e</span>
-          </div>
-          <div class="bucket f">
-            <span class="key">f</span>
-          </div>
-          <div class="bucket g">
-            <span class="key">g</span>
-          </div>
-          <div class="bucket h">
-            <span class="key">h</span>
-          </div>
-          <div class="bucket i">
-            <span class="key">i</span>
-          </div>
-          <div class="bucket j">
-            <span class="key">j</span>
-          </div>
-          <div class="bucket l">
-            <span class="empty"></span>
-          </div>
-          <div class="bucket k">
-            <span class="key">k</span>
-          </div>
-        </div>
+        <!-- <br /> -->
+        <p>
+          <a href="#diagram-robin-popup" title="Click to enlarge !">
+            <img
+              src="../images/diagram-robin.svg"
+              class="diagram"
+              alt="cover"
+            />
+          </a>
+          <!-- hidden popup image container -->
+          <a href="#_" class="popup" id="diagram-robin-popup">
+            <img src="../images/diagram-robin.svg" />
+          </a>
+        </p>
         <h4>Thierry la Fronde</h4>
-        <div class="demo-container">
-          <div class="bucket a">
-            <span class="key">a</span>
-          </div>
-          <div class="bucket b">
-            <span class="key">b</span>
-          </div>
-          <div class="bucket c">
-            <span class="key">c</span>
-          </div>
-          <div class="bucket d">
-            <span class="key">d</span>
-          </div>
-          <div class="bucket e">
-            <span class="key">e</span>
-          </div>
-          <div class="bucket f">
-            <span class="key">f</span>
-          </div>
-          <div class="bucket g">
-            <span class="key">g</span>
-          </div>
-          <div class="bucket h">
-            <span class="key">h</span>
-          </div>
-          <div class="bucket i">
-            <span class="key">i</span>
-          </div>
-          <div class="bucket j">
-            <span class="key">j</span>
-          </div>
-          <div class="bucket l">
-            <span class="empty"></span>
-          </div>
-          <div class="bucket k">
-            <span class="key">k</span>
-          </div>
-        </div>
+        <!-- <br /> -->
+        <p>
+          <a href="#diagram-thierry-popup" title="Click to enlarge !">
+            <img
+              src="../images/diagram-thierry.svg"
+              class="diagram"
+              alt="cover"
+            />
+          </a>
+          <!-- hidden popup image container -->
+          <a href="#_" class="popup" id="diagram-thierry-popup">
+            <img src="../images/diagram-thierry.svg" />
+          </a>
+        </p>
+        <h4>Same outcome</h4>
+        <!-- <br /> -->
+        <p>
+          <a href="#diagram-result-popup" title="Click to enlarge !">
+            <img
+              src="../images/diagram-result.svg"
+              class="diagram"
+              alt="cover"
+            />
+          </a>
+          <!-- hidden popup image container -->
+          <a href="#_" class="popup" id="diagram-result-popup">
+            <img src="../images/diagram-result.svg" />
+          </a>
+        </p>
         <br class="clear-float" />
         <h2><b>IMPLEMENTATION</b>WIP</h2>
         <hr />
@@ -304,6 +249,46 @@
           I need to look at what kind of interface other hashtable implentations
           in C, like uthash or libcfu/cfuhash offers.
         </p>
+
+        <div class="demo-container">
+          <div class="bucket a">
+            <span class="key">ace</span>
+          </div>
+          <div class="bucket b">
+            <span class="key">bad</span>
+          </div>
+          <div class="bucket c">
+            <span class="key">cat</span>
+          </div>
+          <div class="bucket d">
+            <span class="key">dog</span>
+          </div>
+          <div class="bucket e">
+            <span class="key">eat</span>
+          </div>
+          <div class="bucket f">
+            <span class="key">fly</span>
+          </div>
+          <div class="bucket g">
+            <span class="key">gym</span>
+          </div>
+          <div class="bucket h">
+            <span class="key">hot</span>
+          </div>
+          <div class="bucket i">
+            <span class="key">ice</span>
+          </div>
+          <div class="bucket j">
+            <span class="key">joy</span>
+          </div>
+          <div class="bucket l">
+            <span class="empty"></span>
+          </div>
+          <div class="bucket k">
+            <span class="key">kit</span>
+          </div>
+        </div>
+
         <h3>
           <em>Credits</em>
         </h3>

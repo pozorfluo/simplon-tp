@@ -80,11 +80,13 @@ ul.algo-sub li:before {
   content: "\25be";
   color: #92b9bd;
 }
-.cv-photo {
+.cutout {
     float: left;
-    margin: 0.5rem 0.5rem 10rem 0rem;
-    border: 8px solid #d9e2ea;
+    margin: 0.5rem 0.5rem 1rem 0rem;
     /* flex-grow: 1; */
+  }
+.diagram {
+    width: 90%;
   }
 
 div.bucket {

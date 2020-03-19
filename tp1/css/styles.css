@@ -207,6 +207,7 @@ figure {
   margin: 4rem 0 0 0;
   max-width: 80%;
   max-height: 80%;
+  background-color: #ffffff;
   -webkit-box-shadow: 2px 3px 7px 1px #3b3854;
   -moz-box-shadow: 2px 3px 7px 1px #3b3854;
   box-shadow: 2px 3px 7px 1px #3b3854;
