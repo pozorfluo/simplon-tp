@@ -8,6 +8,18 @@
   <body id="top">
     <div class="grid-container">
       <article>
+        <header>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="128px"
+            height="32px"
+            viewBox="0 0 400 100"
+          >
+            <circle fill="#c446cd" cx="50" cy="50" r="45" />
+            <circle fill="#e8f044" cx="150" cy="50" r="45" />
+            <circle fill="#92b9bd" cx="250" cy="50" r="45" />
+          </svg>
+        </header>
         <h1><b>TP</b>1</h1>
 
         <h2>palette du jour : <i>anemic candy bumble bee !</i></h2>
@@ -27,8 +39,7 @@
           <rect x="624" y="8" fill="#92b9bd" width="192" height="496" rx="8" />
           <rect x="832" y="8" fill="#444444" width="192" height="496" rx="8" />
         </svg>
-
-        nom approximatif des couleurs
+        <em>nom approximatif des couleurs</em>
         <ol>
           <li>Amethyst</li>
           <li>Starship</li>
@@ -39,12 +50,10 @@
         <h2>Organisez votre texte</h2>
         <hr />
         <p>
-          C'est le <mark>premier paragraphe</mark> du <em>TP1</em>
+          C'est le <mark>premier paragraphe</mark> du <em>TP1</em> !
           <br />
-          et son <strong>saut de ligne</strong>.
+          Et son <strong>saut de ligne</strong>.
           <br />
-        </p>
-        <p>
           Puis son lien vers
           <a href="html/autre-page.html">une autre page du site</a>.
           <br />
@@ -67,7 +76,6 @@
           <br />
           Téléchargez
           <a href="https://aka.ms/win32-x64-user-stable">VS Code</a>.
-
         </p>
         <figure>
           <img
@@ -86,7 +94,7 @@
           <br />
         </p>
 
-        <h2>Exemple concret : une page de documentation</h2>
+        <h2>Exemple concret : de la documentation</h2>
         <hr />
         On l'appelle
         <a href="html/hash-sling.html">Thierry la Fronde</a>.
@@ -107,11 +115,7 @@
             Responsive Web Design Basics.
           </li>
           <li>
-            <a
-              href="http://getskeleton.com/"
-              target="_blank"
-              >CSS Skeleton</a
-            >
+            <a href="http://getskeleton.com/" target="_blank">CSS Skeleton</a>
             A dead simple, responsive boilerplate.
           </li>
         </ul>
@@ -162,15 +166,30 @@
             <li>[ ] get rid of the inlined svg</li>
           </ul>
           <li>[ ] move failed experiments to a separate page</li>
-              <ul>
-                <li>[x] use as filler on exercice requiring dummy pages</li>
-              </ul>
+          <ul>
+            <li>[x] use as filler on exercice requiring dummy pages</li>
+          </ul>
         </ul>
-        <hr />
-        <em><a href="#top">Retour</a></em>
+        <nav>
+          <em>
+            <a href="#top">Back</a>
+          </em>
+          <em>
+            <a href="html/cv.html">CV</a>
+          </em>
+          <em>
+            <a href="html/hash-sling.html">Thierry</a>
+          </em>
+          <em>
+            <a href="html/autre-page.html">Another Page</a>
+          </em>
+          <em>
+            <a href="html/ancres.html">Yet Another Page</a>
+          </em>
+        </nav>
       </article>
 
-      <div class="container-sig">
+      <footer class="container-sig">
         <!--- keep svg element inline for ease of styling via css -->
         <a class="sig" href="https://github.com/pozorfluo/simplon-tp">
           pozorfluo<svg
@@ -187,7 +206,7 @@
             />
           </svg>
         </a>
-      </div>
+      </footer>
     </div>
   </body>
 </html>

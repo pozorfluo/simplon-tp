@@ -45,7 +45,16 @@
   align-items: center;
   height: 5em;
 }
+nav hr {
+    background-color: #000;
+    height: 3px;
+    border: none;
+    border-radius: 5px;
+  }
 
+  .nav-back {
+    flex-basis: 25%;
+  }
 div.bucket {
   width: 5rem;
   height: 5rem;
