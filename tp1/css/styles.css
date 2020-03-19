@@ -32,6 +32,7 @@ body {
   grid-template-rows: 1fr 2rem;
   grid-template-areas: "article" "sig";
 }
+/*--------------------------------------------------------------- sections ---*/
 header {
   border-radius: 16px 16px 0px 0px;
   background-color: #d9e2ea;
@@ -51,44 +52,38 @@ nav {
   padding: 2rem 2rem 2rem 2rem;
   display: flex;
   flex-direction: row;
-  flex-wrap:nowrap;
+  flex-wrap: nowrap;
   justify-content: space-evenly;
   align-items: center;
   align-content: center;
 }
 
-
-nav em:before{
-    font-size: 1.45rem;
-    content: "[";
-    color: #ffffff;
+nav em:before {
+  font-size: 1.45rem;
+  content: "[";
+  color: #ffffff;
 }
 nav em:after {
-    font-size: 1.45rem;
-    content: "]";
-    color: #ffffff;
+  font-size: 1.45rem;
+  content: "]";
+  color: #ffffff;
 }
 nav a,
 nav a:visited {
-    /* padding: 0;
-    margin: 0; */
   color: #92b9bd;
   text-decoration-thickness: 2px;
-  /* text-decoration-style: dotted; */
   text-decoration-line: overline;
   text-decoration-color: #ffffff;
 }
 nav a:hover,
 nav a:focus {
   color: #92b9bd;
-    text-decoration-style: solid;
+  text-decoration-style: solid;
   text-decoration-color: #92b9bd;
 }
 
 article {
-  /* margin: auto; */
   grid-area: article;
-  /* max-width: 43rem; */
   border-radius: 16px 16px 2px 2px;
   background: #ffffff;
   padding: 1rem 1rem;
@@ -96,7 +91,7 @@ article {
   -moz-box-shadow: 0px 2px 7px 0px #3b3854;
   box-shadow: 0px 2px 7px 0px #3b3854;
 }
-
+/*------------------------------------------------------------- formatting ---*/
 b {
   font-weight: 700;
 }
@@ -153,11 +148,22 @@ h1:after {
 h2 {
   padding-top: 0.5rem;
 }
+h3 {
+  padding-top: 1.5rem;
+}
 
 p {
   line-height: normal;
+  text-indent: 2rem;
 }
 
+hr {
+    background-color: #d9e2ea;
+    height: 3px;
+    border: none;
+    border-radius: 5px;
+  }
+/*------------------------------------------------------------------ links ---*/
 a {
   color: #c446cd;
   font-weight: 900;
@@ -173,33 +179,46 @@ a:focus {
   text-decoration-style: wavy;
   -webkit-text-decoration-color: #92b9bd;
   text-decoration-color: #92b9bd;
-  /* text-decoration-thickness: auto; */
   text-decoration-thickness: 1.5px;
 }
 
 a:visited {
   text-decoration-color: #d9e2ea;
 }
-
-hr {
-  background-color: #d9e2ea;
-  height: 3px;
-  border: none;
-  border-radius: 5px;
-}
-
+/*------------------------------------------------------------------ lists ---*/
 ul {
   background: #d9e2ea;
   padding: 15px;
 }
 ul li {
   color: #444444;
-  margin-left: 35px;
-  padding: 5px 0px 0px 0px;
+  text-indent: 1rem;
+  margin-bottom: 0.5rem;
   list-style-type: square;
   list-style-position: inside;
 }
 
+ul ul li {
+  list-style-type: none;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  text-indent: 2.5rem;
+}
+
+ul.algo li {
+  list-style-type: none;
+  text-indent: 0rem;
+}
+
+ul.algo li:before {
+  content: "\25b7  "; /*\2423\203a*/
+  color: #92b9bd;
+}
+ul.algo-sub li:before {
+  content: "\25be";
+  color: #92b9bd;
+}
+/*------------------------------------------------------------------- figures */
 figure {
   margin: 0 16% 0 auto;
   width: 50%;
@@ -212,12 +231,11 @@ figcaption {
   width: 66%;
   height: auto;
 }
-
+/*--------------------------------------------------------------------- popup */
 .cv-photo {
   float: left;
   margin: -16px 10px 0px 0px;
   border: 8px solid #d9e2ea;
-  /* flex-grow: 1; */
 }
 
 .popup {
@@ -259,10 +277,9 @@ figcaption {
 }
 
 .popup:target {
-  /* outline: none; */
   display: block;
 }
-
+/*---------------------------------------------------------- footer signature */
 .container-sig {
   grid-area: sig;
   text-align: end;
@@ -280,47 +297,55 @@ a.sig {
   fill: #e8f044;
   vertical-align: text-bottom;
 }
-
-h3 {
-  padding-top: 1.5rem;
-  /* padding-bottom: 0.5rem; */
+/*------------------------------------------------------------ color swatches */
+div.container-swatch {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
 }
-p {
-  text-indent: 2rem;
+.swatch {
+  height: 24vw;
+  width: 12vw;
+  margin: 0.5rem 0 1rem 0;
+  padding: 0 0.5rem 0rem 0rem;
+  border-radius: 8px;
 }
-ul.algo li {
-  list-style-type: none;
+.color1 {
+  background-color: #c446cd;
 }
-
-ul.algo li:before {
-  content: "\25b7  "; /*\2423\203a*/
-  color: #92b9bd;
+.color2 {
+  background-color: #e8f044;
 }
-ul.algo-sub li:before {
-  content: "\25be";
-  color: #92b9bd;
+.color3 {
+  background-color: #d9e2ea;
 }
-.cutout {
-  float: left;
-  margin: 0.5rem 0.5rem 1rem 0rem;
-  /* flex-grow: 1; */
+.color4 {
+  background-color: #92b9bd;
 }
-
+.color5 {
+  background-color: #444444;
+}
+/*---------------------------------------------------------------------- misc */
 .diagram {
   width: 90%;
 }
-
+.cutout {
+    float: left;
+    margin: 0.5rem 0.5rem 1rem 0rem;
+  }
+/*------------------------------------------------------------- media queries */
 @media (max-width: 768px) {
   :root {
-    font-size: 0.70em;
+    font-size: 0.7em;
   }
   .grid-container {
     grid-template-columns: 0.95fr;
   }
   article {
-    /* margin: auto; */
     grid-area: article;
-    /* max-width: 43rem; */
     border-radius: 16px 16px 2px 2px;
     background: #ffffff;
     padding: 1rem 1rem;
@@ -329,40 +354,52 @@ ul.algo-sub li:before {
     box-shadow: 0px 2px 7px 0px #3b3854;
   }
   header svg {
-      width: 64px;
+    width: 64px;
   }
   nav {
     flex-wrap: wrap;
   }
   nav em {
-      padding: 0rem 0rem 1rem 0rem;
+    padding: 0rem 0rem 1rem 0rem;
   }
   nav em:before,
-  nav em:after{
+  nav em:after {
     content: "";
-}
+  }
   .cutout {
     float: none;
     display: block;
     width: 25%;
     margin: 0.5rem auto 0rem auto;
   }
-
 }
+
 @media (min-width: 769px) and (max-width: 1024px) {
   :root {
     font-size: 0.85em;
   }
   .grid-container {
-    grid-template-columns: 0.90fr;
+    grid-template-columns: 0.9fr;
   }
-      nav em {
-        font-size: 0.9rem;
-      }
-      /* nav em:before,
-      nav em:after{
-        content: "";
-    } */
+  nav em {
+    font-size: 0.9rem;
+  }
+
+  div.container-swatch {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+  }
+  .swatch {
+    height: 24vw;
+    width: 14vw;
+    margin: 0.5rem 0 1rem 0;
+    padding: 0 0.5rem 0rem 0rem;
+    border-radius: 8px;
+  }
   .cutout {
     float: none;
     display: block;
