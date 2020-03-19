@@ -16,42 +16,43 @@
         <h2><b>THIERRY</b>LAFRONDE HASHING</h2>
 
         <hr />
-        <!-- <br /> -->
-        <p>
-          <a
-            href="#cover-popup"
-            title="Aucun lien de parenté avec le chevalier de Pardaillec."
-          >
-            <img
-              src="../images/thierry_cutout.png"
-              class="cutout"
-              alt="Thierry la Fronde"
-            />
-          </a>
-          <!-- hidden popup image container -->
-          <a href="#_" class="popup" id="cover-popup">
-            <img src="../images/cover-tlf.jpg" />
-          </a>
-        </p>
+        <div class="flex-container">
+          <p>
+            <a
+              href="#cover-popup"
+              title="Aucun lien de parenté avec le chevalier de Pardaillec."
+            >
+              <img
+                src="../images/thierry_cutout.png"
+                class="cutout"
+                alt="Thierry la Fronde"
+              />
+            </a>
+            <!-- hidden popup image container -->
+            <a href="#_" class="popup" id="cover-popup">
+              <img src="../images/cover-tlf.jpg" />
+            </a>
+          </p>
+          <h3>
+            <em>Slingshot the rich !</em>
+          </h3>
+          <p>
+            <b>Thierry la Fronde</b> hashing uses open adressing and linear
+            probing to resolve collisions in a hash table.
+          </p>
+          <p>
+            It is an alternate take on <b>Robin hood</b> hashing and aims to
+            achieve the same result without swapping entries. Instead, it only
+            pushes entries to empty (or considered empty) buckets, thus
+            resulting in <mark>fewer read/write operations</mark>.
+          </p>
+          <p>
+            It relies on the presence of at least one empty bucket in the table
+            and properties of the re-ordering scheme to short circuit probing
+            during lookups and walk backwards during insertions.
+          </p>
+        </div>
         <h3>
-          <em>Slingshot the rich !</em>
-        </h3>
-        <p>
-          <b>Thierry la Fronde</b> hashing uses open adressing and linear
-          probing to resolve collisions in a hash table.
-        </p>
-        <p>
-          It is an alternate take on <b>Robin hood</b> hashing and aims to
-          achieve the same result without swapping entries. Instead, it only
-          pushes entries to empty (or considered empty) buckets, thus resulting
-          in <mark>fewer read/write operations</mark>.
-        </p>
-        <p>
-          It relies on the presence of at least one empty bucket in the table
-          and properties of the re-ordering scheme to short circuit probing
-          during lookups and walk backwards during insertions.
-        </p>
-        <h3 class="clear-float">
           <em>Example</em>
         </h3>
         <p>
@@ -249,45 +250,6 @@
           I need to look at what kind of interface other hashtable implentations
           in C, like uthash or libcfu/cfuhash offer.
         </p>
-
-        <div class="demo-container">
-          <div class="bucket a">
-            <span class="key">ace</span>
-          </div>
-          <div class="bucket b">
-            <span class="key">bad</span>
-          </div>
-          <div class="bucket c">
-            <span class="key">cat</span>
-          </div>
-          <div class="bucket d">
-            <span class="key">dog</span>
-          </div>
-          <div class="bucket e">
-            <span class="key">eat</span>
-          </div>
-          <div class="bucket f">
-            <span class="key">fly</span>
-          </div>
-          <div class="bucket g">
-            <span class="key">gym</span>
-          </div>
-          <div class="bucket h">
-            <span class="key">hot</span>
-          </div>
-          <div class="bucket i">
-            <span class="key">ice</span>
-          </div>
-          <div class="bucket j">
-            <span class="key">joy</span>
-          </div>
-          <div class="bucket l">
-            <span class="empty"></span>
-          </div>
-          <div class="bucket k">
-            <span class="key">kit</span>
-          </div>
-        </div>
 
         <h3>
           <em>Credits</em>
