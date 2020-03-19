@@ -1,20 +1,4 @@
-@media (max-width: 768px) {
-    :root {
-        font-size: 0.6em;
-      }
-  
-}
-@media (min-width: 769px) and (max-width: 1024px) {
-    :root {
-        font-size: 0.75em;
-      }
-  /* html {
-    height: 100%;
-    font-size: 0.5;
-  } */
-  /* body {
-  } */
-}
+
 @keyframes slingshot-d {
   0% {
     background-color: red;
@@ -81,13 +65,14 @@ ul.algo-sub li:before {
   color: #92b9bd;
 }
 .cutout {
-    float: left;
-    margin: 0.5rem 0.5rem 1rem 0rem;
-    /* flex-grow: 1; */
-  }
+  float: left;
+  margin: 0.5rem 0.5rem 1rem 0rem;
+  /* flex-grow: 1; */
+}
+
 .diagram {
-    width: 90%;
-  }
+  width: 90%;
+}
 
 div.bucket {
   width: 5rem;
@@ -206,3 +191,32 @@ div.l {
   display: block;
   content: "2";
 }
+
+@media (max-width: 768px) {
+    :root {
+      font-size: 0.6em;
+    }
+    .cutout {
+        float: none;
+        display: block;
+        width: 25%;
+        margin: 0.5rem auto 0rem auto;
+      }
+  }
+  @media (min-width: 769px) and (max-width: 1024px) {
+    :root {
+      font-size: 0.85em;
+    }
+    /* html {
+      height: 100%;
+      font-size: 0.5;
+    } */
+    /* body {
+    } */
+    .cutout {
+      float: none;
+      display: block;
+
+      margin: 0.5rem auto 0rem auto;
+    }
+  }
