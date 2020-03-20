@@ -68,9 +68,19 @@
           <em>Example</em>
         </h3>
         <p>
-          Description of a contrived example on a busy hash table.
+            <i>wip</i> Add description of a contrived example on a busy hash table.
         </p>
-        <h4>Robin Hood</h4>
+        <p>
+          We try to insert NEW, whose home bucket is already occupied by ACE.
+          ACE distance from home bucket is 0. This is a genuine collision as
+          they both hash to the same bucket.
+        </p>
+        <p>
+          <i>Green means home bucket, yellow are rich buckets, dashed are empty
+          buckets. The number below a key is its distance from its home
+          bucket.</i>
+        </p>
+        <h4 >Robin Hood</h4>
         <!-- <br /> -->
         <p>
           <a href="#diagram-robin-popup" title="Click to enlarge !">
@@ -119,29 +129,29 @@
         <h2><b>IMPLEMENTATION</b>WIP</h2>
         <hr />
         <h3>
-            <em>Lookup</em>
-          </h3>
-          <p>
-            Key lookup is largely based on the work of the Abseil Team. It uses
-            <mark>SIMD instructions to probe chunks of metadata</mark> at once.
-          </p>
-          <p>
-            Current implementation uses <b>2 bytes</b> of metadata. The first one
-            is used mostly like in the "Swiss Tables" of the Abseil Team as
-            <b>bucket status and extra hash precision</b>. Finding a key only
-            requires this byte.
-          </p>
-          <p>
-            An alternate implementation ditches the first byte and propose a
-            modified probe function which looks for entries related to the current
-            bucket of interest. It trades space for slightly higher number of
-            final key comparisons.
-          </p>
-          <p>
-            It is likely that the backward Thierry la fronde loop can be replaced
-            with same kind of SIMD probe. Eg., by constructing a filter with
-            shifted chunk of entries distances.
-          </p>
+          <em>Lookup</em>
+        </h3>
+        <p>
+          Key lookup is largely based on the work of the Abseil Team. It uses
+          <mark>SIMD instructions to probe chunks of metadata</mark> at once.
+        </p>
+        <p>
+          Current implementation uses <b>2 bytes of metadata</b> . The first one
+          is used mostly like in the "Swiss Tables" of the Abseil Team as
+          <b>bucket status and extra hash precision</b>. Finding a key only
+          requires this byte.
+        </p>
+        <p>
+          An alternate implementation ditches the first byte and propose a
+          modified probe function which looks for entries related to the current
+          bucket of interest. It trades space for a higher number of final key
+          comparisons.
+        </p>
+        <p>
+          It is likely that the backward Thierry la fronde loop can be replaced
+          with same kind of SIMD probe. Eg., by constructing a filter with
+          shifted chunk of entries distances.
+        </p>
         <h3>
           <em>Insertion</em>
         </h3>
@@ -286,7 +296,7 @@
         <p>
           Based on the work of the Abseil Team and publications of Daniel
           Lemire, Peter Kankowski, Malte Skarupke, Maurice Herlihy, Nir Shavit,
-          Moran Tzafrir.
+          Moran Tzafrir, Emmanuel Goossaert.
         </p>
         <nav>
           <em>

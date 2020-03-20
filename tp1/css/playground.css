@@ -45,7 +45,7 @@
   align-items: center;
   height: 5em;
 }
-nav hr {
+/* nav hr {
     background-color: #000;
     height: 3px;
     border: none;
@@ -55,6 +55,12 @@ nav hr {
   .nav-back {
     flex-basis: 25%;
   }
+  nav em {
+    padding-bottom: 4px;
+}
+nav em:hover {
+    background-color: #ffffff;
+} */
 div.bucket {
   width: 5rem;
   height: 5rem;
