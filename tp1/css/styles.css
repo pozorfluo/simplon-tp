@@ -28,7 +28,7 @@ body {
 .grid-container {
   display: grid;
   -webkit-box-pack: center;
-          justify-content: center;
+  justify-content: center;
   grid-template-columns: 0.75fr;
   grid-template-rows: 1fr 2rem;
   grid-template-areas: "article" "sig";
@@ -44,11 +44,11 @@ header {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-          flex-direction: row;
+  flex-direction: row;
   -webkit-box-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
   height: 2.5rem;
 }
 
@@ -60,15 +60,14 @@ nav {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-          flex-direction: row;
+  flex-direction: row;
   flex-wrap: nowrap;
   -webkit-box-pack: space-evenly;
-          justify-content: space-evenly;
+  justify-content: space-evenly;
   -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
   align-content: center;
 }
-
 
 nav em:before {
   font-size: 1.45rem;
@@ -81,24 +80,23 @@ nav em:after {
   color: #ffffff;
 }
 
-
 nav a,
 nav a:visited {
   color: #92b9bd;
   text-decoration-thickness: 2px;
   -webkit-text-decoration-line: overline;
-          text-decoration-line: overline;
+  text-decoration-line: overline;
   -webkit-text-decoration-color: #ffffff;
-          text-decoration-color: #ffffff;
+  text-decoration-color: #ffffff;
 }
 nav a:hover,
 nav a:focus {
-    text-decoration-thickness: 2px;
+  text-decoration-thickness: 2px;
   color: #92b9bd;
   -webkit-text-decoration-style: solid;
-          text-decoration-style: solid;
+  text-decoration-style: solid;
   -webkit-text-decoration-color: #92b9bd;
-          text-decoration-color: #92b9bd;
+  text-decoration-color: #92b9bd;
 }
 
 article {
@@ -175,21 +173,21 @@ p {
 }
 
 hr {
-    background-color: #d9e2ea;
-    height: 3px;
-    border: none;
-    border-radius: 5px;
-  }
+  background-color: #d9e2ea;
+  height: 3px;
+  border: none;
+  border-radius: 5px;
+}
 /*------------------------------------------------------------------ links ---*/
 a {
   color: #c446cd;
   font-weight: 900;
   padding: 1em 0;
   -webkit-text-decoration-skip: ink;
-          text-decoration-skip-ink: auto;
+  text-decoration-skip-ink: auto;
   text-decoration-thickness: 1.5px;
   -webkit-text-decoration-color: #d9e2ea;
-          text-decoration-color: #d9e2ea;
+  text-decoration-color: #d9e2ea;
 }
 
 a:hover,
@@ -203,7 +201,7 @@ a:focus {
 
 a:visited {
   -webkit-text-decoration-color: #d9e2ea;
-          text-decoration-color: #d9e2ea;
+  text-decoration-color: #d9e2ea;
 }
 /*------------------------------------------------------------------ lists ---*/
 ul {
@@ -234,10 +232,26 @@ ul.algo li:before {
   content: "\25b7  "; /*\2423\203a*/
   color: #92b9bd;
 }
-ul.algo-sub li:before {
+.algo-sub:before {
   content: "\25be";
   color: #92b9bd;
 }
+.algo-sub {
+  text-indent: 2rem;
+}
+.algo-sub-sub {
+  text-indent: 4rem;
+}
+.algo-sub-sub:before {
+  content: "\25be";
+  color: #92b9bd;
+}
+li.sublist-wrapper {
+  list-style-type: none;
+  margin-top: -0.5rem;
+  text-indent: 2.5rem;
+}
+
 /*------------------------------------------------------------------- figures */
 figure {
   margin: 0 16% 0 auto;
@@ -269,18 +283,18 @@ figcaption {
   text-align: center;
   background-color: rgba(0, 0, 0, 0.6);
   -webkit-text-decoration-line: overline;
-          text-decoration-line: overline;
+  text-decoration-line: overline;
   text-decoration-thickness: 8px;
   -webkit-text-decoration-color: #444444;
-          text-decoration-color: #444444;
+  text-decoration-color: #444444;
   color: #e8f044;
 }
 
 .popup:hover {
   -webkit-text-decoration-color: #e8f044;
-          text-decoration-color: #e8f044;
+  text-decoration-color: #e8f044;
   -webkit-text-decoration-style: solid;
-          text-decoration-style: solid;
+  text-decoration-style: solid;
   text-decoration-thickness: 8px;
 }
 
@@ -297,7 +311,7 @@ figcaption {
   content: "JIM BIG";
   color: #e8f044;
   -webkit-text-decoration-line: none;
-          text-decoration-line: none;
+  text-decoration-line: none;
 }
 
 .popup:target {
@@ -315,7 +329,7 @@ figcaption {
 
 a.sig {
   -webkit-text-decoration-color: #e8f044;
-          text-decoration-color: #e8f044;
+  text-decoration-color: #e8f044;
 }
 .svg-sig {
   margin: -2px;
@@ -328,24 +342,24 @@ a.sig {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-          flex-direction: row;
+  flex-direction: row;
   flex-wrap: nowrap;
   -webkit-box-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   -webkit-box-align: center;
-          align-items: center;
+  align-items: center;
   align-content: center;
 }
 .container-swatch li {
-    text-indent: 1rem;
-    margin-left: 6rem;
-    margin-top: 0.5rem;
-    flex: 1;
+  text-indent: 1rem;
+  margin-left: 6rem;
+  margin-top: 0.5rem;
+  flex: 1;
 }
 
 .container-swatch em {
-    padding-right: 2rem;
-    flex: 1;
+  padding-right: 2rem;
+  flex: 1;
 }
 .swatch {
   height: 18vw;
@@ -353,7 +367,7 @@ a.sig {
   margin: 0.5rem 0.375rem 1rem 0.375rem;
   padding: 0 0.5rem 0rem 0rem;
   border-radius: 8px;
-  flex-grow : 1;
+  flex-grow: 1;
 }
 .color1 {
   background-color: #c446cd;
@@ -375,9 +389,9 @@ a.sig {
   width: 90%;
 }
 .cutout {
-    float: left;
-    margin: 0.5rem 0.5rem 1rem 0rem;
-  }
+  float: left;
+  margin: 0.5rem 0.5rem 1rem 0rem;
+}
 /*------------------------------------------------------------- media queries */
 @media (max-width: 768px) {
   :root {
@@ -407,9 +421,8 @@ a.sig {
     content: "";
   }
   .container-swatch {
-      flex-direction: column;
+    flex-direction: column;
     /* flex-wrap: wrap; */
-
   }
 
   .swatch {
@@ -435,7 +448,6 @@ a.sig {
   nav em {
     font-size: 0.9rem;
   }
-
 
   .cutout {
     float: none;

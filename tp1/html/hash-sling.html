@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>simplon TP1</title>
     <link rel="stylesheet" href="../css/styles.css" />
-    <link rel="stylesheet" href="../css/hash-sling.css" />
   </head>
 
   <body>
@@ -42,7 +41,7 @@
             </a>
             <!-- hidden popup image container -->
             <a href="#_" class="popup" id="cover-popup">
-              <img src="../images/cover-tlf.jpg" />
+              <img src="../images/cover-tlf.jpg" alt="Thierry la Fronde" />
             </a>
           </p>
           <h3>
@@ -68,7 +67,8 @@
           <em>Example</em>
         </h3>
         <p>
-            <i>wip</i> Add description of a contrived example on a busy hash table.
+          <i>wip</i> Add description of a contrived example on a busy hash
+          table.
         </p>
         <p>
           We try to insert NEW, whose home bucket is already occupied by ACE.
@@ -76,23 +76,28 @@
           they both hash to the same bucket.
         </p>
         <p>
-          <i>Green means home bucket, yellow are rich buckets, dashed are empty
-          buckets. The number below a key is its distance from its home
-          bucket.</i>
+          <i
+            >Green means home bucket, yellow are rich buckets, dashed are empty
+            buckets. The number below a key is its distance from its home
+            bucket.</i
+          >
         </p>
-        <h4 >Robin Hood</h4>
+        <h4>Robin Hood</h4>
         <!-- <br /> -->
         <p>
           <a href="#diagram-robin-popup" title="Click to enlarge !">
             <img
               src="../images/diagram-robin.svg"
               class="diagram"
-              alt="cover"
+              alt="diagram robin hood hashing"
             />
           </a>
           <!-- hidden popup image container -->
           <a href="#_" class="popup" id="diagram-robin-popup">
-            <img src="../images/diagram-robin.svg" />
+            <img
+              src="../images/diagram-robin.svg"
+              alt="diagram robin hood hashing"
+            />
           </a>
         </p>
         <h4>Thierry la Fronde</h4>
@@ -102,12 +107,15 @@
             <img
               src="../images/diagram-thierry.svg"
               class="diagram"
-              alt="cover"
+              alt="diagram thierry la fronde hashing"
             />
           </a>
           <!-- hidden popup image container -->
           <a href="#_" class="popup" id="diagram-thierry-popup">
-            <img src="../images/diagram-thierry.svg" />
+            <img
+              src="../images/diagram-thierry.svg"
+              alt="diagram thierry la fronde hashing"
+            />
           </a>
         </p>
         <h4>Same outcome</h4>
@@ -117,12 +125,12 @@
             <img
               src="../images/diagram-result.svg"
               class="diagram"
-              alt="cover"
+              alt="diagram outcome"
             />
           </a>
           <!-- hidden popup image container -->
           <a href="#_" class="popup" id="diagram-result-popup">
-            <img src="../images/diagram-result.svg" />
+            <img src="../images/diagram-result.svg" alt="diagram outcome" />
           </a>
         </p>
         <br class="clear-float" />
@@ -182,18 +190,18 @@
         <ul class="algo">
           <li>Hold given new entry.</li>
           <li>Go backwards from candidate empty bucket to home bucket.</li>
-          <ul class="algo-sub">
-            <li>
+          <li class="sublist-wrapper">
+            <p class="algo-sub">
               If current entry distance to its home bucket is lower or equal
               than the entry upstream's own.
-            </li>
-            <ul class="algo-sub">
-              <li>Slingshot it to candidate empty bucket !</li>
-              <li>
-                Make current entry's old bucket the new candidate empty bucket.
-              </li>
-            </ul>
-          </ul>
+            </p>
+            <p class="algo-sub-sub">
+              Slingshot it to candidate empty bucket !
+            </p>
+            <p class="algo-sub-sub">
+              Make current entry's old bucket the new candidate empty bucket.
+            </p>
+          </li>
           <li>
             Slingshot given new entry to wherever candidate empty bucket is.
           </li>
