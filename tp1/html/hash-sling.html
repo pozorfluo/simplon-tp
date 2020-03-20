@@ -12,17 +12,17 @@
     <div class="grid-container">
       <article>
         <header>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="128px"
-              height="32px"
-              viewBox="0 0 400 100"
-            >
-              <circle fill="#92b9bd" cx="50" cy="50" r="45" />
-              <circle fill="#92b9bd" cx="150" cy="50" r="45" />
-              <circle fill="#92b9bd" cx="250" cy="50" r="45" />
-            </svg>
-          </header>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="128px"
+            height="32px"
+            viewBox="0 0 400 100"
+          >
+            <circle fill="#92b9bd" cx="50" cy="50" r="45" />
+            <circle fill="#92b9bd" cx="150" cy="50" r="45" />
+            <circle fill="#92b9bd" cx="250" cy="50" r="45" />
+          </svg>
+        </header>
         <h1><b>TP</b>1</h1>
 
         <h2><b>THIERRY</b>LAFRONDE HASHING</h2>
@@ -119,8 +119,37 @@
         <h2><b>IMPLEMENTATION</b>WIP</h2>
         <hr />
         <h3>
+            <em>Lookup</em>
+          </h3>
+          <p>
+            Key lookup is largely based on the work of the Abseil Team. It uses
+            <mark>SIMD instructions to probe chunks of metadata</mark> at once.
+          </p>
+          <p>
+            Current implementation uses <b>2 bytes</b> of metadata. The first one
+            is used mostly like in the "Swiss Tables" of the Abseil Team as
+            <b>bucket status and extra hash precision</b>. Finding a key only
+            requires this byte.
+          </p>
+          <p>
+            An alternate implementation ditches the first byte and propose a
+            modified probe function which looks for entries related to the current
+            bucket of interest. It trades space for slightly higher number of
+            final key comparisons.
+          </p>
+          <p>
+            It is likely that the backward Thierry la fronde loop can be replaced
+            with same kind of SIMD probe. Eg., by constructing a filter with
+            shifted chunk of entries distances.
+          </p>
+        <h3>
           <em>Insertion</em>
         </h3>
+        <p>
+          The second metadata byte tracks the
+          <b>distance from home bucket</b> of an entry for the Thierry la Fronde
+          portion.
+        </p>
         <p>
           When trying to insert a new entry in the table we check if the key
           already exists or find the first empty bucket available. This is the
@@ -166,31 +195,6 @@
         <p><mark>backward shift deletion</mark>.</p>
 
         <h3>
-          <em>Lookup</em>
-        </h3>
-        <p>
-          Key lookup is largely based on the work of the Abseil Team. It uses
-          <mark>SIMD instructions to probe chunks of metadata</mark> at once.
-        </p>
-        <p>
-          Current implementation uses <b>2 bytes</b> of metadata. One is used
-          mostly like in the "Swiss Tables" of the Abseil Team as
-          <b>bucket status and extra hash precision</b>. The other one tracks
-          the <b>distance from home bucket</b> for the Thierry la Fronde
-          portion.
-        </p>
-        <p>
-          An alternate implementation ditches the first byte and propose a
-          modified probe function which looks for entries related to the current
-          bucket of interest. It trades space for slightly higher number of
-          final key comparisons.
-        </p>
-        <p>
-          It is likely that the backward Thierry la fronde loop can be replaced
-          with same kind of SIMD probe. Eg., by constructing a filter with
-          shifted chunk of entries distances.
-        </p>
-        <h3>
           <em>Hash function</em>
         </h3>
         <p>
@@ -207,14 +211,27 @@
           <em>Memory Layout</em>
         </h3>
         <p>
-          <mark>Structure of array</mark>, work on
-          <b>contiguous memory</b> blocks.
+          Mostly a <mark>Structure of arrays</mark> configuration. Core table
+          operations should spend most of their time on
+          <b>contiguous memory</b> blocks. There is one array for each metadata
+          byte and a third for the entries of interleaved keys and values.
+        </p>
+        <p>
+          Lookups <b>work on the first metadata byte array only</b> until it is
+          time to discriminate between matches and will only touch the entries
+          array then.
+        </p>
+        <p>
+          The Thierry la Fronde part of the insert operation will
+          <b>plan all necessary slingshots</b> by looking at the second metadata
+          byte array. Then unwind and carry out all entry pushing jobs in the
+          dedicated entries array.
         </p>
         <h3>
           <em>Entries</em>
         </h3>
         <p>
-          <mark>Node style pointers</mark>, custom allocator, key deduplication
+          <mark>Node style</mark>, pointers, custom allocator, key deduplication
           vs aliasing.
         </p>
         <p>

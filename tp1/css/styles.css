@@ -270,6 +270,7 @@ figcaption {
   box-shadow: 2px 3px 7px 1px #3b3854;
   border: 32px solid #eaf3fa;
 }
+
 #cv-photo-popup:after {
   content: "JIM BIG";
   color: #e8f044;
