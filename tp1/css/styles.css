@@ -351,12 +351,16 @@ a.sig {
   align-content: center;
 }
 .container-swatch li {
-  text-indent: 1rem;
-  margin-left: 6rem;
-  margin-top: 0.5rem;
-  flex: 1;
+  margin-left: 2rem;
+  margin-top: 0.25rem;
+  /* flex: 1; */
 }
 
+.swatch-header {
+    display: block;
+    margin-bottom: 2rem;
+    margin-right: 2rem;
+}
 .container-swatch em {
   padding-right: 2rem;
   flex: 1;
@@ -424,7 +428,9 @@ a.sig {
     flex-direction: column;
     /* flex-wrap: wrap; */
   }
-
+  .swatch-header {
+    font-size: 1.15rem;
+}
   .swatch {
     height: 6vw;
     margin: 0.375rem 0.375rem 0rem 0.375rem;
