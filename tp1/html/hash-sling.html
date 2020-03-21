@@ -263,9 +263,18 @@
 
         <ul class="algo">
           <li>
-            N / max_load_factor * (sizeof(meta_byte) * 2 + sizeof(hmap_entry *))
+            <!-- <strong>actual_capacity</strong> = (next_pow2(N / max_load_factor) +
+                PROBE_LENGTH) -->
+            <strong>actual_capacity</strong> = (N / max_load_factor) +
+            PROBE_LENGTH
+          </li>
+
+          <li>
+            <b>overhead</b> = actual_capacity * (sizeof(meta_byte) * 2 +
+            sizeof(hmap_entry *))
           </li>
         </ul>
+
         <p>
           <i> eg., for : </i>
         </p>
@@ -283,7 +292,7 @@
               <li>≈ <b>64 MB</b></li>
               <br />
               <li><strong>Memory overhead for the buckets :</strong></li>
-              <li>= 4E6 / 0.89 * (1 + 1 + 8) bytes</li>
+              <li>= (4E6 / 0.89 + 16 ) * (1 + 1 + 8) bytes</li>
               <li>≈ <b>44.94 MB</b></li>
               <br />
               <li>
