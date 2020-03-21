@@ -275,12 +275,12 @@
               <li><b>N</b> = 4E6</li>
               <li><b>max_load_factor</b> = 0.89</li>
               <br />
-              <li><b>key size</b> = 6 bytes</li>
+              <li><b>key size</b> = 8 bytes</li>
               <li><b>value size</b> = 8 bytes</li>
               <br />
               <li><strong>Lower bound memory usage for N entries :</strong></li>
-              <li>= 4E6 * (6 + 8) bytes</li>
-              <li>≈ <b>56 MB</b></li>
+              <li>= 4E6 * (8 + 8) bytes</li>
+              <li>≈ <b>64 MB</b></li>
               <br />
               <li><strong>Memory overhead for the buckets :</strong></li>
               <li>= 4E6 / 0.89 * (1 + 1 + 8) bytes</li>
@@ -299,9 +299,9 @@
               <li>= <b>80 bytes</b></li>
               <br />
               <li><strong>Total memory usage :</strong></li>
-              <li>≈ <b>100.94 MB</b></li>
+              <li>≈ <b>108.94 MB</b></li>
               <br />
-              <li>≈ <b>1.8025x lower bound </b>for this example setup</li>
+              <li>≈ <b>1.7x lower bound </b>for this example setup</li>
             </ul>
           </li>
         </ul>
