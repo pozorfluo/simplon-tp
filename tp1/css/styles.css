@@ -251,7 +251,6 @@ li.sublist-wrapper {
   margin-top: -0.5rem;
   text-indent: 2.5rem;
 }
-
 /*------------------------------------------------------------------- figures */
 figure {
   margin: 0 16% 0 auto;
@@ -357,9 +356,9 @@ a.sig {
 }
 
 .swatch-header {
-    display: block;
-    margin-bottom: 2rem;
-    margin-right: 2rem;
+  display: block;
+  margin-bottom: 2rem;
+  margin-right: 2rem;
 }
 .container-swatch em {
   padding-right: 2rem;
@@ -430,7 +429,7 @@ a.sig {
   }
   .swatch-header {
     font-size: 1.15rem;
-}
+  }
   .swatch {
     height: 6vw;
     margin: 0.375rem 0.375rem 0rem 0.375rem;

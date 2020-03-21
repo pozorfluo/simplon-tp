@@ -205,12 +205,13 @@
           <li>
             Slingshot given new entry to wherever candidate empty bucket is.
           </li>
+          <li>Add entry's key, value pair to the store.</li>
           <li>Increment table entry count.</li>
         </ul>
         <h3>
           <em>Deletion</em>
         </h3>
-        <p><mark>backward shift deletion</mark>.</p>
+        <p><i>wip</i> <mark>backward shift deletion</mark>.</p>
 
         <h3>
           <em>Hash function</em>
@@ -225,6 +226,11 @@
           not suitable for very small tables. It does not however rely on modulo
           operations or masking or fastrange style reduction.
         </p>
+
+        <h3>
+          <em>Resizing</em>
+        </h3>
+        <p><i>wip</i></p>
         <h3>
           <em>Memory Layout</em>
         </h3>
@@ -232,7 +238,8 @@
           Mostly a <mark>Structure of arrays</mark> configuration. Core table
           operations should spend most of their time on
           <b>contiguous memory</b> blocks. There is one array for each metadata
-          byte and a third for the entries of interleaved keys and values.
+          byte, an array of entries pointer and array for the store of
+          interleaved keys and values.
         </p>
         <p>
           Lookups <b>work on the first metadata byte array only</b> until it is
@@ -243,22 +250,70 @@
           The Thierry la Fronde part of the insert operation will
           <b>plan all necessary slingshots</b> by looking at the second metadata
           byte array. Then unwind and carry out all entry pushing jobs in the
-          dedicated entries array.
+          dedicated entries array which will not touch the store.
         </p>
+
+        <h3>
+          <em>Memory Usage</em>
+        </h3>
+        <p>
+          The expected <b>memory overhead</b> for a requested capacity of N
+          entries is : <br />
+        </p>
+
+        <ul class="algo">
+          <li>
+            N / max_load_factor * (sizeof(meta_byte) * 2 + sizeof(hmap_entry *))
+          </li>
+        </ul>
+        <p>
+          <i> eg., for : </i>
+        </p>
+        <ul>
+          <li class="sublist-wrapper">
+            <ul>
+              <li><b>N</b> = 4E6</li>
+              <li><b>max_load_factor</b> = 0.89</li>
+              <br />
+              <li><b>key size</b> = 6 bytes</li>
+              <li><b>value size</b> = 8 bytes</li>
+              <br />
+              <li><strong>Lower bound memory usage for N entries :</strong></li>
+              <li>= 4E6 * (6 + 8) bytes</li>
+              <li>≈ <b>56 MB</b></li>
+              <br />
+              <li><strong>Memory overhead for the buckets :</strong></li>
+              <li>= 4E6 / 0.89 * (1 + 1 + 8) bytes</li>
+              <li>≈ <b>44.94 MB</b></li>
+              <br />
+              <li>
+                <strong
+                  >Memory overhead for the hash function xor_seed :</strong
+                >
+              </li>
+              <li>= <b>2048 bytes</b></li>
+              <br />
+              <li>
+                <strong>Memory overhead for the main hmap struct :</strong>
+              </li>
+              <li>= <b>80 bytes</b></li>
+              <br />
+              <li><strong>Total memory usage :</strong></li>
+              <li>≈ <b>100.94 MB</b></li>
+              <br />
+              <li>≈ <b>1.8025x lower bound </b>for this example setup</li>
+            </ul>
+          </li>
+        </ul>
+
         <h3>
           <em>Entries</em>
         </h3>
         <p>
-          <mark>Node style</mark>, pointers, custom allocator, key deduplication
-          vs aliasing.
+          <i>wip</i> <mark>Backing array</mark>, pointers, custom allocator, key
+          deduplication vs aliasing.
         </p>
-        <p>
-          Storing small, size-limited keys in contiguous memory directly inside
-          the table ?
-        </p>
-        <p>
-          Storing small values in contiguous memory directly inside the table ?
-        </p>
+
         <h3>
           <em>Complexity</em>
         </h3>
