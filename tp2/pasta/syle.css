@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+  }`{``}
+  ``
+  html {
+    font-family: Montserrat, sans-serif;
+    line-height: 1.7;
+    color: black;
+  }
+  h1, h2, h3, h4, p, img, ul {
+    margin: 0 0 24px 0;
+  }
