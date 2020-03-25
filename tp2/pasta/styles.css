@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
 }
+
 html,
 body {
   margin: 0;
@@ -44,12 +45,21 @@ h1,
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 0.5rem;
-  /* font-kerning: normal; */
+  font-kerning: normal;
+  margin: 0rem auto 0rem auto;
+  padding: 0;
 }
 h2,
 .intro {
   font-family: "Comic Sans MS";
   font-weight: 300;
+  margin: 0rem auto 1rem auto;
+  text-align: center;
+}
+
+
+.intro {
+  margin-bottom: 2rem;
 }
 
 .page-container {
@@ -57,7 +67,6 @@ h2,
 }
 main {
   flex: 3;
-  /* padding: 1rem; */
   margin: 1rem;
 }
 header {
@@ -66,15 +75,14 @@ header {
 }
 .page-header,
 footer {
-  /* width: 100%; */
   color: #ffffff;
   background-color: #000000;
   opacity: 0.5;
   text-align: center;
-  /* flex:1; */
 }
 footer {
   padding: 2rem;
+  margin: 0 1rem;
 }
 
 .astuces,
@@ -82,11 +90,11 @@ footer {
 .recipe {
   border: 1px solid;
   padding: 1rem;
-  margin: 0 1rem 1.5rem 1rem; 
+  margin: 0 1rem 1.5rem 1rem;
 }
 .articles-container,
 .recipes-container {
-  display: flex;
+  display: flex;;
 }
 
 .recipe {
@@ -102,4 +110,21 @@ footer {
 }
 .astuces li {
   margin: 0 0 1rem 0;
+}
+article p {
+    text-indent: 1rem;
+    line-height: 1.5rem;
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+    margin: 0 1rem;
+}
+
+.rules h2 {
+    margin: 1rem;
+}
+
+article h3 {
+    font-size: 1rem;
+    margin: 0.5rem 0rem 1.5rem 0rem;
+    text-align: center;
 }
