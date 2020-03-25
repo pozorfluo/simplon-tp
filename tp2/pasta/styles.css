@@ -9,12 +9,11 @@ body {
 }
 
 /*-------------------------------------------------------------------- helper */
-body:after {
+/* body:after {
   content: "";
   background-image: url(la-pasta.jpg);
   background-repeat: no-repeat;
   background-size: 100%;
-  /* background-size: auto; */
   opacity: 0.15;
   top: 0;
   left: 0;
@@ -22,14 +21,42 @@ body:after {
   right: 0;
   position: absolute;
   z-index: -1;
-}
+} */
 /*--------------------------------------------------------------------------- */
-
 html {
   font-family: Montserrat, sans-serif;
   line-height: 1.7;
   color: black;
 }
+
+.page-container,
+.articles-container,
+.recipes-container {
+  display: flex;
+}
+
+main {
+  flex: 3;
+  margin: 1rem;
+}
+
+header {
+  flex: 1;
+  padding: 1rem;
+}
+
+.page-header,
+footer {
+  color: #ffffff;
+  background-color: #000000;
+  /* opacity: 0.5; */
+  text-align: center;
+}
+footer {
+  padding: 2rem;
+  margin: 0 1rem;
+}
+
 h1,
 h2,
 h3,
@@ -49,6 +76,7 @@ h1,
   margin: 0rem auto 0rem auto;
   padding: 0;
 }
+
 h2,
 .intro {
   font-family: "Comic Sans MS";
@@ -57,44 +85,16 @@ h2,
   text-align: center;
 }
 
-
 .intro {
   margin-bottom: 2rem;
-}
-
-.page-container {
-  display: flex;
-}
-main {
-  flex: 3;
-  margin: 1rem;
-}
-header {
-  flex: 1;
-  padding: 1rem;
-}
-.page-header,
-footer {
-  color: #ffffff;
-  background-color: #000000;
-  opacity: 0.5;
-  text-align: center;
-}
-footer {
-  padding: 2rem;
-  margin: 0 1rem;
 }
 
 .astuces,
 .rules,
 .recipe {
   border: 1px solid;
-  padding: 1rem;
+  padding: 1rem 1rem 3rem 1rem;
   margin: 0 1rem 1.5rem 1rem;
-}
-.articles-container,
-.recipes-container {
-  display: flex;;
 }
 
 .recipe {
@@ -103,28 +103,33 @@ footer {
 .recipe img {
   width: 100%;
 }
+
+.astuces {
+  padding-bottom: 1rem;
+}
+
 .astuces ul {
   list-style: none;
-  margin: 0 0 1rem 0;
-  padding: 0px;
+  margin: 0 auto;
+  padding: 0;
 }
 .astuces li {
   margin: 0 0 1rem 0;
 }
-article p {
-    text-indent: 1rem;
-    line-height: 1.5rem;
-    font-size: 0.95rem;
-    margin-bottom: 3rem;
-    margin: 0 1rem;
-}
 
 .rules h2 {
-    margin: 1rem;
+  margin: 1rem;
 }
 
 article h3 {
-    font-size: 1rem;
-    margin: 0.5rem 0rem 1.5rem 0rem;
-    text-align: center;
+  font-size: 0.9rem;
+  margin: 0.5rem 0rem 1.5rem 0rem;
+  text-align: center;
+}
+article p {
+  text-indent: 1rem;
+  line-height: 1.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 3rem;
+  margin: 0 1rem;
 }
