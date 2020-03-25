@@ -97,12 +97,9 @@ h2,
   margin: 0 1rem 1.5rem 1rem;
 }
 
-.recipe {
-  width: 100%;
-}
-.recipe img {
-  width: 100%;
-}
+.recipe, .recipe img  {
+    width: 100%;
+  }
 
 .astuces {
   padding-bottom: 1rem;
