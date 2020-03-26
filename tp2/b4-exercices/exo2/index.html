@@ -1,174 +1,401 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-    crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/bootstrap.css" />
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="css/bootstrap.css">
+    <title>Prdt Hero</title>
+  </head>
 
-  <title>Prdt Hero</title>
-</head>
+  <body>
+    <nav class="site-header sticky-top py-1">
+      <div
+        class="container d-flex flex-column flex-md-row justify-content-between"
+      >
+        <a class="py-2" href="#">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="d-block mx-auto"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
+            <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
+            <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
+            <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
+            <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
+            <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
+          </svg>
+        </a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Tour</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Product</a>
+        <a class="py-2 d-none d-md-inline-block" href="#">Features</a>
+        <form class="form-inline py-2 d-none d-md-inline-block">
+          <button
+            class="btn btn-sm btn-outline-danger"
+            type="button"
+            onclick="window.location.href = '#';"
+          >
+            Pricing
+          </button>
+        </form>
+      </div>
+    </nav>
 
-<body>
-  <nav class="site-header sticky-top py-1">
-    <div class="container d-flex flex-column flex-md-row justify-content-between">
-      <a class="py-2" href="#">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mx-auto">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
-          <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
-          <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
-          <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
-          <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
-          <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
-        </svg>
+    <!-- ---------------------------------------------------------- carousel -->
+    <div
+      id="carouselExampleControls"
+      class="carousel slide"
+      data-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <!-- --------------------------------------------- carousel item 1 -->
+        <div class="carousel-item active">
+          <div
+            class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light"
+          >
+            <div class="col-md-5 p-lg-5 mx-auto my-5">
+              <h1 class="display-4 font-weight-normal">Work !</h1>
+              <p class="lead font-weight-normal">
+                Turn to the left !
+              </p>
+              <a class="btn btn-outline-primary" href="#">Shantay</a>
+            </div>
+            <div
+              class="product-device shadow-sm d-none d-md-block"
+              style="opacity: 25%;"
+            ></div>
+            <div
+              class="product-device product-device-2 shadow-sm d-none d-md-block"
+              style="opacity: 40%;"
+            ></div>
+          </div>
+        </div>
+        <!-- -------------------------------------------- /carousel item 1 -->
+        <!-- --------------------------------------------- carousel item 1 -->
+        <div class="carousel-item">
+          <div
+            class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light"
+          >
+            <div class="col-md-5 p-lg-5 mx-auto my-5">
+              <h1 class="display-4 font-weight-normal">Work !</h1>
+              <p class="lead font-weight-normal">
+                Now turn to the right !
+              </p>
+              <a class="btn btn-outline-warning" href="#">Sashay</a>
+            </div>
+            <div
+              class="product-device shadow-sm d-none d-md-block "
+              style="opacity: 25%;"
+            ></div>
+            <div
+              class="product-device product-device-2 shadow-sm d-none d-md-block"
+              style="opacity: 40%;"
+            ></div>
+          </div>
+        </div>
+        <!-- -------------------------------------------- /carousel item 1 -->
+
+        <!-- --------------------------------------------- carousel item 1 -->
+        <div class="carousel-item">
+          <div
+            class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light"
+          >
+            <div class="col-md-5 p-lg-5 mx-auto my-5">
+              <h1 class="display-4 font-weight-normal">
+                Work !
+              </h1>
+              <p class="lead font-weight-normal">
+                I see your picture everywhere !
+              </p>
+              <a class="btn btn-outline-info" href="#">Flazaydah</a>
+            </div>
+            <div
+              class="product-device shadow-sm d-none d-md-block"
+              style="opacity: 25%;"
+            ></div>
+            <div
+              class="product-device product-device-2 shadow-sm d-none d-md-block"
+              style="opacity: 40%;"
+            ></div>
+          </div>
+        </div>
+        <!-- -------------------------------------------- /carousel item 1 -->
+      </div>
+      <a
+        class="carousel-control-prev"
+        href="#carouselExampleControls"
+        role="button"
+        data-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
       </a>
-      <a class="py-2 d-none d-md-inline-block" href="#">Tour</a>
-      <a class="py-2 d-none d-md-inline-block" href="#">Product</a>
-      <a class="py-2 d-none d-md-inline-block" href="#">Features</a>
-      <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>
+      <a
+        class="carousel-control-next"
+        href="#carouselExampleControls"
+        role="button"
+        data-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
-  </nav>
-
-  <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
-    <div class="col-md-5 p-lg-5 mx-auto my-5">
-      <h1 class="display-4 font-weight-normal">Hero header</h1>
-      <p class="lead font-weight-normal">And an even wittier subheading to boot. Jumpstart your marketing efforts with
-        this example based on Apple's marketing pages.</p>
-      <a class="btn btn-outline-secondary" href="#">Coming soon</a>
-    </div>
-    <div class="product-device shadow-sm d-none d-md-block"></div>
-    <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
-  </div>
-
-  <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
-    <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
-      <div class="my-3 py-3">
-        <h2 class="display-5">First headline</h2>
-        <p class="lead">And an even wittier subheading.</p>
-      </div>
-      <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
-    </div>
-    <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-      <div class="my-3 p-3">
-        <h2 class="display-5">Second headline</h2>
-        <p class="lead">And an even wittier subheading.</p>
-      </div>
-      <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
-    </div>
-  </div>
-
-  <!-- START THE FEATURETTES -->
-  <div class="container">
-    <hr class="featurette-divider">
-
-    <div class="row featurette">
-      <div class="col-7">
-        <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod
-          semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
-          commodo.</p>
-      </div>
-      <div class="col-5">
-        <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-      </div>
+    <!-- --------------------------------------------------------- /carousel -->
+    <div class="container  text-center  mb-5">
+      <h1 class="display-1 py-3">
+        Supermodel.
+      </h1>
+      <h3 class="text-muted py-3">
+        You better work !
+      </h3>
+      <p class="lead mx-5">
+        It don't matter what you wear. They're checking out your savior faire.
+        And it don't matter what you do, 'Cause everything looks good on you. Do
+        your thing on the runway.
+      </p>
     </div>
 
-    <hr class="featurette-divider">
-
-    <div class="row featurette">
-      <div class="col-7">
-        <h2 class="featurette-heading">Second featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod
-          semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
-          commodo.</p>
+    <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+      <div
+        class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden"
+      >
+        <div class="my-3 py-3">
+          <h2 class="display-5">First headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div
+          class="bg-light shadow-sm mx-auto"
+          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"
+        ></div>
       </div>
-      <div class="col-5">
-        <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+      <div
+        class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
+      >
+        <div class="my-3 p-3">
+          <h2 class="display-5">Second headline</h2>
+          <p class="lead">And an even wittier subheading.</p>
+        </div>
+        <div
+          class="bg-dark shadow-sm mx-auto"
+          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"
+        ></div>
+      </div>
+    </div>
+    <!-- START THE FEATURETTES -->
+    <div class="container">
+      <hr class="featurette-divider" />
+
+      <div class="row featurette">
+        <div class="col-12 col-md-7">
+          <h2 class="featurette-heading">
+            First featurette heading.
+            <span class="text-muted">It'll blow your mind.</span>
+          </h2>
+          <p class="lead">
+            Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id
+            ligula porta felis euismod semper. Praesent commodo cursus magna,
+            vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
+            commodo.
+          </p>
+        </div>
+        <div class="col-12 col-md-5">
+          <img
+            class="featurette-image img-fluid mx-auto"
+            data-src="holder.js/500x500/auto"
+            alt="Generic placeholder image"
+          />
+        </div>
+      </div>
+
+      <hr class="featurette-divider" />
+
+      <div class="row featurette">
+        <div class="col-12 col-md-7 order-2">
+          <h2 class="featurette-heading">
+            Second featurette heading.
+            <span class="text-muted">It'll blow your mind.</span>
+          </h2>
+          <p class="lead">
+            Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id
+            ligula porta felis euismod semper. Praesent commodo cursus magna,
+            vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
+            commodo.
+          </p>
+        </div>
+        <div class="col-12 col-md-5 order-1">
+          <img
+            class="featurette-image img-fluid mx-auto"
+            data-src="holder.js/500x500/auto"
+            alt="Generic placeholder image"
+          />
+        </div>
+      </div>
+
+      <hr class="featurette-divider" />
+    </div>
+
+    <!-- /END THE FEATURETTES -->
+
+    <div class="container  text-center  mb-5">
+      <h1 class="display-1 py-3">
+        Glamazon ?
+      </h1>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <h4 class="card-title">I see you lookin'</h4>
+              <p class="card-text">
+                Don't be jealous of my boogie.
+              </p>
+              <p class="lead">
+                $3,999.99
+              </p>
+              <form class="form-inline py-2 d-none d-md-inline-block">
+                <button
+                  class="btn btn-sm btn-outline-secondary"
+                  type="button"
+                  onclick="window.location.href = '#';"
+                >
+                  Own it
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <h4 class="card-title">Don't be jealous of my boogie</h4>
+              <p class="card-text">
+                You can say that you are not.
+              </p>
+              <p class="lead">
+                $4,999.99
+              </p>
+              <form class="form-inline py-2 d-none d-md-inline-block">
+                <button
+                  class="btn btn-sm btn-outline-secondary"
+                  type="button"
+                  onclick="window.location.href = '#';"
+                >
+                  Own it
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <hr class="featurette-divider">
-  </div>
-
-  <!-- /END THE FEATURETTES -->
-
-
-  <footer class="container py-5">
-    <div class="row">
-      <div class="col-12 col-md">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="d-block mb-2">
-          <circle cx="12" cy="12" r="10"></circle>
-          <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
-          <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
-          <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
-          <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
-          <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
-          <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
-        </svg>
-        <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
+    <footer class="container py-5">
+      <div class="row">
+        <div class="col-12 col-md">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="d-block mb-2"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="14.31" y1="8" x2="20.05" y2="17.94"></line>
+            <line x1="9.69" y1="8" x2="21.17" y2="8"></line>
+            <line x1="7.38" y1="12" x2="13.12" y2="2.06"></line>
+            <line x1="9.69" y1="16" x2="3.95" y2="6.06"></line>
+            <line x1="14.31" y1="16" x2="2.83" y2="16"></line>
+            <line x1="16.62" y1="12" x2="10.88" y2="21.94"></line>
+          </svg>
+          <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Features</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Cool stuff</a></li>
+            <li><a class="text-muted" href="#">Random feature</a></li>
+            <li><a class="text-muted" href="#">Team feature</a></li>
+            <li><a class="text-muted" href="#">Stuff for developers</a></li>
+            <li><a class="text-muted" href="#">Another one</a></li>
+            <li><a class="text-muted" href="#">Last time</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Resource</a></li>
+            <li><a class="text-muted" href="#">Resource name</a></li>
+            <li><a class="text-muted" href="#">Another resource</a></li>
+            <li><a class="text-muted" href="#">Final resource</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>Resources</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Business</a></li>
+            <li><a class="text-muted" href="#">Education</a></li>
+            <li><a class="text-muted" href="#">Government</a></li>
+            <li><a class="text-muted" href="#">Gaming</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-md">
+          <h5>About</h5>
+          <ul class="list-unstyled text-small">
+            <li><a class="text-muted" href="#">Team</a></li>
+            <li><a class="text-muted" href="#">Locations</a></li>
+            <li><a class="text-muted" href="#">Privacy</a></li>
+            <li><a class="text-muted" href="#">Terms</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="col-6 col-md">
-        <h5>Features</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Cool stuff</a></li>
-          <li><a class="text-muted" href="#">Random feature</a></li>
-          <li><a class="text-muted" href="#">Team feature</a></li>
-          <li><a class="text-muted" href="#">Stuff for developers</a></li>
-          <li><a class="text-muted" href="#">Another one</a></li>
-          <li><a class="text-muted" href="#">Last time</a></li>
-        </ul>
-      </div>
-      <div class="col-6 col-md">
-        <h5>Resources</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Resource</a></li>
-          <li><a class="text-muted" href="#">Resource name</a></li>
-          <li><a class="text-muted" href="#">Another resource</a></li>
-          <li><a class="text-muted" href="#">Final resource</a></li>
-        </ul>
-      </div>
-      <div class="col-6 col-md">
-        <h5>Resources</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Business</a></li>
-          <li><a class="text-muted" href="#">Education</a></li>
-          <li><a class="text-muted" href="#">Government</a></li>
-          <li><a class="text-muted" href="#">Gaming</a></li>
-        </ul>
-      </div>
-      <div class="col-6 col-md">
-        <h5>About</h5>
-        <ul class="list-unstyled text-small">
-          <li><a class="text-muted" href="#">Team</a></li>
-          <li><a class="text-muted" href="#">Locations</a></li>
-          <li><a class="text-muted" href="#">Privacy</a></li>
-          <li><a class="text-muted" href="#">Terms</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
+    </footer>
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-    crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
 
-  <!-- Holder JS for thumbnails images -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.js"></script>
-</body>
-
+    <!-- Holder JS for thumbnails images -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.js"></script>
+  </body>
 </html>
