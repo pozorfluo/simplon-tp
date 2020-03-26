@@ -1,6 +1,6 @@
 # simplon-tp
 - [TP1](https://pozorfluo.github.io/simplon-tp/tp1/)
-- [TP2 - Pasta](https://pozorfluo.github.io/simplon-tp/tp2/pasta/)
+- [TP2 - pasta](https://pozorfluo.github.io/simplon-tp/tp2/pasta/)
 - [TP2 - menu_content_simple](https://pozorfluo.github.io/simplon-tp/tp2/html-css-exercice-twitter-bootstrap-beginner/html/menu_content_simple.html)
 - [TP2 - grid-wrapper](https://pozorfluo.github.io/simplon-tp/tp2/html-css-exercice-twitter-bootstrap-beginner/html/grid-wrapper.html)
 - [TP2 - smiley-grid](https://pozorfluo.github.io/simplon-tp/tp2/html-css-exercice-twitter-bootstrap-beginner/html/smiley-grid.html)
