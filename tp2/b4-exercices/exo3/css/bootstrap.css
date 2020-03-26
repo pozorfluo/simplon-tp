@@ -1,0 +1,4 @@
+/* Move down content because we have a fixed navbar */
+.jumbotron {
+  padding-top: 5rem;
+}
