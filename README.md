@@ -5,4 +5,4 @@
 - [TP2 - grid-wrapper](https://pozorfluo.github.io/simplon-tp/tp2/html-css-exercice-twitter-bootstrap-beginner/html/grid-wrapper.html)
 - [TP2 - smiley-grid](https://pozorfluo.github.io/simplon-tp/tp2/html-css-exercice-twitter-bootstrap-beginner/html/smiley-grid.html)
 - [TP2 - full](https://pozorfluo.github.io/simplon-tp/tp2/html-css-exercice-twitter-bootstrap-beginner/html/full.html)
-- [TP2 - boxed](https://pozorfluo.github.io/simplon-tp/tp2/html-css-exercice-twitter-bootstrap-beginner/html/boxed.html)
+- [TP2 - boxed](https://pozorfluo.github.io/simplon-tp/tp2/html-css-exercice-twitter-bootstrap-beginner/html/boxed-bs.html)
