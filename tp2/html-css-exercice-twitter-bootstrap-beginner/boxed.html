@@ -15,31 +15,121 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
+    <!-- -------------------------------------------------------- custom CSS -->
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
   <!-- ---------------------------------------------------------------- body -->
-  <body>
+  <body class="py-5">
+    <!------------------------------------------------------- main box -->
+    <div class="row">
+      <div class="col-11 col-sm-9 col-md-8 col-lg-7 col-xl-5 mx-auto">
+        <!--------------------------------------------------- navbar -->
+        <nav
+          class="nav navbar-expand-md navbar-light nav-pb-2 mb-4 border-bottom"
+          role="navigation"
+        >
+          <a class="navbar-brand text-secondary" href="#">Project name</a>
+          <button
+            class="navbar-toggler ml-auto mb-3"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="nav nav-pills ml-auto mb-3">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  style="background-color: #337ab7;"
+                  href="#"
+                >
+                  Home<span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link boxed-color" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link boxed-color" href="#">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <!-------------------------------------------------- /navbar -->
+        <!------------------------------------------------ jumbotron -->
+        <div class="jumbotron text-center pb-5 px-5">
+          <h1 class="display-4"><strong>Jumbotron heading</strong></h1>
+          <p class="lead">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. In est
+            ante in nibh mauris cursus mattis molestie a. Scelerisque viverra
+            mauris in aliquam.
+          </p>
+          <p class="lead">
+            <a class="btn btn-success btn-lg px-4 py-3" href="#" role="button"
+              >Sign up today</a
+            >
+          </p>
+        </div>
+        <!----------------------------------------------- /jumbotron -->
+        <!-------------------------------------------------- content -->
+        <div class="row">
+          <div class="col-lg-6">
+            <h5>Subheading</h5>
+            <p>
+              Nisi porta lorem mollis aliquam. Elit scelerisque mauris
+              pellentesque pulvinar pellentesque habitant.
+            </p>
 
+            <h5>Subheading</h5>
+            <p>
+              Congue nisi vitae suscipit tellus mauris a diam. Aliquet nec
+              ullamcorper sit amet risus.
+            </p>
 
+            <h5>Subheading</h5>
+            <p>
+              In est ante in nibh. Enim nulla aliquet porttitor lacus luctus
+              accumsan tortor posuere ac.
+            </p>
+          </div>
 
+          <div class="col-lg-6">
+            <h5>Subheading</h5>
+            <p>
+              Curabitur gravida arcu ac tortor dignissim. Nulla pellentesque
+              dignissim enim sit amet venenatis urna.
+            </p>
 
+            <h5>Subheading</h5>
+            <p>
+              Neque convallis a cras semper. Vestibulum lectus mauris ultrices
+              eros in cursus.
+            </p>
 
+            <h5>Subheading</h5>
+            <p>
+              Mattis enim ut tellus elementum sagittis vitae et. Cursus turpis
+              massa tincidunt dui ut ornare lectus sit.
+            </p>
+          </div>
+        </div>
+        <!------------------------------------------------- /content -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <!-------------------------------------------------- footer -->
+        <footer class="footer">
+          <hr />
+          <p>&copy; 2020 La Grosse Société S.A.</p>
+        </footer>
+        <!-------------------------------------------------- /footer -->
+      </div>
+    </div>
+    <!------------------------------------------------------ /main box -->
 
     <!-- ------------------------------------------------------ bootstrap JS -->
     <script

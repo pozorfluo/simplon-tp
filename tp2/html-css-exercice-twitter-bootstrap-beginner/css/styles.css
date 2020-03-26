@@ -1,16 +1,23 @@
-body {
-    padding: 0;
-}
+/* body {
+  padding: 0;
+} */
 .smiley {
   background-color: #e6e2eb;
   font-size: 3rem;
 }
 
 .smiley-col {
-    border: 1px solid;
+  border: 1px solid;
 }
 
 /* header {
     padding: 0rem 2rem;
     text-align: center;
+} */
+.boxed-color {
+  /* --primary: #337ab7; */
+  color: #337ab7;
+}
+/* .boxed-bg {
+  background-color: #337ab7;
 } */
