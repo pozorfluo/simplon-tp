@@ -1,5 +1,13 @@
 body {
-    padding: 6rem 1rem;
+    padding: 0;
+}
+.smiley {
+  background-color: #e6e2eb;
+  font-size: 3rem;
+}
+
+.smiley-col {
+    border: 1px solid;
 }
 
 /* header {
