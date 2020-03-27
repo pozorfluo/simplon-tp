@@ -403,7 +403,7 @@ a.sig {
 }
 .cutout {
   float: left;
-  margin: 0.5rem 0.5rem 1rem 0rem;
+  margin: 0.5rem 0.5rem 1rem 1.25rem;
 }
 /*------------------------------------------------------------- media queries */
 @media (max-width: 768px) {
