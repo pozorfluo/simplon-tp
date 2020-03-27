@@ -8,4 +8,4 @@
 - [TP2 - boxed](https://pozorfluo.github.io/simplon-tp/tp2/html-css-exercice-twitter-bootstrap-beginner/html/boxed-bs.html)
 - [TP2 - exo1](https://pozorfluo.github.io/simplon-tp/tp2/b4-exercices/exo1/)
 - [TP2 - exo2](https://pozorfluo.github.io/simplon-tp/tp2/b4-exercices/exo2/)
-<!-- - [TP2 - exo3](https://pozorfluo.github.io/simplon-tp/tp2/b4-exercices/exo3/) -->
+- [TP2 - exo3](https://pozorfluo.github.io/simplon-tp/tp2/b4-exercices/exo3/)
