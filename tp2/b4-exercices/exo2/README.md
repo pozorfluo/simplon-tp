@@ -25,22 +25,22 @@ git clone https://github.com/simplon-roanne/b4-exercices
 
 * ~~Inverser le sens de lecture de la seconde [featurette] de sorte à ce que l'image soit à droite et le texte à gauche~~
 
-* Créer une nouvelle section qui servira de tableau de prix de la sorte :
+* ~~Créer une nouvelle section qui servira de tableau de prix de la sorte :~~
 
-  * Un titre centré de niveau 1 (du texte de substitution devra être utilisé)
+  * ~~Un titre centré de niveau 1 (du texte de substitution devra être utilisé)~~
 
-  * 3 colonnes de largeurs égales comportant :
+  * ~~3 colonnes de largeurs égales comportant :~~
 
-    * Une [card] dans laquelle se trouve :
+    * ~~Une [card] dans laquelle se trouve :~~
 
-      * Un titre de niveau 4 (du texte de substitution devra être utilisé)
+      * ~~Un titre de niveau 4 (du texte de substitution devra être utilisé)~~
 
-      * Un paragraphe court (du texte de substitution devra être utilisé)
+      * ~~Un paragraphe court (du texte de substitution devra être utilisé)~~
 
-      * Un texte [Lead] qui sera le prix
+      * ~~Un texte [Lead] qui sera le prix~~
 
-      * Un [button] secondaire simulant le renvoi vers la boutique
+      * ~~Un [button] secondaire simulant le renvoi vers la boutique~~
 
-      * L'ensemble du texte est centré à sa colonne
+      * ~~L'ensemble du texte est centré à sa colonne~~
 
-* Rendre l'ensemble responsive de sorte à ce que la navigation soit accessible sur mobile et que tous les éléments en colonne prennent la totalité de la largeur disponible sur mobile.
+* ~~Rendre l'ensemble responsive de sorte à ce que la navigation soit accessible sur mobile et que tous les éléments en colonne prennent la totalité de la largeur disponible sur mobile.~~
