@@ -1,0 +1,3 @@
+# Explications complémentaires
+* Le lien dans la balise link est ce qu'on appelle un lien relatif, inutile de mettre tout le chemin pour que le navigateur trouve le fichier.
+* Vous avez aussi la possibiliter de mettre votre code CSS directement dans vos page HTML via la balise ou l'attribut "style", mais ce n'est vraiment pas recommandé...

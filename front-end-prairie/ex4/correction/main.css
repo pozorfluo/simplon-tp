@@ -1,0 +1,166 @@
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+html,body {
+	width:100%;
+	min-height:100%;
+	margin:0;
+	font-family:'Roboto', sans-serif;
+	font-size:14px;
+}
+
+header{
+	height:40px;
+	width:100%;
+	background-color:black;
+	color:white;
+
+}
+
+header h1{
+	font-size:30px;
+	line-height:40px;
+	text-transform:uppercase;
+	margin:0;
+	margin-left:10px;
+	margin-right:10px;
+	display:inline-block;
+	vertical-align: top;
+}
+
+header nav{
+	vertical-align: top;
+	display:inline-block;
+	height:100%;
+}
+
+header nav ul{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+	height:100%;
+}
+
+header nav ul li{
+	display:inline-block;
+	margin:0;
+	height:100%;
+	width:150px;
+	text-align:center;
+}
+
+header nav ul li a{
+	display:block;
+	width:100%;
+	height:100%;
+	line-height:40px;
+	color:white;
+	text-decoration:none;
+}
+
+header nav ul li a:hover{
+	background-color:#333;
+}
+
+.home{
+	width:100%;
+}
+
+.home article{
+	width:70%;
+	float:left;
+	box-sizing:border-box;
+	padding:10px;
+}
+
+.home article h2{
+	text-align:justify;
+	text-transform:uppercase;
+}
+
+.home article img{
+	max-width:30%;
+	margin-right:10px;
+	float:left;
+}
+
+.home article p{
+	text-align:justify;
+}
+
+.home article a{
+	color:red;
+	text-decoration:none;
+	float:right;
+}
+
+.home article a:hover{
+	text-decoration:underline;
+}
+
+.home aside{
+	margin-top:20px;
+	box-sizing:border-box;
+	width:30%;
+	padding:10px;
+	float:right;
+	background-color:#EEE;
+    border-radius:10px;
+}
+
+.home aside ul{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+
+.home aside ul li{
+	margin:5px;
+}
+
+.home aside ul li a{
+	color:#000;
+	text-decoration:none;
+}
+
+.home aside ul li a:hover{
+	color:#000;
+	text-decoration:underline;
+}
+
+footer{
+	color:white;
+	position:fixed;
+	bottom:0;
+	left:0;
+	right:0;
+	height:150px;
+	background-color:#000;
+	padding:10px;
+	box-sizing:border-box;
+}
+
+footer ul{
+	list-style-type:none;
+}
+
+footer a{
+	color:#AAA;
+	text-decoration:none;
+}
+
+footer a:hover{
+	text-decoration:underline;
+}
+
+footer address
+{
+	position:absolute;
+	text-align:right;
+	bottom:10px;
+	right:10px;
+}
+
+footer address a{
+	display:block
+}

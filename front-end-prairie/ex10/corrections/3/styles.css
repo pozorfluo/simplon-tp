@@ -1,0 +1,25 @@
+section {
+  height: 100vh;
+  display:flex;
+  flex-wrap:wrap;
+  flex-direction:column;
+  align-items:stretch;
+  align-content:stretch;
+  width:95%;
+  margin-left:auto;
+  margin-right:auto;
+  
+}
+
+section div{
+  width:calc(33% - 20px);
+  height:calc(25% - 20px);
+  margin:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+section div:last-child{
+  height:100%;
+}

@@ -1,0 +1,2 @@
+# Explications complémentaires
+* On place le javascript à la fin du document afin de ne pas bloquer le chargement de la page et des images, en situation de réseau limité. Le contenu sera toujours considérer comme plus important.

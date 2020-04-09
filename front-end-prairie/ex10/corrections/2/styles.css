@@ -1,0 +1,41 @@
+/* 2.1 */
+section{
+  display:flex;
+  flex-wrap:wrap;
+  width:95%;
+  margin-left:auto;
+  margin-right:auto;
+  justify-content:space-between;
+  align-items:center;
+  align-content:center;
+}
+
+section div{
+  height:500px;
+  width:24%;
+  margin-bottom:10px;
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+section div:nth-child(5){
+  width:100%;
+}
+
+/* 2.2 */
+@media(max-width:1024px){
+  section div{
+    height:300px;
+    width:49%;
+  }
+}
+
+/* 2.3 */
+@media(max-width:600px){
+  section div{
+    height:200px;
+    width:100%;
+  }
+}

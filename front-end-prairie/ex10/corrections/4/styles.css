@@ -1,0 +1,36 @@
+/* 4.1 */
+ul{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:80px;
+  width:100%;
+}
+
+ul li{
+  flex:1;
+  height:50px
+}
+
+ul li a{
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+/* 4.2 */
+@media(max-width:600px){
+  ul{
+    flex-direction:column;
+    height:auto;
+  }
+}
+
+/* 4.3 */
+ul li:hover{
+  height:80px;
+}
+
+ul li:hover a{
+  line-height: 80px;
+}

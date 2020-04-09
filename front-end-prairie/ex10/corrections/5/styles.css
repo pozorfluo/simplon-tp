@@ -1,0 +1,32 @@
+/* 6.1 */
+html, body{
+  height:100%;
+  min-height:500px;
+}
+main{
+  display:flex;
+  height:calc(100% - 160px);
+
+}
+
+main nav{
+  width:200px;
+}
+
+main article{
+  flex:1;
+}
+
+/* 6.2 */
+@media(max-width:600px){
+  main{
+    flex-direction:column;
+  }
+  main article{
+    order:1;
+  }
+  main nav{
+    width:100%;
+    order:2;
+  }
+}

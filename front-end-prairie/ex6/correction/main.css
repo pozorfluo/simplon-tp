@@ -1,0 +1,41 @@
+/* VERSION TABLETTE */
+@media screen and (max-width: 768px) {
+	header ul li a, .home article p, .home aside a{
+		font-size:1.2em;
+	}
+
+	.home article{
+		width:100%;
+		margin-bottom:0px;
+	}
+
+	.home article img{
+		max-width:50%;
+	}
+
+	.home aside{
+		width:100%;
+		margin-bottom:250px;
+	}
+} 
+
+/* VERSION SMARTPHONE */
+@media screen and (max-width: 630px) {
+
+	header{
+		text-align:center;
+	}
+
+	header nav{
+		display:none;
+	}
+
+
+	.home article{
+		margin-top:40px;
+	}
+
+	.home article img{
+		max-width:100%;
+	}
+}  
