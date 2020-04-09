@@ -10,3 +10,4 @@
 - [TP2 - exo2](https://pozorfluo.github.io/simplon-tp/tp2/b4-exercices/exo2/)
 - [TP2 - exo3](https://pozorfluo.github.io/simplon-tp/tp2/b4-exercices/exo3/)
 - [TP2 - onemillionlines](https://pozorfluo.github.io/simplon-tp/tp2/bootstrap-onemillionlines/Squelette/)
+- [front-end-prairie](https://pozorfluo.github.io/simplon-tp/front-end-prairie/ex2/www/html/article01.html)
