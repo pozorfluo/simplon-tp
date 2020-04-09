@@ -1,0 +1,28 @@
+Facebook fait appel à un autre Français pour diriger ses travaux en intelligence artificielle
+
+Facebook réorganise son pôle consacré à l'intelligence artificielle : Yann LeCun, qui est devenu le visage de l'IA chez le réseau social, ne s'occupera plus du management afin de se concentrer sur la recherche. Ses précédentes attributions sont confiées à un autre Français, recruté pour l'occasion.
+
+Il est le « Monsieur IA » chez Facebook : Yann LeCun, qui n’hésite pas à prendre la parole quand l’actualité sur l’intelligence artificielle prend une direction qui lui déplaît (« les scénarios à la Terminator n’existent pas », lançait-il cet automne, avant de s’en prendre au au robot Sophia, une simple marionnette dénuée d’émotions) ou pour relativiser ce que fait la concurrence (comme les avancées obtenues par Google avec AlphaGo), voit ses attributions changer.
+
+Dorénavant, Yann LeCun se focalisera sur la recherche. C’est ce que l’intéressé a annoncé dans une publication sur Facebook mardi 23 janvier : ses fonctions couvrent désormais la direction scientifique et de la stratégie du groupe dans le domaine de l’IA. Quant à ses précédentes fonctions ayant trait à l’opérationnel, elles sont confiées à Jérôme Pesenti, dont le recrutement a été officialisé par Yann LeCun.
+
+« Jérôme a rejoint le groupe en tant que vice-président en charge de l’intelligence artificielle, ce qui reflète l’importance croissante de l’IA chez Facebook. Il supervisera les activités de recherche et développement de Facebook dans le domaine de l’IA, en gérant à la fois les programmes FAIR (Facebook AI Research) et AML (Applied Machine Learning) », explique-t-il.
+
+DES FRANÇAIS CHEZ FACEBOOK
+
+Il est intéressant de constater que ce champ de recherche éminemment stratégique chez Facebook — comme chez bon nombre d’entreprises américaines et étrangères — est sous la direction de deux Français. Ce n’est sans doute pas un hasard, la France ayant la chance, selon Cédric Villani, en charge d’une mission sur l’intelligence artificielle, une structure qui favorise l’émergence de talents.
+
+« Nous disposons d’une très belle école de recherche théorique, en mathématique, en informatique et en algorithmique. Nous avons de beaux organismes, comme le CNRS, le CEA et l’INRIA, chacun jouant une très belle partition dans son style », faisait-il remarquer mi-janvier dans un entretien au Figaro. Partition qui n’est pas tombée dans l’oreille d’un sourd, notamment à l’étranger.
+
+En effet, Yann Le Cun et Jérôme Pesenti ne sont pas les seuls compatriotes à travailler sur ce sujet. Le réseau social a par le passé recruté plusieurs concitoyens : en 2015, deux ans après l’embauche de Yann LeCun, trois Français ont été recrutés. Toutefois, l’arrivée de Jérôme Pesenti constitue une belle prise pour Facebook car l’intéressé a notamment été le vice-président de la technologie d’IBM Watson.
+
+Jérôme Pesenti a d’abord suivi un cursus en France, avec l’obtention d’un diplôme d’études approfondies en sciences cognitives à l’université Pierre-et-Marie-Curie puis un doctorat de mathématiques à l’université Paris-Sud. Il s’est ensuite envolé vers les USA pour rejoindre le laboratoire informatique de l’université de Carnegie-Mellon pour continuer ses recherches.
+
+WELCOME TO FACEBOOK JEROME PESENTI!JÉRÔME IS JOINING AS VP OF AI, REFLECTING THE GROWING IMPORTANCE OF AI AT…
+
+PUBLIÉ PAR YANN LECUN SUR MARDI 23 JANVIER 2018
+
+C’est en 2000 que sa carrière professionnelle démarre véritablement, avec la création avec d’autres étudiants de Vivisimo, une entreprise spécialisée dans l’analyse de texte. Elle est achetée en 2012 par IBM, ce qui lui permet d’intégrer une grande entreprise en tant que scientifique en chef. C’est à ce moment-là qu’il prend en charge le développement de l’IA d’IBM, Watson, sur laquelle travaillent 300 ingénieurs.
+
+Son départ d’IBM survient en septembre 2016. Il passe alors chez BenevolentTech, une filiale high-tech de la société britannique Benevolent AI, dont la mission est d’analyser les publications scientifiques grâce à l’apprentissage profond (deep learning). Il y restera un temps. Désormais, c’est pour Facebook que Jérôme Pesenti va déployer son expérience et son savoir-faire.
+
