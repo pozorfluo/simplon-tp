@@ -1,36 +1,36 @@
 (function () {
   "use strict";
 
-  function displayCards(section, movies) {
+  function buildCards(movies) {
     const movie_count = movies.length;
+    const section = document.createElement("div");
+    section.id = "card-section";
 
-    // for (const [index, movie] of movies.entries()) {
     for (let i = 0; i < movie_count; i++) {
       console.log(movies[i].Title);
 
+      //     <div class="card mx-auto">
       const card = document.createElement("div");
       card.className = "card mx-auto";
       card.setAttribute("style", "height: 400px;");
 
+      //     <div class="row">
+      const row = document.createElement("div");
+      row.className = "row";
+
+      //       <div class="col-sm">
+      const col_img = document.createElement("div");
+      col_img.className = "col-sm";
+
+      //         <img />
       const img = document.createElement("div");
-      //   img.setAttribute("src", movies[i].Images[0]);
-      //     img.setAttribute("height", "100px");
-      //   img.setAttribute("width", "auto");
-      //   img.setAttribute("alt", movies[i].Title);
       img.className = "center-cropped";
       img.setAttribute(
         "style",
         `background-image: url('${movies[i].Images[0]}');`
       );
-      //   img.className = "h-100 w-25";
-      //     <div class="card mx-auto">
-      //     <div class="row">
-      //       <div class="col-sm">
-      //         <img
-      //           src="movie.Images[0]"
-      //           class="card-img-top"
-      //           alt="movie illustration image"
-      //         />
+
+
       //       </div>
       //       <div class="col-sm">
       //         <div class="card-body">
@@ -53,6 +53,7 @@
       card.appendChild(img);
       section.appendChild(card);
     }
+    return section;
   }
 
   /**
@@ -68,7 +69,7 @@
   window.onload = (event) => {
     // const domElement = document.getElementById("output");
     // const input = document.getElementById("input");
-    const section = document.getElementById("card-section");
+    const section = document.getElementById("main-section");
 
     // input.addEventListener(
     //   "input",
@@ -94,7 +95,7 @@
       // const movie_count = movies.length;
       // changeInput(domElement, movies[0].Title);
 
-      displayCards(section, movies);
+      section.appendChild(buildCards(movies));
     };
   };
 })();
