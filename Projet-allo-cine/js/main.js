@@ -6,6 +6,7 @@
     const section = document.createElement("div");
     section.id = "card-section";
 
+    //---------------------------------------------------------- movie cards
     for (let i = 0; i < movie_count; i++) {
       console.log(movies[i].Title);
 
@@ -50,16 +51,14 @@
       col_desc.appendChild(card_body);
 
       // movie title
-      // <h5 class="card-title">movie.Title</h5>
+      // <h5 class="card-title"> movie.Title </h5>
       const movie_title = document.createElement("h5");
       movie_title.className = "card-title text-center movie-title";
       movie_title.textContent = movies[i].Title;
       card_body.appendChild(movie_title);
 
       // movie plot
-      // <p class="card-text">
-      // movie.Plot
-      // </p>
+      // <p class="card-text"> movie.Plot </p>
       const movie_plot = document.createElement("p");
       movie_plot.className = "card-text movie-plot";
       movie_plot.textContent = movies[i].Plot;
@@ -67,11 +66,11 @@
 
       // movie rating
       const movie_rating = document.createElement("span");
-      movie_rating.className = "card-text ml-5 movie-rating";
+      movie_rating.className = "card-text  movie-rating";
       movie_rating.textContent = movies[i].imdbRating;
       card_body.appendChild(movie_rating);
 
-      // movie thumbnails
+      //----------------------------------------------- movie thumbnails
       // <div class="list-group">
       const thumb_list = document.createElement("div");
       thumb_list.className = "thumb-list text-center";
@@ -79,7 +78,7 @@
       const img_count = movies[i].Images.length;
 
       for (let j = 0; j < img_count; j++) {
-        //<a href="#" class="list-group-item list-group-item-action">
+        // <a href="#" class="list-group-item list-group-item-action">
         const thumb_a = document.createElement("a");
         thumb_a.className =
           "thumb-listitem";
@@ -89,7 +88,7 @@
         );
         thumb_a.setAttribute("target", "_blank");
 
-        //         <img />
+        // <img />
         const img = document.createElement("div");
         img.className = "movie-thumb";
         img.setAttribute(
@@ -103,31 +102,15 @@
 
       section.appendChild(card);
     }
-    return section;
-  }
 
-  /**
-   * Plumbing test
-   */
-  function changeInput(domElement, input) {
-    domElement.textContent = input ? `Hello, ${input}!` : "...";
+    return section;
   }
 
   /**
    * window loaded !
    */
   window.onload = (event) => {
-    // const domElement = document.getElementById("output");
-    // const input = document.getElementById("input");
     const section = document.getElementById("main-section");
-
-    // input.addEventListener(
-    //   "input",
-    //   function () {
-    //     changeInput(domElement, input.value);
-    //   },
-    //   false
-    // );
 
     //-------------------------------------------- initial json plumbing ---
     let request_url =
@@ -142,9 +125,6 @@
 
     request.onload = function () {
       const movies = request.response;
-      // const movie_count = movies.length;
-      // changeInput(domElement, movies[0].Title);
-
       section.appendChild(buildCards(movies));
     };
   };
