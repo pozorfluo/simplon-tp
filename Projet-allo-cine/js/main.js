@@ -9,48 +9,98 @@
     for (let i = 0; i < movie_count; i++) {
       console.log(movies[i].Title);
 
-      //     <div class="card mx-auto">
+      // <div class="card mx-auto">
       const card = document.createElement("div");
-      card.className = "card mx-auto";
-      card.setAttribute("style", "height: 400px;");
+      card.className = "card mx-auto my-3 movie-card";
+      //   card.setAttribute("style", "height: 400px; max-width: 60%");
 
-      //     <div class="row">
+      // <div class="row">
       const row = document.createElement("div");
       row.className = "row";
+      card.appendChild(row);
 
-      //       <div class="col-sm">
+      // <div class="col-?">
       const col_img = document.createElement("div");
-      col_img.className = "col-sm";
+      col_img.className = "col-12 col-sm-4";
+      row.appendChild(col_img);
 
-      //         <img />
-      const img = document.createElement("div");
-      img.className = "center-cropped";
-      img.setAttribute(
-        "style",
-        `background-image: url('${movies[i].Images[0]}');`
+      // movie poster
+      const poster_link = document.createElement("a");
+      poster_link.setAttribute(
+        "href",
+        `https://www.imdb.com/find?q=${movies[i].Title}`
       );
+      poster_link.setAttribute("target", "_blank");
 
+      const poster = document.createElement("img");
+      poster.className = "movie-poster";
+      poster.setAttribute("src", movies[i].Poster);
+      poster.setAttribute("alt", movies[i].Title);
+      poster_link.appendChild(poster);
+      col_img.appendChild(poster_link);
 
-      //       </div>
-      //       <div class="col-sm">
-      //         <div class="card-body">
-      //           <h5 class="card-title">movie.Title</h5>
-      //           <p class="card-text">
-      //             movie.Plot
-      //           </p>
-      //           <div class="list-group">
-      //             <a href="#" class="list-group-item list-group-item-action">
-      //               Metascore : movie.Metascore
-      //             </a>
-      //             <a href="#" class="list-group-item list-group-item-action">
-      //               imdb.com  : movie.imdbRating
-      //             </a>
-      //           </div>
-      //         </div>
-      //       </div>
-      //     </div>
-      //   </div>
-      card.appendChild(img);
+      // <div class="col-?">
+      const col_desc = document.createElement("div");
+      col_desc.className = "col-12 col-sm-8";
+      row.appendChild(col_desc);
+
+      // <div class="card-body">
+      const card_body = document.createElement("div");
+      card_body.className = "card-body";
+      col_desc.appendChild(card_body);
+
+      // movie title
+      // <h5 class="card-title">movie.Title</h5>
+      const movie_title = document.createElement("h5");
+      movie_title.className = "card-title text-center movie-title";
+      movie_title.textContent = movies[i].Title;
+      card_body.appendChild(movie_title);
+
+      // movie plot
+      // <p class="card-text">
+      // movie.Plot
+      // </p>
+      const movie_plot = document.createElement("p");
+      movie_plot.className = "card-text movie-plot";
+      movie_plot.textContent = movies[i].Plot;
+      card_body.appendChild(movie_plot);
+
+      // movie rating
+      const movie_rating = document.createElement("span");
+      movie_rating.className = "card-text ml-5 movie-rating";
+      movie_rating.textContent = movies[i].imdbRating;
+      card_body.appendChild(movie_rating);
+
+      // movie thumbnails
+      // <div class="list-group">
+      const thumb_list = document.createElement("div");
+      thumb_list.className = "thumb-list text-center";
+
+      const img_count = movies[i].Images.length;
+
+      for (let j = 0; j < img_count; j++) {
+        //<a href="#" class="list-group-item list-group-item-action">
+        const thumb_a = document.createElement("a");
+        thumb_a.className =
+          "thumb-listitem";
+          thumb_a.setAttribute(
+          "href",
+          movies[i].Images[j]
+        );
+        thumb_a.setAttribute("target", "_blank");
+
+        //         <img />
+        const img = document.createElement("div");
+        img.className = "movie-thumb";
+        img.setAttribute(
+          "style",
+          `background-image: url('${movies[i].Images[j]}');`
+        );
+        thumb_a.appendChild(img);
+        thumb_list.appendChild(thumb_a);
+      }
+      col_desc.appendChild(thumb_list);
+
       section.appendChild(card);
     }
     return section;
