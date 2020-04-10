@@ -1,0 +1,11 @@
+/* .card img {
+    max-height: 200px;
+    object-fit: contain;
+} */
+.center-cropped {
+    width: 512px;
+    height: 100%;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
