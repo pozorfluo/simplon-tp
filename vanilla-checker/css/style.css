@@ -17,7 +17,7 @@
     calc(var(--square-container)/ var(--col-count))
   );
   --square-radius: calc(var(--square-h) / 32);
-  --square-hover-radius: calc(var(--square-h) );
+  --square-hover-radius: calc(var(--square-h) / 4);
 }
 
 * {
@@ -109,6 +109,8 @@ body {
 .square:hover {
   border-radius: var(--square-hover-radius);
   z-index: 3;
+  /* box-shadow: 5px 5px 22px -10px rgb(148, 90, 148); */
+  box-shadow: 2px 3px 11px -5px rgb(148, 90, 148);
   position: relative;
 }
 
