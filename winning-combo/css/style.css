@@ -23,6 +23,10 @@ body {
     visibility: hidden;
 }
 
+.toggle-color {
+    color: tomato;
+}
+
 .togglable-case > span {
     display: inline-block;
     margin-top: 75px;
