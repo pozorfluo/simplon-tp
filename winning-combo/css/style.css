@@ -14,8 +14,11 @@ body {
   margin: auto;
   font-weight: bold;
   font-size: 2rem;
+  border-radius: 5px;
   background-color: #fcfcfc;
   color: #efcbff;
+  box-shadow: inset -1px 0px 22px -10px rgba(255,178,255,1);
+
   /* display: none; */
 }
 
@@ -24,7 +27,12 @@ body {
 }
 
 .toggle-color {
-    color: tomato;
+    background-color: #eefbfb;
+    /* color: rgba(163,169,255,1); */
+    color: #89f5cf;
+    border-color: #f9fbfb;
+    font-size: 2.25rem;
+    box-shadow: inset -1px 0px 10px -4px rgba(255,178,255,1);
 }
 
 .togglable-case > span {

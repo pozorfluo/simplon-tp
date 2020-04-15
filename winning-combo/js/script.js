@@ -13,6 +13,8 @@
   //       }
   //       return predicate;
   //   }
+
+  // used as a ghetto popcount with combo
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
   //----------------------------------------------------------------- main ---
@@ -105,6 +107,7 @@
       },
       false
     );
+    //------------------------------------------------ combo key release
     document.addEventListener(
       "keyup",
       (event) => {
