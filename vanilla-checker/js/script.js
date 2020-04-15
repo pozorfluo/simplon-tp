@@ -77,6 +77,7 @@
           //   squareClick(event, colorCycler.next().value);
           event.currentTarget.style.boxShadow =
             "5px 5px 5px rgba(0, 0, 0, 0.5)";
+            document.querySelector("body").style.backgroundColor = event.currentTarget.style.backgroundColor;
         },
         false
       );

@@ -16,6 +16,8 @@
     calc(var(--square-container) / var(--row-count)),
     calc(var(--square-container)/ var(--col-count))
   );
+  --square-radius: calc(var(--square-h) / 32);
+  --square-hover-radius: calc(var(--square-h) );
 }
 
 * {
@@ -25,7 +27,6 @@
 html,
 body {
   height: 100%;
-
   overflow: hidden;
   font-variant: small-caps;
   font-weight: bold;
@@ -91,8 +92,7 @@ body {
   width: var(--square-h);
   height: var(--square-h);
   background-color: var(--square-color);
-  /*margin: auto 10px 1em 1em;*/
-  border-radius: 20px;
+  border-radius: var(--square-radius);
   opacity: 1;
   z-index: -3;
   /*transition: transform 100ms linear,
@@ -107,7 +107,7 @@ body {
 }
 
 .square:hover {
-  border-radius: 10px;
+  border-radius: var(--square-hover-radius);
   z-index: 3;
   position: relative;
 }
