@@ -64,9 +64,6 @@
         if (event.defaultPrevented || event.repeat) {
           return; // Do nothing if the event was already processed
         }
-        //   if (!e.repeat) {
-        //     console.log("not a repeat hit")
-        // }
 
         const keyName = event.key;
         console.log(`${keyName} was pressed`);
@@ -114,9 +111,6 @@
         if (event.defaultPrevented || event.repeat) {
           return; // Do nothing if the event was already processed
         }
-        //   if (!e.repeat) {
-        //     console.log("not a repeat hit")
-        // }
 
         const keyName = event.key;
         console.log(`${keyName} was released`);

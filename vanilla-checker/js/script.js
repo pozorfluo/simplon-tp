@@ -5,7 +5,8 @@
     offset = Math.max(Math.min(16, offset), 0);
     span = Math.max(Math.min(16 - offset, span), 0);
     return "#000000".replace(/0/g, function () {
-      return (~~(Math.random() * span) + offset).toString(16);
+      //   return (~~(Math.random() * span) + offset).toString(16);
+      return (Math.floor(Math.random() * span) + offset).toString(16);
     });
   }
 
@@ -26,7 +27,7 @@
     // }
 
     for (let i = 0; ; i++) {
-      yield color_list[i >= length ? i = 0 : i];
+      yield color_list[i >= length ? (i = 0) : i];
     }
   }
 
@@ -82,8 +83,8 @@
         function (event) {
           //   squareClick(event, colorCycler.next().value);
           const color = event.currentTarget.style.backgroundColor;
-        //   event.currentTarget.style.boxShadow =
-        //     `2px 3px 11px -5px ${color}`;
+          //   event.currentTarget.style.boxShadow =
+          //     `2px 3px 11px -5px ${color}`;
           square_container.style.backgroundColor = color;
         },
         false
@@ -91,7 +92,7 @@
       squares[i].addEventListener(
         "mouseleave",
         function (event) {
-        //   event.currentTarget.style.boxShadow = "0px 0px 0px rgba(0, 0, 0, 0)";
+          //   event.currentTarget.style.boxShadow = "0px 0px 0px rgba(0, 0, 0, 0)";
           squareClick(event, colorCycler.next().value);
         },
         false
