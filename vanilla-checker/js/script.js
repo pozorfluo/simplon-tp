@@ -15,7 +15,7 @@
   function* cycleColor(length) {
     const color_list = [];
     for (let i = 0; i < length; i++) {
-      color_list.push(getRandomColorHex(16, 6));
+      color_list.push(getRandomColorHex(16, 12));
       // console.log(color_list[i]);
     }
 
@@ -50,9 +50,9 @@
 
     // static node array
     const squares = [...document.querySelectorAll(".square")];
-
+    const square_container = document.querySelector(".square-container");
     const colorCycler = cycleColor(9);
-
+    square_container.style.backgroundColor = colorCycler.next().value;
     for (var i = 0, length = squares.length; i < length; i++) {
       console.log(squares[i].nodeName);
       console.log(i);
@@ -77,7 +77,8 @@
           //   squareClick(event, colorCycler.next().value);
           event.currentTarget.style.boxShadow =
             "5px 5px 5px rgba(0, 0, 0, 0.5)";
-            document.querySelector("body").style.backgroundColor = event.currentTarget.style.backgroundColor;
+          square_container.style.backgroundColor =
+            event.currentTarget.style.backgroundColor;
         },
         false
       );
