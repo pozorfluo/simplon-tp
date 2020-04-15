@@ -1,0 +1,155 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+:root {
+  --color-accent: #c446cd;
+  --color-alt: #e8f044;
+  --color-light: #d9e2ea;
+  --color-mid: #79a4a8;
+  --color-dark: #444444;
+  --color-white: #fcfcfc;
+  --color-black: #222222;
+  --square-color: #dcdcdc;
+  --square-color2: tomato;
+  --row-count: 3;
+  --col-count: 3;
+  --square-container: min(100vh, 100vw);
+  --square-h: min(
+    calc(var(--square-container) / var(--row-count)),
+    calc(var(--square-container)/ var(--col-count))
+  );
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+
+  overflow: hidden;
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 16px;
+  color: #54c7fc;
+}
+
+body {
+  background-color: var(--color-black);
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: 12;
+  overflow: hidden;
+  opacity: 0.8;
+  transition: all 0.3s opacity 0.9s;
+  transition-timing-function: cubic-bezier(0.74, -0.73, 0.2, 1.67);
+}
+
+.tran-bouncyOS {
+  transition: 0.3s;
+  transition-timing-function: cubic-bezier(0.74, -0.73, 0.2, 1.67);
+}
+
+.tran-bouncyOS:hover {
+  transition: 0.3s;
+  transition-timing-function: cubic-bezier(0.74, -0.73, 0.2, 1.67);
+  /*transform: skew(2deg,2deg);*/
+  transform: scale3d(1.1, 1.05, 1.05);
+}
+
+.tran-bouncyOS:hover span {
+  color: white;
+  opacity: 1;
+  text-shadow: white 0 -1px 10px, blueviolet 0 1px 2px,
+    darkgoldenrod 1px 0px 1px;
+}
+
+.square-container {
+  perspective: 1000px;
+  z-index: 3;
+  height: var(--square-container);
+  width: var(--square-container);
+}
+.txt-box {
+  padding-top: calc(25vh / var(--row-count));
+  /*height: 100%;*/
+  text-align: center;
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: blue 0 -1px 0px, red 0 -1px 5px, green 0 -2px 1px;
+}
+
+.innertxt {
+  text-align: center;
+  opacity: 0.3;
+}
+
+.square {
+  /*padding: 1px 1px 1px 1px;*/
+  position: relative;
+  width: var(--square-h);
+  height: var(--square-h);
+  background-color: var(--square-color);
+  /*margin: auto 10px 1em 1em;*/
+  border-radius: 20px;
+  opacity: 1;
+  z-index: -3;
+  /*transition: transform 100ms linear,
+                box-shadow 100ms linear;*/
+
+  transition: all 0.2s ease-in;
+
+  transform-style: preserve-3d;
+  transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+}
+
+.square:hover {
+  border-radius: 10px;
+  z-index: 3;
+  position: relative;
+}
+
+.col-1 {
+  width: 8.33%;
+}
+.col-2 {
+  width: 16.66%;
+}
+.col-3 {
+  width: 25%;
+}
+.col-4 {
+  width: 33.33%;
+}
+.col-5 {
+  width: 41.66%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-7 {
+  width: 58.33%;
+}
+.col-8 {
+  width: 66.66%;
+}
+.col-9 {
+  width: 75%;
+}
+.col-10 {
+  width: 83.33%;
+}
+.col-11 {
+  width: 91.66%;
+}
+.col-12 {
+  width: 100%;
+}
+
+[class*="col-"] {
+  float: left;
+  border: 0;
+}

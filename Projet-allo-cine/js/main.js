@@ -110,6 +110,7 @@
    * window loaded !
    */
   window.onload = (event) => {
+    // const statArrFromSpread =  [...document.querySelectorAll('a')];
     const section = document.getElementById("main-section");
 
     //-------------------------------------------- initial json plumbing ---
@@ -126,6 +127,13 @@
     request.onload = function () {
       const movies = request.response;
       section.appendChild(buildCards(movies));
+      /**
+       * BAD JUJU 
+       *    section.innerHTML += movies[0].Title;
+       * 
+       * try it yourself :
+       *    "Title": "<img src='x' onerror='alert(1)'>",
+       */ 
     };
   };
 })();
