@@ -36,8 +36,10 @@
      */
     // this.style.backgroundColor = getRandomColorHex();
     event.currentTarget.style.backgroundColor = color;
+    let child_span = event.currentTarget.querySelector("span");
+    // console.log(child_span);
+    child_span.innerText = color;
   }
-
 
   //------------------------------------------------------------------- main ---
   /**
@@ -54,7 +56,7 @@
     for (var i = 0, length = squares.length; i < length; i++) {
       console.log(squares[i].nodeName);
       console.log(i);
-      squares[i].style.backgroundColor =colorCycler.next().value;
+      squares[i].style.backgroundColor = colorCycler.next().value;
       //   for(let i = 0; i<25; i++) {
       //       console.log(colorCycler.next().value);
       //   }
@@ -70,10 +72,11 @@
 
       //------------------------------------------------------------ hover
       squares[i].addEventListener(
-        "mousemove",
+        "mouseover",
         function (event) {
-        //   squareClick(event, colorCycler.next().value);
-          event.currentTarget.style.boxShadow = "5px 5px 5px rgba(0, 0, 0, 0.5)";
+          //   squareClick(event, colorCycler.next().value);
+          event.currentTarget.style.boxShadow =
+            "5px 5px 5px rgba(0, 0, 0, 0.5)";
         },
         false
       );
@@ -85,8 +88,6 @@
         },
         false
       );
-
-
     }
   });
 })();

@@ -12,7 +12,3 @@
 - [TP2 - onemillionlines](https://pozorfluo.github.io/simplon-tp/tp2/bootstrap-onemillionlines/Squelette/)
 - [front-end-prairie](https://pozorfluo.github.io/simplon-tp/front-end-prairie/ex2/www/html/article01.html)
 - [vanilla-checker](https://pozorfluo.github.io/simplon-tp/vanilla-checker/)
-
-
-
-git commit -m "Add exercise vanilla-checker"
