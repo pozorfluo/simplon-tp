@@ -19,8 +19,14 @@
       // console.log(color_list[i]);
     }
 
+    // fails when i > Number.MAX_SAFE_INTEGER
+    //
+    // for (let i = 0; ; i++) {
+    //   yield color_list[i % length];
+    // }
+
     for (let i = 0; ; i++) {
-      yield color_list[i % length];
+      yield color_list[i >= length ? i = 0 : i];
     }
   }
 

@@ -25,19 +25,22 @@
         console.log(`does toggler click bubble ? ${event.bubbles}`);
         first_togglable.classList.toggle("hidden");
         document.body.classList.add("bg-gray");
+        // event.currentTarget.offsetParent.classList.add("bg-gray");
+        // event.currentTarget.parentNode.classList.add("bg-gray");
         event.stopPropagation();
       },
       false
     );
 
     //------------------------------------------------------- body click
+    // toggler.parentNode.parentNode.addEventListener(
     document.body.addEventListener(
       "click",
       function (event) {
         // testAlert();
         console.log(`does body click bubble ? ${event.bubbles}`);
         first_togglable.classList.add("hidden");
-        document.body.classList.remove("bg-gray");
+        event.currentTarget.classList.remove("bg-gray");
       },
       false
     );
