@@ -15,7 +15,7 @@
   function* cycleColor(length) {
     const color_list = [];
     for (let i = 0; i < length; i++) {
-      color_list.push(getRandomColorHex());
+      color_list.push(getRandomColorHex(16, 6));
       // console.log(color_list[i]);
     }
 
@@ -51,7 +51,7 @@
     // static node array
     const squares = [...document.querySelectorAll(".square")];
 
-    const colorCycler = cycleColor(5);
+    const colorCycler = cycleColor(9);
 
     for (var i = 0, length = squares.length; i < length; i++) {
       console.log(squares[i].nodeName);
