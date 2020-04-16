@@ -15,3 +15,4 @@
 - [hidden-quasimodal](https://pozorfluo.github.io/simplon-tp/hidden-quasimodal/)
 - [winning-combo](https://pozorfluo.github.io/simplon-tp/winning-combo/)
 - [hover-size](https://pozorfluo.github.io/simplon-tp/hover-size/)
+- [vanilla-carousel](https://pozorfluo.github.io/simplon-tp/vanilla-carousel/)
