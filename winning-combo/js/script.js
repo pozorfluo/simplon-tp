@@ -86,7 +86,7 @@
             console.log(`${keyName} combo was pressed`);
             break;
           default:
-            break;
+            return;
         }
 
         switch (combo.reduce(reducer)) {
@@ -134,7 +134,7 @@
             console.log(`${keyName} combo was released`);
             break;
           default:
-            break;
+            return;
         }
 
         switch (combo.reduce(reducer)) {
