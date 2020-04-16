@@ -1,5 +1,24 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+:root {
+  --polka-size: 15px;
+  --square-size: 200px;
+  --square-radius: calc(var(--square-size) / 32);
+  --square-hover-radius: calc(var(--square-size) / 24);
+  --color-white: #f0fbfb;
+  --color-altwhite: #eefbfb;
+  --color-offwhite: #fcfcfc;
+  --color-light: #eaf7f7;
+  --color-black: #9e86b1;
+  --color-alt: #f4ebfb;
+  --color-text: #efcbff;
+  --color-highlight: #89f5cf;
+  --color-shadow: rgb(148, 90, 148, 0.5);
+  --color-shadow-alt: rgba(255, 178, 255, 1);
+}
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -8,11 +27,75 @@ body {
   width: 100vw;
   background-image: radial-gradient(
     circle at center center,
-    #f2882f 88%,
-    #20749a 89%
+    var(--color-altwhite) 88%,
+    var(--color-alt) 89%
   );
-  background-size: 45px 45px;
+  background-size: var(--polka-size) var(--polka-size);
+  /* background-position-x: 5rem; */
+  font-family: "Roboto", sans-serif;
 }
+
+.square-container {
+  width: 75vw;
+  margin: auto;
+  margin-top: 4rem;
+  display: flex;
+}
+
+.square {
+  /* position: relative; */
+  height: var(--square-size);
+  width: var(--square-size);
+  background-color: var(--color-altwhite);
+  text-align: center;
+  border-radius: var(--square-radius);
+  border: solid 2px;
+  border-color: var(--color-alt);
+  box-shadow: 0px 3px 7px -5px var(--color-shadow-alt);
+  filter: blur(1px);
+}
+.square:hover {
+  border-radius: var(--square-hover-radius);
+  background-color: var(--color-white);
+  z-index: 3;
+  border: outset;
+  border-color: var(--color-highlight);
+  box-shadow: 0px 3px 11px -5px var(--color-shadow-alt),
+    3px 5px 22px -10px var(--color-shadow);
+  filter: blur(0px);
+  /* transform: scale3d(2, 1, 1); */
+}
+
+.square:active {
+  /* background-color: var(--color-alt); */
+  width: calc(var(--square-size) * 2);
+  border: inset;
+  /* border: solid 2px; */
+  border-color: var(--color-highlight);
+  /* border-color: white; */
+  background-color: var(--color-light);
+  box-shadow: inset -1px 0px 10px -4px var(--color-shadow-alt);
+  mix-blend-mode: darken;
+  transform: scale3d(0.99, 0.99, 0.99);
+}
+
+p {
+  line-height: var(--square-size);
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--color-text);
+  text-shadow: white 0 -1px 10px, blueviolet 0 1px 2px,
+    darkgoldenrod 1px 0px 1px;
+}
+
+.toggle-color {
+  color: var(--color-highlight);
+  /* box-shadow: inset -1px 0px 10px -4px var(--color-shadow-alt); */
+}
+
+/* .toggle-p {
+    transform: scale3d(0.5, 1, 1);
+} */
 /* .pink-polka-dots {
   width: 50vw;
   height: 50vh;

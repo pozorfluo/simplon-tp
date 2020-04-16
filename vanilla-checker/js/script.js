@@ -60,6 +60,7 @@
     const square_container = document.querySelector(".square-container");
     const colorCycler = cycleColor(9);
     square_container.style.backgroundColor = colorCycler.next().value;
+    
     for (var i = 0, length = squares.length; i < length; i++) {
       console.log(squares[i].nodeName);
       console.log(i);
