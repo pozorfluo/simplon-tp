@@ -73,26 +73,25 @@
           case "y":
           case "Y":
             combo[0] = 1;
-            console.log(`${keyName} combo was pressed`);
             break;
           case "a":
           case "A":
             combo[1] = 1;
-            console.log(`${keyName} combo was pressed`);
             break;
           case "s":
           case "S":
             combo[2] = 1;
-            console.log(`${keyName} combo was pressed`);
             break;
           default:
             return;
         }
 
+        console.log(`${keyName} combo was pressed`);
+
         switch (combo.reduce(reducer)) {
           case 3:
             togglable.classList.add("toggle-color");
-            // bg.classList.add("toggle-color-bg");
+          // bg.classList.add("toggle-color-bg");
           case 2:
             togglable.classList.remove("hidden");
             //fallthrough
@@ -121,21 +120,19 @@
           case "y":
           case "Y":
             combo[0] = 0;
-            console.log(`${keyName} combo was released`);
             break;
           case "a":
           case "A":
             combo[1] = 0;
-            console.log(`${keyName} combo was released`);
             break;
           case "s":
           case "S":
             combo[2] = 0;
-            console.log(`${keyName} combo was released`);
             break;
           default:
             return;
         }
+        console.log(`${keyName} combo was released`);
 
         switch (combo.reduce(reducer)) {
           case 1:
@@ -144,7 +141,7 @@
             break;
           case 2:
             togglable.classList.remove("toggle-color");
-            // bg.classList.remove("toggle-color-bg");
+          // bg.classList.remove("toggle-color-bg");
           //fallthrough
           default:
             break;
