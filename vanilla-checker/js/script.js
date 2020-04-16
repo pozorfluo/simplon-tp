@@ -14,20 +14,20 @@
    * Generate and then cycle through own random color array of given length
    */
   function* cycleColor(length) {
-    const color_list = [];
+    const colors = [];
     for (let i = 0; i < length; i++) {
-      color_list.push(getRandomColorHex(16, 12));
-      // console.log(color_list[i]);
+      colors.push(getRandomColorHex(16, 12));
+      // console.log(colors[i]);
     }
 
     // fails when i > Number.MAX_SAFE_INTEGER
     //
     // for (let i = 0; ; i++) {
-    //   yield color_list[i % length];
+    //   yield colors[i % length];
     // }
 
     for (let i = 0; ; i++) {
-      yield color_list[i >= length ? (i = 0) : i];
+      yield colors[i >= length ? (i = 0) : i];
     }
   }
 
@@ -58,22 +58,19 @@
     // static node array
     const squares = [...document.querySelectorAll(".square")];
     const square_container = document.querySelector(".square-container");
-    const colorCycler = cycleColor(9);
-    square_container.style.backgroundColor = colorCycler.next().value;
+    const color_cycler = cycleColor(9);
+    square_container.style.backgroundColor = color_cycler.next().value;
     
-    for (var i = 0, length = squares.length; i < length; i++) {
+    for (let i = 0, length = squares.length; i < length; i++) {
       console.log(squares[i].nodeName);
       console.log(i);
-      squares[i].style.backgroundColor = colorCycler.next().value;
-      //   for(let i = 0; i<25; i++) {
-      //       console.log(colorCycler.next().value);
-      //   }
+      squares[i].style.backgroundColor = color_cycler.next().value;
 
       //------------------------------------------------------------ click
       squares[i].addEventListener(
         "click",
         function (event) {
-          squareClick(event, colorCycler.next().value);
+          squareClick(event, color_cycler.next().value);
         },
         false
       );
@@ -82,10 +79,7 @@
       squares[i].addEventListener(
         "mouseover",
         function (event) {
-          //   squareClick(event, colorCycler.next().value);
           const color = event.currentTarget.style.backgroundColor;
-          //   event.currentTarget.style.boxShadow =
-          //     `2px 3px 11px -5px ${color}`;
           square_container.style.backgroundColor = color;
         },
         false
@@ -93,8 +87,7 @@
       squares[i].addEventListener(
         "mouseleave",
         function (event) {
-          //   event.currentTarget.style.boxShadow = "0px 0px 0px rgba(0, 0, 0, 0)";
-          squareClick(event, colorCycler.next().value);
+          squareClick(event, color_cycler.next().value);
         },
         false
       );

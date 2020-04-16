@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+:root {
+  --carousel-size: 600px;
+  --carousel-radius: 4px;
+  --square-radius: calc(var(--square-size) / 32);
+  --color-white: #f0fbfb;
+  --color-altwhite: #eefbfb;
+  --color-offwhite: #fcfcfc;
+  --color-black: #c48ef0;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  font-family: "Roboto", sans-serif;
+}
+
+header {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: 0.75rem;
+    color: var(--color-black);
+}
+
+.carousel {
+  height: var(--carousel-size);
+  width: var(--carousel-size);
+  border-radius: var(--carousel-radius);
+  margin: auto;
+  background-color: var(--color-white);
+  display: flex;
+  filter: sepia(50%) brightness(75%) hue-rotate(15deg) saturate(400%)
+    opacity(75%) drop-shadow(2px 4px 4px #e0a2f7);
+
+  /* filter: drop-shadow(4px 6px 4px #e0a2f7); */
+}
+.carousel:before {
+  position: absolute;
+  content: "";
+  border-radius: var(--carousel-radius);
+  height: var(--carousel-size);
+  width: var(--carousel-size);
+  /* background-image: url(https://loremflickr.com/600/600/dog/?random=1); */
+  /* filter: sepia(69%) blur(1px) brightness(75%) hue-rotate(182deg) saturate(982%)
+    opacity(75%); */
+}
+.previous,
+.next {
+  height: var(--carousel-size);
+  width: calc(var(--carousel-size) / 2);
+  line-height: var(--carousel-size);
+  margin: 2rem;
+  font-size: 4rem;
+  font-weight: bold;
+  color: var(--color-white);
+  mix-blend-mode: difference;
+  opacity: 0;
+}
+
+.previous {
+  text-align: left;
+}
+.next {
+  text-align: right;
+}
+
+.previous:before {
+  content: "<";
+}
+.next:before {
+  content: ">";
+}
+
+.toggle-opacity {
+  opacity: 1;
+}
+
+/* .previous:hover,
+.next:hover {
+  color: var(--color-black);
+  opacity: 1;
+} */
