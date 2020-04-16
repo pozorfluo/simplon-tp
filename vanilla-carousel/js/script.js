@@ -2,9 +2,27 @@
   "use strict";
 
   function getRandomLock() {
-      return (Math.floor(Math.random() * 100000)).toString();
+    return Math.floor(Math.random() * 100000).toString();
   }
 
+  function preloadImages(images) {
+    const preloaded_images = [];
+
+    for (let i = 0; i < images.length; i++) {
+      console.log(`preloading img : ${images[i]}`);
+      const image = new Image();
+      image.onload = function () {
+        // toss image when done loading
+        let index = preloaded_images.indexOf(this);
+        if (index !== -1) {
+          preloaded_images.splice(index, 1);
+        }
+        console.log(`done preloading img : ${images[i]}`);
+      };
+      preloaded_images.push(image);
+      image.src = images[i];
+    }
+  }
   /**
    * Generate and then cycle forward or backward through own random placeholder
    * image array of given length, image width, image height
@@ -17,10 +35,24 @@
    */
   function* cyclePlaceHolder(length, width, height) {
     const placeholders = [];
+    // generate random list of loremflickr.com url
     for (let i = 0; i < length; i++) {
       const url = `https://loremflickr.com/${width}/${height}/dog/?lock=${getRandomLock()}`;
       placeholders.push(url);
     }
+
+    // preload images
+    preloadImages(placeholders);
+    // const fragment = document.createDocumentFragment();
+    // for (let i = 0; i < length; i++) {
+    //   const link = document.createElement("link");
+    //   link.setAttribute("rel", "preload");
+    //   link.setAttribute("href", placeholders[i]);
+    //   link.setAttribute("as", "image");
+    //   fragment.appendChild(link);
+    // }
+    // document.body.appendChild(fragment);
+
     for (let i = 0; ; ) {
       if (i >= length) {
         i = 0;
@@ -90,22 +122,22 @@
         "click",
         function (event) {
           carousel.style.backgroundImage = `url(${
-            placeholder_cycler.next('previous').value
+            placeholder_cycler.next("previous").value
           })`;
-        //   console.log(carousel.style.backgroundImage);
+          //   console.log(carousel.style.backgroundImage);
         },
         false
       );
     }
     //------------------------------------------- next_buttons click
     for (let i = 0, length = next_buttons.length; i < length; i++) {
-        next_buttons[i].addEventListener(
+      next_buttons[i].addEventListener(
         "click",
         function (event) {
           carousel.style.backgroundImage = `url(${
             placeholder_cycler.next().value
           })`;
-        //   console.log(carousel.style.backgroundImage);
+          //   console.log(carousel.style.backgroundImage);
         },
         false
       );

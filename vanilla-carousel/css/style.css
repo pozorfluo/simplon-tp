@@ -22,10 +22,10 @@ body {
 }
 
 header {
-    text-align: center;
-    margin: 1rem 0;
-    font-size: 0.75rem;
-    color: var(--color-black);
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 0.75rem;
+  color: var(--color-black);
 }
 
 .carousel {
@@ -40,16 +40,17 @@ header {
 
   /* filter: drop-shadow(4px 6px 4px #e0a2f7); */
 }
-.carousel:before {
+/* .carousel:before {
   position: absolute;
   content: "";
   border-radius: var(--carousel-radius);
   height: var(--carousel-size);
   width: var(--carousel-size);
-  /* background-image: url(https://loremflickr.com/600/600/dog/?random=1); */
-  /* filter: sepia(69%) blur(1px) brightness(75%) hue-rotate(182deg) saturate(982%)
-    opacity(75%); */
-}
+  background-image: url(https://loremflickr.com/600/600/dog/?random=1); 
+   filter: sepia(69%) blur(1px) brightness(75%) hue-rotate(182deg) saturate(982%)
+    opacity(75%);
+  visibility: hidden;
+} */
 .previous,
 .next {
   height: var(--carousel-size);
