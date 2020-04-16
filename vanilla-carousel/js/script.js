@@ -68,18 +68,6 @@
     alert(msg);
   }
 
-  function squareClick(event, color) {
-    // testAlert()
-    /**
-     * todo
-     *   - [ ] Investigate this vs event.target vs event.currentTarget further
-     */
-    // this.style.backgroundColor = getRandomColorHex();
-    event.currentTarget.style.backgroundColor = color;
-    let child_span = event.currentTarget.querySelector("span");
-    // console.log(child_span);
-    child_span.innerText = color;
-  }
 
   //------------------------------------------------------------------- main ---
   /**
