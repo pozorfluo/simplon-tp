@@ -26,7 +26,8 @@
 
     // static node
     const toggler = document.querySelector("#toggler");
-    const first_togglable = document.querySelector(".togglable-case");
+    const togglable = document.querySelector(".togglable-case");
+    // const bg = document.querySelector(".money-bg");
 
     // combo flag-ish
     let combo = [0, 0, 0];
@@ -90,9 +91,10 @@
 
         switch (combo.reduce(reducer)) {
           case 3:
-            first_togglable.classList.add("toggle-color");
+            togglable.classList.add("toggle-color");
+            // bg.classList.add("toggle-color-bg");
           case 2:
-            first_togglable.classList.remove("hidden");
+            togglable.classList.remove("hidden");
             //fallthrough
             break;
           default:
@@ -138,10 +140,11 @@
         switch (combo.reduce(reducer)) {
           case 1:
           case 0:
-            first_togglable.classList.add("hidden");
+            togglable.classList.add("hidden");
             break;
           case 2:
-            first_togglable.classList.remove("toggle-color");
+            togglable.classList.remove("toggle-color");
+            // bg.classList.remove("toggle-color-bg");
           //fallthrough
           default:
             break;
