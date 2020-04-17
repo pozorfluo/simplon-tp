@@ -1,0 +1,76 @@
+body {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 0;
+}
+.anim-wrapper {
+  /* transition: filter 200ms ease-in-out; */
+  animation: 0.5s ease-in-out infinite alternate forwards scaleup;
+  /* will-change: filter; */
+  /* transform: translate3d(0, 0, 0); */
+}
+
+/* .ancestor:hover .anim-wrapper {
+  will-change: filter;
+} */
+/* .anim-wrapper:hover { */
+  /* filter: blur(8px); */
+  /* transform: translate3d(0, 0, 0); */
+/* } */
+.anim-inner {
+  position: relative;
+  overflow: visible;
+  width: 300px;
+  height: 200px;
+  animation: 1s ease-in-out infinite alternate forwards rotate20;
+}
+div img {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.sharp {
+    transition: opacity 200ms ease-in-out;
+    will-change: opacity;
+    opacity: 1;
+}
+
+.sharp:hover{
+    /* will-change: opacity; */
+    opacity: 0;
+}
+.blurry {
+    filter: blur(8px);
+    transition: opacity 200ms ease-in-out;
+    will-change: opacity;
+    opacity: 0;
+}
+
+.anim-inner:hover > .blurry{
+    will-change: opacity;
+    opacity: 1;
+}
+.anim-inner:hover > .sharp{
+    will-change: opacity;
+    opacity: 0;
+}
+
+@keyframes scaleup {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+  to {
+    transform: scale3d(2, 2, 1);
+  }
+}
+
+@keyframes rotate20 {
+  from {
+    transform: rotate3d(0, 0, 0, 0);
+  }
+  to {
+    transform: rotate3d(0, 0, 1, 20deg);
+  }
+}
