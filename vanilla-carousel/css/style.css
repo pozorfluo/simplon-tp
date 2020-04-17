@@ -2,7 +2,6 @@
 :root {
   --carousel-size: 600px;
   --carousel-radius: 4px;
-  --square-radius: calc(var(--square-size) / 32);
   --color-white: #f0fbfb;
   --color-altwhite: #eefbfb;
   --color-offwhite: #fcfcfc;
