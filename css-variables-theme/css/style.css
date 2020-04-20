@@ -16,16 +16,17 @@
     var(--darker-lum)
   );
 
+  --comp-s : 180;
   --lum-delta: calc(100% - var(--main-color-l));
   --darker-lum-delta: calc(100% - var(--darker-lum));
 
   --qnd-comp-color: hsl(
-    calc(180 - var(--main-color-h)),
+    calc(var(--main-color-h) - var(--comp-s)),
     var(--main-color-s),
     max(var(--lum-delta), calc(var(--lum-delta) - 20%))
   );
   --qnd-comp-darker-color: hsl(
-    calc(180 - var(--main-color-h)),
+    calc(var(--main-color-h) - var(--comp-s)),
     var(--main-color-s),
     max(var(--darker-lum-delta), calc(var(--darker-lum-delta) - 20%))
   );
@@ -120,21 +121,21 @@ footer {
 }
 .square:nth-of-type(4) {
     --main-color: hsl(
-        calc(180 - var(--main-color-h)),
+        calc(var(--main-color-h) - var(--comp-s)),
         var(--main-color-s),
         max(var(--darker-lum-delta), calc(var(--darker-lum-delta) - 20%))
       );
 }
 .square:nth-of-type(5) {
     --main-color: hsl(
-        calc(180 - var(--main-color-h) + 5),
+        calc(var(--main-color-h) - var(--comp-s) + 5),
         calc(var(--main-color-s) - 10%),
         max(var(--darker-lum-delta) - 5%, calc(var(--darker-lum-delta) - 30%))
       );
 }
 .square:nth-of-type(6) {
     --main-color: hsl(
-        calc(180 - var(--main-color-h) + 10),
+        calc(var(--main-color-h) - var(--comp-s) + 10),
         calc(var(--main-color-s) - 20%),
         max(var(--darker-lum-delta) - 10%, calc(var(--darker-lum-delta) - 40%))
       );
