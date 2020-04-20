@@ -1,77 +1,142 @@
 :root {
-    --main-color-h: 344;
-    --main-color-s: 95%;
-    --main-color-l: 77%;
-    --main-color: hsl(
-      var(--main-color-h),
-      var(--main-color-s),
-      var(--main-color-l)
-    );
-    --darken: 5%;
-   /* --darker-color: hsl(
-      var(--main-color-h),
-      var(--main-color-s),
-      calc(var(--main-color-l) - var(--darken))
-    );*/
-      --darker-color: hsl(
-      var(--main-color-h),
-      var(--main-color-s),
-      calc(var(--main-color-l) - var(--darken))
-    );
-  }
-  /* 
+  --main-color-h: 344;
+  --main-color-s: 95%;
+  --main-color-l: 77%;
+  --main-color: hsl(
+    var(--main-color-h),
+    var(--main-color-s),
+    var(--main-color-l)
+  );
+  --darken: 5%;
+  --darker-lum: calc(var(--main-color-l) - var(--darken));
+
+  --darker-color: hsl(
+    var(--main-color-h),
+    var(--main-color-s),
+    var(--darker-lum)
+  );
+
+  --lum-delta: calc(100% - var(--main-color-l));
+  --darker-lum-delta: calc(100% - var(--darker-lum));
+
+  --qnd-comp-color: hsl(
+    calc(180 - var(--main-color-h)),
+    var(--main-color-s),
+    max(var(--lum-delta), calc(var(--lum-delta) - 20%))
+  );
+  --qnd-comp-darker-color: hsl(
+    calc(180 - var(--main-color-h)),
+    var(--main-color-s),
+    max(var(--darker-lum-delta), calc(var(--darker-lum-delta) - 20%))
+  );
+  --square-size: 100px;
+}
+/* 
   - Définir une variable sur l'élément global correspondant à la couleur primaire (--main-color) du theme
   - Le background du header et footer sont définis par la variable CSS
   - la div subtitle adopte une couleur plus sombre que celle du header
   */
-  
-  * {
-    margin: 0;
-  }
-  body {
-    display: flex;
-    flex-direction: column;
-    font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
-    text-align: center;
-  }
-  html,
-  body {
-    height: 100%;
-  }
-  header {
-    background: var(--main-color);
-  }
-  .subtitle {
-    background: var(--darker-color);
-  }
-  h1 {
-    margin: 0;
-    padding: 1rem;
-    color: white;
-  }
-  .subtitle {
-    padding: 0.5rem 1rem;
-  }
-  main {
-    flex: 1;
-    padding: 1rem;
-  }
-  main > div {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateY(-50%);
-    transform: translateX(-50%);
-  }
-  input {
-    width: 120px;
-    height: 40px;
-  }
-  h3 {
-    margin-top: 1rem;
-  }
-  footer {
-    padding: 1rem;
-    background: var(--main-color);
-  }
-  
+
+* {
+  margin: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
+  text-align: center;
+}
+html,
+body {
+  height: 100%;
+}
+header {
+  background: var(--main-color);
+}
+.subtitle {
+  background: var(--darker-color);
+}
+h1 {
+  margin: 0;
+  padding: 1rem;
+  color: var(--qnd-comp-color);
+}
+.subtitle {
+  padding: 0.5rem 1rem;
+  color: var(--qnd-comp-darker-color);
+}
+main {
+  flex: 1;
+  padding: 1rem;
+  background-color: var(--qnd-comp-color);
+  color: var(--main-color);
+}
+main > div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+}
+input {
+  width: 120px;
+  height: 40px;
+}
+h3 {
+  margin-top: 1rem;
+}
+footer {
+  padding: 1rem;
+  background: var(--main-color);
+  color: var(--qnd-comp-color);
+}
+
+.square-container {
+  padding-top: 1rem;
+  width: calc(var(--square-size) * 7);
+  height: var(--square-size);
+}
+.square {
+  display: inline-block;
+  width: var(--square-size);
+  height: var(--square-size);
+  color: white;
+  background-color: var(--main-color);
+}
+
+.square:nth-of-type(2) {
+  --main-color: hsl(
+    calc(var(--main-color-h) + 2),
+    calc(var(--main-color-s) - 10%),
+    calc(var(--main-color-l) - 10%)
+  );
+}
+.square:nth-of-type(3) {
+  --main-color: hsl(
+    calc(var(--main-color-h) + 5),
+    calc(var(--main-color-s) - 30%),
+    calc(var(--main-color-l) - 20%)
+  );
+}
+.square:nth-of-type(4) {
+    --main-color: hsl(
+        calc(180 - var(--main-color-h)),
+        var(--main-color-s),
+        max(var(--darker-lum-delta), calc(var(--darker-lum-delta) - 20%))
+      );
+}
+.square:nth-of-type(5) {
+    --main-color: hsl(
+        calc(180 - var(--main-color-h) + 5),
+        calc(var(--main-color-s) - 10%),
+        max(var(--darker-lum-delta) - 5%, calc(var(--darker-lum-delta) - 30%))
+      );
+}
+.square:nth-of-type(6) {
+    --main-color: hsl(
+        calc(180 - var(--main-color-h) + 10),
+        calc(var(--main-color-s) - 20%),
+        max(var(--darker-lum-delta) - 10%, calc(var(--darker-lum-delta) - 40%))
+      );
+}
+/* background-color: var(--main-color); */
