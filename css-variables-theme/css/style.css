@@ -16,27 +16,29 @@
     var(--darker-lum)
   );
 
-  --comp-s : 180;
+  --comp-s: 180;
   --lum-delta: calc(100% - var(--main-color-l));
+  --lum-delta-alt: calc(100% - var(--main-color-l) / 2);
   --darker-lum-delta: calc(100% - var(--darker-lum));
+  --darker-lum-delta-alt: calc(100% - var(--darker-lum) / 2);
 
   --qnd-comp-color: hsl(
     calc(var(--main-color-h) - var(--comp-s)),
     var(--main-color-s),
-    max(var(--lum-delta), calc(var(--lum-delta) - 20%))
+    max(var(--lum-delta), var(--lum-delta-alt))
   );
   --qnd-comp-darker-color: hsl(
     calc(var(--main-color-h) - var(--comp-s)),
     var(--main-color-s),
-    max(var(--darker-lum-delta), calc(var(--darker-lum-delta) - 20%))
+    max(var(--darker-lum-delta), var(--darker-lum-delta-alt))
   );
   --square-size: 100px;
 }
 /* 
-  - Définir une variable sur l'élément global correspondant à la couleur primaire (--main-color) du theme
-  - Le background du header et footer sont définis par la variable CSS
-  - la div subtitle adopte une couleur plus sombre que celle du header
-  */
+    - Définir une variable sur l'élément global correspondant à la couleur primaire (--main-color) du theme
+    - Le background du header et footer sont définis par la variable CSS
+    - la div subtitle adopte une couleur plus sombre que celle du header
+    */
 
 * {
   margin: 0;
@@ -120,24 +122,24 @@ footer {
   );
 }
 .square:nth-of-type(4) {
-    --main-color: hsl(
-        calc(var(--main-color-h) - var(--comp-s)),
-        var(--main-color-s),
-        max(var(--darker-lum-delta), calc(var(--darker-lum-delta) - 20%))
-      );
+  --main-color: hsl(
+    calc(var(--main-color-h) - var(--comp-s)),
+    var(--main-color-s),
+    max(var(--darker-lum-delta), calc(var(--darker-lum-delta) - 20%))
+  );
 }
 .square:nth-of-type(5) {
-    --main-color: hsl(
-        calc(var(--main-color-h) - var(--comp-s) + 5),
-        calc(var(--main-color-s) - 10%),
-        max(var(--darker-lum-delta) - 5%, calc(var(--darker-lum-delta) - 30%))
-      );
+  --main-color: hsl(
+    calc(var(--main-color-h) - var(--comp-s) + 5),
+    calc(var(--main-color-s) - 10%),
+    max(var(--darker-lum-delta) - 5%, calc(var(--darker-lum-delta) - 30%))
+  );
 }
 .square:nth-of-type(6) {
-    --main-color: hsl(
-        calc(var(--main-color-h) - var(--comp-s) + 10),
-        calc(var(--main-color-s) - 20%),
-        max(var(--darker-lum-delta) - 10%, calc(var(--darker-lum-delta) - 40%))
-      );
+  --main-color: hsl(
+    calc(var(--main-color-h) - var(--comp-s) + 10),
+    calc(var(--main-color-s) - 20%),
+    max(var(--darker-lum-delta) - 10%, calc(var(--darker-lum-delta) - 40%))
+  );
 }
 /* background-color: var(--main-color); */
