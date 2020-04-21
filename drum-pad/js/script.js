@@ -16,18 +16,18 @@
 
     /* if not running play, else reset audio */
     if (audio.paused) {
-        audio.play();
+      audio.play();
     } else {
-        audio.currentTime = 0;
+      audio.currentTime = 0;
     }
 
     pad.classList.add("playing");
 
-    pad.addEventListener("transitionend", function (event) {
-      // console.log(`pad ${key_code} : transition done`);
-      removeTransition(this);
-    },
-    { once: true });
+    // pad.addEventListener("transitionend", function (event) {
+    //   // console.log(`pad ${key_code} : transition done`);
+    //   removeTransition(this);
+    // },
+    // { once: true });
   }
 
   /**
@@ -71,6 +71,13 @@
       sound.textContent = wav;
       // console.log(sound);
       key.appendChild(sound);
+      key.addEventListener(
+        "transitionend",
+        function (event) {
+          removeTransition(this);
+        },
+        false
+      );
       pads.appendChild(key);
     }
 
