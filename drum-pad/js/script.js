@@ -26,7 +26,8 @@
     pad.addEventListener("transitionend", function (event) {
       // console.log(`pad ${key_code} : transition done`);
       removeTransition(this);
-    });
+    },
+    { once: true });
   }
 
   /**
@@ -112,7 +113,7 @@
       pad_dict[key_char] = [audio_sources[i], pads[i]];
     }
 
-    console.log(pad_dict);
+    // console.log(pad_dict);
     //---------------------------------------------------- event key press
     document.addEventListener(
       "keydown",
