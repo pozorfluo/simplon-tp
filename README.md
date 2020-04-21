@@ -19,3 +19,4 @@
 - [vanilla-poc](https://pozorfluo.github.io/simplon-tp/vanilla-poc/)
 - [presentation - css-variables](https://docs.google.com/presentation/d/1TQSFjftt_01h1Dtba5CesZKHPlRFKosvfrKc48gE-E8/edit?usp=sharing)
 - [css-variables-theme](https://pozorfluo.github.io/simplon-tp/css-variables-theme/)
+- [drum-pad](https://pozorfluo.github.io/simplon-tp/drum-pad/)
