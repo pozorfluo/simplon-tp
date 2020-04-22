@@ -33,9 +33,9 @@
   /**
    * Reset a pad style
    */
-  function removeTransition(pad_node) {
-    pad_node.classList.remove("playing");
-  }
+//   function removeTransition(pad_node) {
+//     pad_node.classList.remove("playing");
+//   }
 
   /**
    * Build a fragment containing all the pads for a given audio sources array
@@ -74,7 +74,8 @@
       key.addEventListener(
         "transitionend",
         function (event) {
-          removeTransition(this);
+        //   removeTransition(this);
+          this.classList.remove("playing");
         },
         false
       );
