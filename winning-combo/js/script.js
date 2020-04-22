@@ -62,7 +62,8 @@
     document.addEventListener(
       "keydown",
       (event) => {
-        if (event.defaultPrevented || event.repeat) {
+        event.preventDefault();
+        if (event.repeat) {
           return; // Do nothing if the event was already processed
         }
 

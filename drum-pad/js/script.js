@@ -125,6 +125,9 @@
     document.addEventListener(
       "keydown",
       function (event) {
+        if (event.repeat) {
+          return; // Do nothing if the event was already processed
+        }
         const keyName = event.key.toUpperCase();
         // console.log(`${keyName} was pressed`);
         if (keyName in pad_dict) {
