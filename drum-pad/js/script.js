@@ -133,6 +133,7 @@
         //console.log(`${keyName} was pressed`);
         if (keyName in pad_dict) {
           playSound(pad_dict, keyName);
+          return
         }
 
         if (keyName === "B") {
