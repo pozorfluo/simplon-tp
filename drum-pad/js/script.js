@@ -33,9 +33,9 @@
   /**
    * Reset a pad style
    */
-//   function removeTransition(pad_node) {
-//     pad_node.classList.remove("playing");
-//   }
+  //   function removeTransition(pad_node) {
+  //     pad_node.classList.remove("playing");
+  //   }
 
   /**
    * Build a fragment containing all the pads for a given audio sources array
@@ -74,7 +74,7 @@
       key.addEventListener(
         "transitionend",
         function (event) {
-        //   removeTransition(this);
+          //   removeTransition(this);
           this.classList.remove("playing");
         },
         false
@@ -130,12 +130,134 @@
           return; // Do nothing if the event was already processed
         }
         const keyName = event.key.toUpperCase();
-        // console.log(`${keyName} was pressed`);
+        //console.log(`${keyName} was pressed`);
         if (keyName in pad_dict) {
           playSound(pad_dict, keyName);
+        }
+
+        if (keyName === "B") {
+          beatBox(beat);
         }
       },
       false
     );
-  });
-})();
+
+    function simulateKey(key_char) {
+      let event = new KeyboardEvent("keydown", {
+        key: key_char,
+      });
+      document.dispatchEvent(event);
+    }
+    
+    function playBeat(key_char, timeout) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          resolve(simulateKey(key_char));
+        }, timeout);
+      });
+    }
+
+    async function beatBox(beat) {
+       for (let i = 0, length = beat.length; i < length; i++) {
+        const [note, delay] = beat[i];
+        const result = await playBeat(note, delay);
+      }
+    }
+    const quarter_note = 1600;
+    const eighth_note = quarter_note / 2;
+    const sixteenth_note = eighth_note / 2;
+    const thirtysecond_note = sixteenth_note / 2;
+    const simultaneous = 0;
+
+    const beat = [
+        ["E", simultaneous],
+        ["S", simultaneous],
+        ["Q", simultaneous],
+        ["E", sixteenth_note],
+        ["S", simultaneous],
+        ["Q", simultaneous],
+        ["E", sixteenth_note],
+        ["S", simultaneous],
+        ["Q", simultaneous],
+        ["E", sixteenth_note],
+        ["S", simultaneous],
+        ["Q", simultaneous],
+  
+        ["Z", sixteenth_note],
+  
+        ["W", sixteenth_note],
+        ["A", simultaneous],
+        ["Z", simultaneous],
+        ["C", thirtysecond_note],
+        ["Z", thirtysecond_note],
+        
+        ["E", sixteenth_note],
+        ["S", simultaneous],
+        ["Z", simultaneous],
+        ["Z", sixteenth_note],
+        ["W", sixteenth_note],
+        ["A", simultaneous],
+        ["Z", simultaneous],
+        ["Z", sixteenth_note],
+  
+        ["E", sixteenth_note],
+        ["S", simultaneous],
+        ["Z", simultaneous],
+        ["Z", sixteenth_note],
+        ["W", sixteenth_note],
+        ["A", simultaneous],
+        ["Z", simultaneous],
+        ["C", thirtysecond_note],
+        ["Z", thirtysecond_note],
+  
+        ["E", sixteenth_note],
+        ["S", simultaneous],
+        ["Z", simultaneous],
+        ["W", thirtysecond_note],
+        ["W", thirtysecond_note],
+        ["W", sixteenth_note],
+        ["A", simultaneous],
+        ["Z", simultaneous],
+        ["W", thirtysecond_note],
+        ["W", thirtysecond_note],
+        ["W", thirtysecond_note/2],
+        ["W", thirtysecond_note/2],
+        ["W", thirtysecond_note/2],
+  
+        ["E", thirtysecond_note/2],
+        ["S", simultaneous],
+        ["Z", simultaneous],
+        ["Z", sixteenth_note],
+        ["W", sixteenth_note],
+        ["A", simultaneous],
+        ["Z", simultaneous],
+        ["C", thirtysecond_note],
+        ["Z", thirtysecond_note],
+
+        ["E", sixteenth_note],
+        ["S", simultaneous],
+        ["Z", simultaneous],
+        ["Z", sixteenth_note],
+        ["W", sixteenth_note],
+        ["A", simultaneous],
+        ["Z", simultaneous],
+        ["C", thirtysecond_note],
+        ["Z", thirtysecond_note],
+
+        ["E", sixteenth_note],
+        ["S", simultaneous],
+        ["Z", simultaneous],
+        ["W", thirtysecond_note],
+        ["W", thirtysecond_note],
+        ["W", sixteenth_note],
+        ["A", simultaneous],
+        ["Z", simultaneous],
+        ["W", thirtysecond_note],
+        ["W", thirtysecond_note],
+        ["W", thirtysecond_note/2],
+        ["W", thirtysecond_note/2],
+        ["W", thirtysecond_note/2],
+  
+      ];
+  }); /* DOMContentLoaded */
+})(); /* IIFE */
