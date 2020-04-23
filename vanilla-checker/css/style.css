@@ -11,7 +11,7 @@
   --square-color2: tomato;
   --row-count: 3;
   --col-count: 3;
-  --square-container: min(100vh, 100vw);
+  --square-container: 100vmin;/*min(100vh, 100vw);*/
   --square-h: min(
     calc(var(--square-container) / var(--row-count)),
     calc(var(--square-container)/ var(--col-count))
