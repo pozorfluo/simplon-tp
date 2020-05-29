@@ -6,7 +6,7 @@
     /**
      * Extend given object with given trait, clobbering existing properties.
      */
-    function extend<Base, Extension>(object: Base, trait: Extension): void {
+    function extend<Base>(object: Base, trait: Trait): void {
         Object.keys(trait).forEach(function (key) {
             object[key] = trait[key];
         });
@@ -84,19 +84,26 @@
         console.log(cow.bite('you'));
         console.log(cow);
 
+        // extension
+        extend(cow, withCarnivorous);
+        console.log(cow.name);
+        console.log(cow.eat('the farmer'));
+
         // final
         const cowSealed = Object.seal(newAnimal('Marguerite', 'Mooh'));
         console.log(cowSealed.name);
         console.log(cowSealed.speak());
         cowSealed.evolveSound('Boooooh');
         console.log(cowSealed.speak());
+        // expecting : TypeError: can't define property "eat": Object is not extensible
+        // extend(cowSealed, withCarnivorous);
 
         // immutable
         const cowFrozen = Object.freeze(newAnimal('Marguerite', 'Mooh'));
         console.log(cowFrozen.name);
         console.log(cowFrozen.speak());
         // expecting : TypeError: "sound" is read-only
-        cowFrozen.evolveSound('Boooooh');
+        // cowFrozen.evolveSound('Boooooh');
     }); /* DOMContentLoaded */
 })(); /* IIFE */
 
