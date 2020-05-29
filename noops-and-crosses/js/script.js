@@ -2,6 +2,8 @@
     'use strict';
     /**
      * Extend given object with given trait, clobbering existing properties.
+     *
+     * @todo Implement extendCopy() to return a properly typed extended clone.
      */
     function extend(object, trait) {
         Object.keys(trait).forEach(function (key) {
@@ -49,6 +51,12 @@
         // return Object.freeze(animal);
         // return Object.seal(animal);
     }
+    function isAnimal(test) {
+        return test.name !== undefined;
+    }
+    function isCarnivourousAnimal(test) {
+        return test.eat !== undefined;
+    }
     //------------------------------------------------------------------- main ---
     /**
      * DOMContentLoaded loaded !
@@ -58,13 +66,21 @@
         const cow = newAnimal('Margie', 'Mooh');
         console.log(cow.name);
         console.log(cow.speak());
-        cow.evolveSound('Boooooh');
-        console.log(cow.speak());
         console.log(cow.bite('you'));
         console.log(cow);
+        // expecting : Cannot assign to 'name' because it is a read-only property.
+        // cow.name = 'Marguerite';
+        // mutate read-only properties via defined methods
+        cow.evolveSound('Boooooh');
+        console.log(cow.speak());
+        // check types
+        // console.log(typeof cow);
+        console.log('is cow an Animal ? ' + isAnimal(cow));
+        console.log('is cow a Carnivorous Animal ? ' + isCarnivourousAnimal(cow));
         // extension
+        console.log('extending cow withCarnivorous');
         extend(cow, withCarnivorous);
-        console.log(cow.name);
+        console.log('is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow));
         console.log(cow.eat('the farmer'));
         // final
         const cowSealed = Object.seal(newAnimal('Marguerite', 'Mooh'));
