@@ -5,8 +5,8 @@
 
     /**
      * Extend given object with given trait, clobbering existing properties.
-     * 
-     * @todo Implement extendCopy() to return a properly typed extended clone. 
+     *
+     * @todo Implement extendCopy() to return a properly typed extended clone.
      */
     function extend<Base>(object: Base, trait: Trait): void {
         Object.keys(trait).forEach(function (key) {
@@ -15,34 +15,29 @@
     }
 
     /**
-     * Define Animal trait.
+     * Extend a shallow copy of given object with given trait, clobbering
+     * existing properties.
      */
-    const withAnimal: Trait = {
-        speak: function (): string {
-            return this.name + ' says ' + this.sound + ' !';
-        },
-        bite: function (target: string): string {
-            return this.name + ' bites ' + target + ' !';
-        },
-    };
+    function extendCopy<Base, Extension>(
+        object: Base,
+        trait: Extension
+    ): Base & Extension {
+        const extended_copy = { ...object };
+        Object.keys(trait).forEach(function (key) {
+            extended_copy[key] = trait[key];
+        });
+        return <Base & Extension>extended_copy;
+    }
 
     /**
-     * Define Carnivorous trait.
+     * Extend a deep copy of given object with given trait, clobbering existing
+     * properties.
      */
-    const withCarnivorous: Trait = {
-        eat: function (target: string): string {
-            return this.name + ' eats ' + target + ' !';
-        },
-    };
-
-    /**
-     * Define Evolvable trait.
-     */
-    const withEvolvable: Trait = {
-        evolveSound: function (sound: string): void {
-            this.sound = sound;
-        },
-    };
+    // function extendDeepCopy<Base>(object: Base, trait: Trait): void {
+    //     Object.keys(trait).forEach(function (key) {
+    //         object[key] = trait[key];
+    //     });
+    // }
 
     /**
      * Define Animal object.
@@ -55,6 +50,19 @@
         // bite: (target: string) => string;
         // evolveSound: (sound: string) => void;
     }
+
+    /**
+     * Define Animal helper trait.
+     */
+    // type Animal = Trait;
+    const withAnimal: Trait = {
+        speak: function (): string {
+            return this.name + ' says ' + this.sound + ' !';
+        },
+        bite: function (target: string): string {
+            return this.name + ' bites ' + target + ' !';
+        },
+    };
 
     /**
      * Create a new Animal object.
@@ -71,12 +79,36 @@
         // return Object.seal(animal);
     }
 
+    /**
+     * Define Carnivorous trait.
+     */
+    type Carnivorous = Trait;
+    const withCarnivorous: Carnivorous = {
+        eat: function (target: string): string {
+            return this.name + ' eats ' + target + ' !';
+        },
+    };
+
+    /**
+     * Define Evolvable trait.
+     */
+    type Evolvable = Trait;
+    const withEvolvable: Evolvable = {
+        evolveSound: function (sound: string): void {
+            this.sound = sound;
+        },
+    };
+
     function isAnimal(test: any): test is Animal {
         return <Animal>test.name !== undefined;
     }
 
-    function isCarnivourousAnimal(test: any): test is Animal & Trait {
+    function isCarnivourousAnimal(test: any): test is Animal & Carnivorous {
         return <Animal>test.eat !== undefined;
+    }
+
+    function isEvolvableAnimal(test: any): test is Animal & Evolvable {
+        return <Animal>test.evolveSound !== undefined;
     }
     //------------------------------------------------------------------- main ---
     /**
@@ -105,7 +137,21 @@
             'is cow a Carnivorous Animal ? ' + isCarnivourousAnimal(cow)
         );
 
-        // extension
+        // extend a copy
+        console.log('extending copy_cow withCarnivorous');
+        const copy_cow = extendCopy(cow, withCarnivorous);
+        console.log(
+            'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
+        );
+        // expecting : TypeError: cow.eat is not a function
+        // console.log(cow.eat('the farmer'));
+        console.log(
+            'is copy_cow a Carnivourous Animal ? ' +
+                isCarnivourousAnimal(copy_cow)
+        );
+        console.log(copy_cow.eat('the farmer'));
+
+        // extend
         console.log('extending cow withCarnivorous');
         extend(cow, withCarnivorous);
         console.log(
