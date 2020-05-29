@@ -8,6 +8,7 @@
 .gdb_history
 
 #project specific
+cache/
 lispy_history.txt
 test_report.yaml
 
@@ -16,6 +17,11 @@ CMakeCache.txt
 CMakeFiles
 CMakeScripts
 Testing
+
+# php
+composer.phar
+htdocs/vendor/
+.phpdoc/
 # Makefile
 cmake_install.cmake
 install_manifest.txt
@@ -822,9 +828,9 @@ orleans.codegen.cs
 # (https://github.com/github/gitignore/pull/2483#issue-259490424)
 #*.snk
 
-# Since there are multiple workflows, uncomment next line to ignore bower_components
+# Since there are multiple workflows, uncomment next line to ignore bower_chunks
 # (https://github.com/github/gitignore/pull/1529#issuecomment-104372622)
-#bower_components/
+#bower_chunks/
 
 # RIA/Silverlight projects
 Generated_Code/
@@ -934,7 +940,7 @@ MigrationBackup/
 
 # vs code
 .vscode/*
-!.vscode/settings.json
+# !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
