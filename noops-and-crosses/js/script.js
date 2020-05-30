@@ -1,9 +1,10 @@
 (function () {
     'use strict';
+
     /**
      * Extend given object with given trait, clobbering existing properties.
      *
-     * @todo Implement extendCopy() to return a properly typed extended clone.
+     * @todo Look for ways to update type hint in-place !
      */
     function extend(object, trait) {
         Object.keys(trait).forEach(function (key) {
@@ -57,14 +58,17 @@
             this.sound = sound;
         },
     };
-    function isAnimal(test) {
-        return test.name !== undefined;
+    function isAnimal(object) {
+        return object.name !== undefined;
+        // return <Animal>object.name !== undefined;
     }
-    function isCarnivourousAnimal(test) {
-        return test.eat !== undefined;
+    function isCarnivourousAnimal(object) {
+        return object.eat !== undefined;
+        // return <Animal & Carnivorous>object.eat !== undefined;
     }
-    function isEvolvableAnimal(test) {
-        return test.evolveSound !== undefined;
+    function isEvolvableAnimal(object) {
+        return object.evolveSound !== undefined;
+        // return <Animal & Evolvable>object.evolveSound !== undefined;
     }
     //------------------------------------------------------------------- main ---
     /**
@@ -85,35 +89,68 @@
         // check types
         // console.log(typeof cow);
         console.log('is cow an Animal ? ' + isAnimal(cow));
-        console.log('is cow a Carnivorous Animal ? ' + isCarnivourousAnimal(cow));
+        console.log(
+            'is cow a Carnivorous Animal ? ' + isCarnivourousAnimal(cow)
+        );
         // extend a copy
         console.log('extending copy_cow withCarnivorous');
         const copy_cow = extendCopy(cow, withCarnivorous);
-        console.log('is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow));
+        console.log(
+            'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
+        );
         // expecting : TypeError: cow.eat is not a function
         // console.log(cow.eat('the farmer'));
-        console.log('is copy_cow a Carnivourous Animal ? ' +
-            isCarnivourousAnimal(copy_cow));
+        console.log(
+            'is copy_cow a Carnivourous Animal ? ' +
+                isCarnivourousAnimal(copy_cow)
+        );
         console.log(copy_cow.eat('the farmer'));
         // extend
         console.log('extending cow withCarnivorous');
         extend(cow, withCarnivorous);
-        console.log('is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow));
+        console.log(
+            'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
+        );
         console.log(cow.eat('the farmer'));
         // final
-        const cowSealed = Object.seal(newAnimal('Marguerite', 'Mooh'));
-        console.log(cowSealed.name);
-        console.log(cowSealed.speak());
-        cowSealed.evolveSound('Boooooh');
-        console.log(cowSealed.speak());
+        const cow_final = Object.seal(newAnimal('Marguerite', 'Mooh'));
+        console.log(cow_final.name);
+        console.log(cow_final.speak());
+        cow_final.evolveSound('Boooooh');
+        console.log(cow_final.speak());
         // expecting : TypeError: can't define property "eat": Object is not extensible
         // extend(cowSealed, withCarnivorous);
         // immutable
-        const cowFrozen = Object.freeze(newAnimal('Marguerite', 'Mooh'));
-        console.log(cowFrozen.name);
-        console.log(cowFrozen.speak());
+        const cow_immutable = Object.freeze(newAnimal('Marguerite', 'Mooh'));
+        console.log(cow_immutable.name);
+        console.log(cow_immutable.speak());
         // expecting : TypeError: "sound" is read-only
         // cowFrozen.evolveSound('Boooooh');
+
+        /**
+         * Helper for partial application. 
+         * 
+         * @note Probably ill-named.
+         */
+        function curry(func, ...partial_arg_list) {
+            return function (...args) {
+                return func(...partial_arg_list, ...args);
+            };
+        }
+
+        function volumeCuboid(length, height, width){
+            return length * height * width;
+        }
+
+        const cuboid_100 = curry(volumeCuboid, 100);
+        console.log(cuboid_100(5,5));
+        console.log(cuboid_100(1,5));
+        console.log(cuboid_100(3,5));
+        const cuboid_100_25 = curry(cuboid_100, 25);
+        console.log(cuboid_100_25(3));
+        console.log(cuboid_100_25(5));
+        const cuboid_10_12 = curry(volumeCuboid, 10, 12);
+        console.log(cuboid_10_12(5));
     }); /* DOMContentLoaded */
 })(); /* IIFE */
 // function extend2(object, trait) {

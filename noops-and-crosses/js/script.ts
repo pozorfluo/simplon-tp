@@ -4,9 +4,18 @@
     type Trait = Object;
 
     /**
+     * Translate given function that takes multiple given arguments into a
+     * sequence of function that take a single argument.
+     */
+    function curry(func, ...first) {
+        return function (...second) {
+            return func(...first, ...second);
+        };
+    }
+    /**
      * Extend given object with given trait, clobbering existing properties.
      *
-     * @todo Implement extendCopy() to return a properly typed extended clone.
+     * @todo Look for ways to update type hint in-place !
      */
     function extend<Base>(object: Base, trait: Trait): void {
         Object.keys(trait).forEach(function (key) {
@@ -99,16 +108,19 @@
         },
     };
 
-    function isAnimal(test: any): test is Animal {
-        return <Animal>test.name !== undefined;
+    function isAnimal(object: any): object is Animal {
+        return object.name !== undefined;
+        // return <Animal>object.name !== undefined;
     }
 
-    function isCarnivourousAnimal(test: any): test is Animal & Carnivorous {
-        return <Animal>test.eat !== undefined;
+    function isCarnivourousAnimal(object: any): object is Animal & Carnivorous {
+        return object.eat !== undefined;
+        // return <Animal & Carnivorous>object.eat !== undefined;
     }
 
-    function isEvolvableAnimal(test: any): test is Animal & Evolvable {
-        return <Animal>test.evolveSound !== undefined;
+    function isEvolvableAnimal(object: any): object is Animal & Evolvable {
+        return object.evolveSound !== undefined;
+        // return <Animal & Evolvable>object.evolveSound !== undefined;
     }
     //------------------------------------------------------------------- main ---
     /**
@@ -160,20 +172,35 @@
         console.log(cow.eat('the farmer'));
 
         // final
-        const cowSealed = Object.seal(newAnimal('Marguerite', 'Mooh'));
-        console.log(cowSealed.name);
-        console.log(cowSealed.speak());
-        cowSealed.evolveSound('Boooooh');
-        console.log(cowSealed.speak());
+        const cow_final = Object.seal(newAnimal('Marguerite', 'Mooh'));
+        console.log(cow_final.name);
+        console.log(cow_final.speak());
+        cow_final.evolveSound('Boooooh');
+        console.log(cow_final.speak());
         // expecting : TypeError: can't define property "eat": Object is not extensible
         // extend(cowSealed, withCarnivorous);
 
         // immutable
-        const cowFrozen = Object.freeze(newAnimal('Marguerite', 'Mooh'));
-        console.log(cowFrozen.name);
-        console.log(cowFrozen.speak());
+        const cow_immutable = Object.freeze(newAnimal('Marguerite', 'Mooh'));
+        console.log(cow_immutable.name);
+        console.log(cow_immutable.speak());
         // expecting : TypeError: "sound" is read-only
         // cowFrozen.evolveSound('Boooooh');
+
+        function mult(...args) {
+            console.log(args);
+            let sum = 0;
+            for (let arg of args) {
+                console.log(arg);
+                sum += arg;
+            }
+            return sum;
+        }
+        const compose = curry(mult);
+
+        console.log(mult(5, 7, 9, 10));
+        console.log(compose);
+        console.log(compose(35, 5, 6));
     }); /* DOMContentLoaded */
 })(); /* IIFE */
 
