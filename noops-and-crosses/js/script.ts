@@ -4,15 +4,6 @@
     type Trait = Object;
 
     /**
-     * Translate given function that takes multiple given arguments into a
-     * sequence of function that take a single argument.
-     */
-    function curry(func, ...first) {
-        return function (...second) {
-            return func(...first, ...second);
-        };
-    }
-    /**
      * Extend given object with given trait, clobbering existing properties.
      *
      * @todo Look for ways to update type hint in-place !
@@ -187,20 +178,61 @@
         // expecting : TypeError: "sound" is read-only
         // cowFrozen.evolveSound('Boooooh');
 
-        function mult(...args) {
-            console.log(args);
-            let sum = 0;
-            for (let arg of args) {
-                console.log(arg);
-                sum += arg;
-            }
-            return sum;
+        /**
+         * Helper for partial application.
+         *
+         * @note Probably ill-named.
+         */
+        function curry(func, ...partial_arg_list) {
+            return function (...args) {
+                return func(...partial_arg_list, ...args);
+            };
         }
-        const compose = curry(mult);
 
-        console.log(mult(5, 7, 9, 10));
-        console.log(compose);
-        console.log(compose(35, 5, 6));
+        /**
+         * Define Monad object.
+         */
+        interface Monad<T> {
+            (value:T): Monad<T>;
+            bind: (any) => any;
+        }
+        /**
+         * Create a new Monad.
+         */
+        function newMonad<T>(): Monad<T> {
+            return function unit(value: T) {
+                const monad = Object.create(null);
+                monad.bind = function (func) :any {
+                    return func(value);
+                };
+                return <Monad<T>>monad;
+            };
+        }
+
+        function volumeCuboid(length, height, width) {
+            return length * height * width;
+        }
+        const cuboid_100 = curry(volumeCuboid, 100);
+        console.log(cuboid_100(5, 5));
+        console.log(cuboid_100(1, 5));
+        console.log(cuboid_100(3, 5));
+        const cuboid_100_25 = curry(cuboid_100, 25);
+        console.log(cuboid_100_25(3));
+        console.log(cuboid_100_25(5));
+        const cuboid_10_12 = curry(volumeCuboid, 10, 12);
+        console.log(cuboid_10_12(5));
+
+        function hello(msg : string) :string {
+            return msg + msg;
+        }
+
+        const test_monad = newMonad<string>();
+        console.log(test_monad);
+        const so_what = test_monad.bind(hello);
+        console.log(so_what('5'));
+        // console.log(tadam);
+
+
     }); /* DOMContentLoaded */
 })(); /* IIFE */
 

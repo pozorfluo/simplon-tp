@@ -1,6 +1,5 @@
 (function () {
     'use strict';
-
     /**
      * Extend given object with given trait, clobbering existing properties.
      *
@@ -89,28 +88,20 @@
         // check types
         // console.log(typeof cow);
         console.log('is cow an Animal ? ' + isAnimal(cow));
-        console.log(
-            'is cow a Carnivorous Animal ? ' + isCarnivourousAnimal(cow)
-        );
+        console.log('is cow a Carnivorous Animal ? ' + isCarnivourousAnimal(cow));
         // extend a copy
         console.log('extending copy_cow withCarnivorous');
         const copy_cow = extendCopy(cow, withCarnivorous);
-        console.log(
-            'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
-        );
+        console.log('is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow));
         // expecting : TypeError: cow.eat is not a function
         // console.log(cow.eat('the farmer'));
-        console.log(
-            'is copy_cow a Carnivourous Animal ? ' +
-                isCarnivourousAnimal(copy_cow)
-        );
+        console.log('is copy_cow a Carnivourous Animal ? ' +
+            isCarnivourousAnimal(copy_cow));
         console.log(copy_cow.eat('the farmer'));
         // extend
         console.log('extending cow withCarnivorous');
         extend(cow, withCarnivorous);
-        console.log(
-            'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
-        );
+        console.log('is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow));
         console.log(cow.eat('the farmer'));
         // final
         const cow_final = Object.seal(newAnimal('Marguerite', 'Mooh'));
@@ -126,10 +117,9 @@
         console.log(cow_immutable.speak());
         // expecting : TypeError: "sound" is read-only
         // cowFrozen.evolveSound('Boooooh');
-
         /**
-         * Helper for partial application. 
-         * 
+         * Helper for partial application.
+         *
          * @note Probably ill-named.
          */
         function curry(func, ...partial_arg_list) {
@@ -137,20 +127,38 @@
                 return func(...partial_arg_list, ...args);
             };
         }
-
-        function volumeCuboid(length, height, width){
+        /**
+         * Create a new Monad.
+         */
+        function newMonad() {
+            return function unit(value) {
+                const monad = Object.create(null);
+                monad.bind = function (func) {
+                    return func(value);
+                };
+                return monad;
+            };
+        }
+        function volumeCuboid(length, height, width) {
             return length * height * width;
         }
-
         const cuboid_100 = curry(volumeCuboid, 100);
-        console.log(cuboid_100(5,5));
-        console.log(cuboid_100(1,5));
-        console.log(cuboid_100(3,5));
+        console.log(cuboid_100(5, 5));
+        console.log(cuboid_100(1, 5));
+        console.log(cuboid_100(3, 5));
         const cuboid_100_25 = curry(cuboid_100, 25);
         console.log(cuboid_100_25(3));
         console.log(cuboid_100_25(5));
         const cuboid_10_12 = curry(volumeCuboid, 10, 12);
         console.log(cuboid_10_12(5));
+        function hello(msg) {
+            return msg + msg;
+        }
+        const test_monad = newMonad();
+        console.log(test_monad);
+        const so_what = test_monad.bind(hello);
+        console.log(so_what('5'));
+        // console.log(tadam);
     }); /* DOMContentLoaded */
 })(); /* IIFE */
 // function extend2(object, trait) {
