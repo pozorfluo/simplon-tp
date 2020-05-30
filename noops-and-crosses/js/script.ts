@@ -190,7 +190,7 @@
         }
 
         /**
-         * Define Monad object.
+         * Define Monad Constructor object.
          */
         interface Monad<T> {
             (value:T): Monad<T>;
@@ -226,10 +226,10 @@
             return msg + msg;
         }
 
-        const test_monad = newMonad<string>();
-        console.log(test_monad);
-        const so_what = test_monad.bind(hello);
-        console.log(so_what('5'));
+        const identity = newMonad<string>();
+        const monad = identity("yo");
+        monad.bind(console.log);
+
         // console.log(tadam);
 
 
