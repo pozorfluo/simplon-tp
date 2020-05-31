@@ -30,6 +30,63 @@
     }
 
     /**
+     * Define Subscriber callback.
+     */
+    interface Subscriber<T> {
+        (value: T): void;
+    }
+
+    /**
+     * Define Observable object.
+     */
+    interface Observable<T> {
+        subscribers: Subscriber<T>[];
+        value: T;
+        notify: () => void;
+        subscribe: (subscriber: Subscriber<T>) => void;
+        get: () => T;
+        set: (value: T) => void;
+        [extension: string]: any; // open for extension.
+    }
+
+    /**
+     * Create a new Observable object.
+     */
+    function newObservable<T>(value: T): Observable<T> {
+        const observable: any = {
+            subscribers: [],
+            value: value,
+
+            notify: function (): void {
+                for (
+                    let i = 0, length = this.subscribers.length;
+                    i < length;
+                    i++
+                ) {
+                    // console.log('notifying ' + this.subscribers[i]);
+                    this.subscribers[i](this.value);
+                }
+            },
+
+            subscribe: function (subscriber: Subscriber<T>): void {
+                this.subscribers.push(subscriber);
+            },
+
+            get: function (): T {
+                return this.value;
+            },
+
+            set: function (value: T): void {
+                if (value !== this.value) {
+                    this.value = value;
+                    this.notify();
+                }
+            },
+        };
+        return <Observable<T>>observable;
+    }
+
+    /**
      * Extend a deep copy of given object with given trait, clobbering existing
      * properties.
      */
@@ -44,7 +101,7 @@
      */
     interface Animal {
         readonly name: string;
-        readonly sound: string;
+        readonly sound: Observable<string>;
         [extension: string]: any; // open for extension.
         // speak: () => string;
         // bite: (target: string) => string;
@@ -57,7 +114,7 @@
     // type Animal = Trait;
     const withAnimal: Trait = {
         speak: function (): string {
-            return this.name + ' says ' + this.sound + ' !';
+            return this.name + ' says ' + this.sound.value + ' !';
         },
         bite: function (target: string): string {
             return this.name + ' bites ' + target + ' !';
@@ -70,7 +127,7 @@
     function newAnimal(name: string, sound: string): Animal {
         const animal: any = {
             name: name,
-            sound: sound,
+            sound: newObservable<String>(sound),
         };
         extend(animal, withAnimal);
         extend(animal, withEvolvable);
@@ -95,7 +152,8 @@
     type Evolvable = Trait;
     const withEvolvable: Evolvable = {
         evolveSound: function (sound: string): void {
-            this.sound = sound;
+            // this.sound = sound;
+            this.sound.set(sound);
         },
     };
 
@@ -121,6 +179,7 @@
         // console.log(this);
 
         const cow = newAnimal('Margie', 'Mooh');
+        cow.sound.subscribe(console.log);
         console.log(cow.name);
         console.log(cow.speak());
         console.log(cow.bite('you'));
@@ -131,6 +190,14 @@
 
         // mutate read-only properties via defined methods
         cow.evolveSound('Boooooh');
+        console.log(cow.speak());
+
+        function render( value) {
+            console.log(value + ' just add tagged template now ! ');
+        }
+        
+        cow.sound.subscribe(render);
+        cow.evolveSound('Ruuuuuuu-paul');
         console.log(cow.speak());
 
         // check types
@@ -179,10 +246,10 @@
         // cowFrozen.evolveSound('Boooooh');
 
         //------------------------------------------------- tagged templates
-        function render() {
-            console.log('render');
-            console.log(this);
-        }
+        // function render() {
+        //     console.log('render');
+        //     console.log(this);
+        // }
 
         function tag(chunks, ...placeholders) {
             console.log('Tagged templates are amazing !');
@@ -192,7 +259,7 @@
             console.log(placeholders);
         }
 
-        function tick(node, time, tag, template){
+        function tick(node, time, tag, template) {
             node.textContent = 'time elapsed :' + (Date.now() - time);
             // console.log(template);
             // console.log(tag);
@@ -200,53 +267,39 @@
             // node.textContent = template;
         }
         const fragment = document.createDocumentFragment();
-        const timer_node = document.createElement('p');
-        fragment.appendChild(timer_node);
+        const timer = document.createElement('p');
+        fragment.appendChild(timer);
         document.body.appendChild(fragment);
 
         const p1 = 'templates';
         const p2 = 'more';
         const start = Date.now();
+
+        // const observer_config = {
+        //     attributes: true,
+        //     childList: true,
+        //     subtree: true,
+        //     characterData: true,
+        // };
+
+        // const report = function (mutations, observer) {
+        //     console.log(mutations);
+        //     console.log(observer);
+        // };
+
+        // const observer = new MutationObserver(report);
+
+        // observer.observe(timer, observer_config);
+
         // tag`tagged ${p1} look ${p2} powerful every second :`;
 
-        // fragment.addEventListener('change', render);
-        // const fragment_observer = {
-        //     set : function (target, prop, receiver)  {
-        //         // console.log(Reflect.get(...arguments));
-        //         console.log('yo');
-        //     },
-        // }
-        // const fragment_proxy = new Proxy(fragment, <any>fragment_observer);
-        // console.log(fragment_proxy);
-        // fragment_proxy.appendChild(timer);
         // setInterval(tick, 1000, timer, start, tag, `tagged ${p1} look ${p2} powerful every second :`);
         // setInterval(tick, 1000, , start, );
 
-
-        const app_proxy = new Proxy({
-            update_done : false,
-            updated_nodes : [],
-            timer : null,
-        },
-        {
-            set : function (target, prop, receiver) {
-                console.log('app_proxy set fired');
-                // console.log(arguments);
-                target.updated_nodes.push(prop);
-                console.log(target.updated_nodes);
-                if (target.update_done) {
-                    console.log('update done ! re-render ');
-                }
-                return true;
-            }
-        });
-
-        let timer = app_proxy.timer = timer_node;
-        app_proxy.timer = timer_node;
-        // timer.textContent = 'green';
-        console.log(app_proxy.timer);
         // console.log(timer);
-        // timer.textContent ="party";
+        timer.textContent = 'party';
+        timer.textContent = 'dparty';
+        // fragment.appendChild(timer);
         // timer.textContent ="part";
         // setInterval(tick, 1000, timer, start );
     }); /* DOMContentLoaded */
@@ -363,3 +416,37 @@
 // console.log(yup);
 
 // console.log(yup());
+
+// const app_proxy = new Proxy({
+//     update_done : false,
+//     updated_nodes : [],
+//     timer : null,
+// },
+// {
+//     set : function (target, property, value, receiver) {
+//         console.log('app_proxy set fired');
+//         console.log(arguments);
+//         target[property] = value;
+//         target.updated_nodes.push(property);
+//         console.log(target.updated_nodes);
+//         if (target.update_done) {
+//             console.log('update done ! re-render ');
+//         }
+//         return true;
+//     }
+// });
+
+// app_proxy.timer = timer_node;
+// app_proxy.timer.textContent = 'green';
+// app_proxy.timer.textContent = 'red';
+// console.log(app_proxy.timer);
+// fragment.addEventListener('change', render);
+// const fragment_observer = {
+//     set : function (target, prop, receiver)  {
+//         // console.log(Reflect.get(...arguments));
+//         console.log('yo');
+//     },
+// }
+// const fragment_proxy = new Proxy(fragment, <any>fragment_observer);
+// console.log(fragment_proxy);
+// fragment_proxy.appendChild(timer);
