@@ -1,12 +1,3 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 (function () {
     'use strict';
     /**
@@ -32,6 +23,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     }
     /**
      * Create a new Observable object.
+     *
      * @note Optional parameter priority in subscribe method is the index where
      *       given Subscriber is going to be 'spliced' in the subscribers list.
      *       If no paramater is supplied, given Subscriber is appended.
@@ -45,18 +37,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         const observable = {
             subscribers: [],
             value: value,
-            notify: function () {
-                return __awaiter(this, void 0, void 0, function* () {
-                    // const queue = []; // rate-limit-ish
-                    // console.log(this.subscribers);
-                    for (let i = 0, length = this.subscribers.length; i < length; i++) {
-                        // console.log('notifying ' + this.subscribers[i]);
-                        // queue.push(this.subscribers[i](this.value)); // rate-limit-ish
-                        yield this.subscribers[i](this.value);
-                    }
-                    // await Promise.all(queue); // rate-limit-ish
-                    return;
-                });
+            notify: async function () {
+                // const queue = []; // rate-limit-ish
+                // console.log(this.subscribers);
+                for (let i = 0, length = this.subscribers.length; i < length; i++) {
+                    // console.log('notifying ' + this.subscribers[i]);
+                    // queue.push(this.subscribers[i](this.value)); // rate-limit-ish
+                    await this.subscribers[i](this.value);
+                }
+                // await Promise.all(queue); // rate-limit-ish
+                /**
+                 * @todo consider ES2020 Promise.allSettled
+                 */
+                return;
             },
             subscribe: function (subscriber, priority) {
                 if (priority === undefined) {

@@ -63,6 +63,7 @@
 
     /**
      * Create a new Observable object.
+     * 
      * @note Optional parameter priority in subscribe method is the index where
      *       given Subscriber is going to be 'spliced' in the subscribers list.
      *       If no paramater is supplied, given Subscriber is appended.
@@ -90,6 +91,9 @@
                     await this.subscribers[i](this.value);
                 }
                 // await Promise.all(queue); // rate-limit-ish
+                /**
+                 * @todo consider ES2020 Promise.allSettled
+                 */
                 return;
             },
 
