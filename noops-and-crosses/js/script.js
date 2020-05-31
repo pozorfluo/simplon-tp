@@ -117,47 +117,69 @@
         console.log(cow_immutable.speak());
         // expecting : TypeError: "sound" is read-only
         // cowFrozen.evolveSound('Boooooh');
-        /**
-         * Helper for partial application.
-         *
-         * @note Probably ill-named.
-         */
-        function curry(func, ...partial_arg_list) {
-            return function (...args) {
-                return func(...partial_arg_list, ...args);
-            };
+        //------------------------------------------------- tagged templates
+        function render() {
+            console.log('render');
+            console.log(this);
         }
-        /**
-         * Create a new Monad.
-         */
-        function newMonad() {
-            return function unit(value) {
-                const monad = Object.create(null);
-                monad.bind = function (func) {
-                    return func(value);
-                };
-                return monad;
-            };
+        function tag(chunks, ...placeholders) {
+            console.log('Tagged templates are amazing !');
+            console.log('array of all string chunks in the template :');
+            console.log(chunks);
+            console.log('array of all placeholders in the template :');
+            console.log(placeholders);
         }
-        function volumeCuboid(length, height, width) {
-            return length * height * width;
+        function tick(node, time, tag, template) {
+            node.textContent = 'time elapsed :' + (Date.now() - time);
+            // console.log(template);
+            // console.log(tag);
+            // tag`${template}`;
+            // node.textContent = template;
         }
-        const cuboid_100 = curry(volumeCuboid, 100);
-        console.log(cuboid_100(5, 5));
-        console.log(cuboid_100(1, 5));
-        console.log(cuboid_100(3, 5));
-        const cuboid_100_25 = curry(cuboid_100, 25);
-        console.log(cuboid_100_25(3));
-        console.log(cuboid_100_25(5));
-        const cuboid_10_12 = curry(volumeCuboid, 10, 12);
-        console.log(cuboid_10_12(5));
-        function hello(msg) {
-            return msg + msg;
-        }
-        const identity = newMonad();
-        const monad = identity("yo");
-        monad.bind(console.log);
-        // console.log(tadam);
+        const fragment = document.createDocumentFragment();
+        const timer_node = document.createElement('p');
+        fragment.appendChild(timer_node);
+        document.body.appendChild(fragment);
+        const p1 = 'templates';
+        const p2 = 'more';
+        const start = Date.now();
+        // tag`tagged ${p1} look ${p2} powerful every second :`;
+        // fragment.addEventListener('change', render);
+        // const fragment_observer = {
+        //     set : function (target, prop, receiver)  {
+        //         // console.log(Reflect.get(...arguments));
+        //         console.log('yo');
+        //     },
+        // }
+        // const fragment_proxy = new Proxy(fragment, <any>fragment_observer);
+        // console.log(fragment_proxy);
+        // fragment_proxy.appendChild(timer);
+        // setInterval(tick, 1000, timer, start, tag, `tagged ${p1} look ${p2} powerful every second :`);
+        // setInterval(tick, 1000, , start, );
+        const app_proxy = new Proxy({
+            update_done: false,
+            updated_nodes: [],
+            timer: null,
+        }, {
+            set: function (target, prop, receiver) {
+                console.log('app_proxy set fired');
+                // console.log(arguments);
+                target.updated_nodes.push(prop);
+                console.log(target.updated_nodes);
+                if (target.update_done) {
+                    console.log('update done ! re-render ');
+                }
+                return true;
+            }
+        });
+        let timer = app_proxy.timer = timer_node;
+        app_proxy.timer = timer_node;
+        // timer.textContent = 'green';
+        console.log(app_proxy.timer);
+        // console.log(timer);
+        // timer.textContent ="party";
+        // timer.textContent ="part";
+        // setInterval(tick, 1000, timer, start );
     }); /* DOMContentLoaded */
 })(); /* IIFE */
 // function extend2(object, trait) {
@@ -199,3 +221,63 @@
 //         object[key] = trait[key];
 //     });
 // }
+// /**
+//  * Helper for partial application.
+//  *
+//  * @note Probably ill-named.
+//  */
+// function curry(func, ...partial_arg_list) {
+//     return function (...args) {
+// //         return func(...partial_arg_list, ...args);
+//            [head, ...tail] = [args];
+//            return func(head, tail);
+//     };
+// }
+// /**
+//  * Define Monad Constructor object.
+//  */
+// interface Monad<T> {
+//     (value:T): Monad<T>;
+//     bind: (any) => any;
+// }
+// /**
+//  * Create a new Monad.
+//  */
+// function newMonad<T>(): Monad<T> {
+//     return function unit(value: T) {
+//         const monad = Object.create(null);
+//         monad.bind = function (func) : any {
+//             return func(value);
+//         };
+//         return <Monad<T>>monad;
+//     };
+// }
+// function volumeCuboid(length, height, width) {
+//     return length * height * width;
+// }
+// const cuboid_100 = curry(volumeCuboid, 100);
+// console.log(cuboid_100(5, 5));
+// console.log(cuboid_100(1, 5));
+// console.log(cuboid_100(3, 5));
+// const cuboid_100_25 = curry(cuboid_100, 25);
+// console.log(cuboid_100_25(3));
+// console.log(cuboid_100_25(5));
+// const cuboid_10_12 = curry(volumeCuboid, 10, 12);
+// console.log(cuboid_10_12(5));
+// function hello(msg : string) :string {
+//     return msg + msg;
+// }
+// const identity = newMonad<string>();
+// const monad = identity("yo");
+// monad.bind(console.log);
+// const identity_too = newMonad<Animal>();
+// const monad_too = identity_too(cow);
+// monad_too.bind(console.log);
+// (monad_too.bind(console.log)).bind(alert);
+// console.log(tadam);
+// destructuring objects
+// const {yup : yap} = {yup : () => {return 'hey'}};
+// const {yup} = {yup : () => {return 'hey'}};
+// console.log(yap);
+// console.log(yup);
+// console.log(yup());
