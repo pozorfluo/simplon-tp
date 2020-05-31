@@ -32,9 +32,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     }
     /**
      * Create a new Observable object.
+     * @note Optional parameter priority in subscribe method is the index where
+     *       given Subscriber is going to be 'spliced' in the subscribers list.
+     *       If no paramater is supplied, given Subscriber is appended.
      *
      * @todo Research which approach is favored to prevent notification cascade.
      * @todo Defer render to after all compositions/updates are done.
+     * @todo Consider using a binary heap for finer grain control of subscribers
+     *       priority.
      */
     function newObservable(value) {
         const observable = {
@@ -43,8 +48,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
             notify: function () {
                 return __awaiter(this, void 0, void 0, function* () {
                     // const queue = []; // rate-limit-ish
+                    // console.log(this.subscribers);
                     for (let i = 0, length = this.subscribers.length; i < length; i++) {
-                        console.log('notifying ' + this.subscribers[i]);
+                        // console.log('notifying ' + this.subscribers[i]);
                         // queue.push(this.subscribers[i](this.value)); // rate-limit-ish
                         yield this.subscribers[i](this.value);
                     }
@@ -52,17 +58,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
                     return;
                 });
             },
-            subscribe: function (subscriber) {
-                this.subscribers.push(subscriber);
+            subscribe: function (subscriber, priority) {
+                if (priority === undefined) {
+                    this.subscribers.push(subscriber);
+                }
+                else {
+                    this.subscribers.splice(priority, 0, subscriber);
+                }
+                // console.log(this.subscribers);
             },
             get: function () {
+                /* Notify that a read is happening here if necessary */
                 return this.value;
             },
             set: function (value) {
                 if (value !== this.value) {
                     this.value = value;
                     this.notify();
-                }
+                } /* the buck stops here */
             },
         };
         return observable;
@@ -132,50 +145,74 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         function render(value) {
             console.log(value + ' just add tagged template now ! ');
         }
-        function renderSoon(value) {
+        function resolveSoon(value) {
             return new Promise((resolve) => {
-                console.log('renderSoon value : ' + value);
+                console.log('resolveSoon value : ' + value);
                 setTimeout(function (value) {
                     render(value);
-                    resolve('renderSoon');
-                    console.log('renderSoon is done');
+                    resolve('resolveSoon');
+                    console.log('resolveSoon is done');
                 }, 1000, value);
             });
         }
-        function renderLate(value) {
+        function resolveLate(value) {
             return new Promise((resolve) => {
-                console.log('renderLate value : ' + value);
+                console.log('resolveLate value : ' + value);
                 setTimeout(function (value) {
                     render(value);
-                    resolve('renderLate');
-                    console.log('renderLate is done');
+                    resolve('resolveLate');
+                    console.log('resolveLate is done');
                 }, 2000, value);
             });
         }
-        function renderLater(value) {
+        function resolveLater(value) {
             return new Promise((resolve) => {
-                console.log('renderLater value : ' + value);
+                console.log('resolveLater value : ' + value);
                 setTimeout(function (value) {
                     render(value);
-                    resolve('renderLater');
-                    console.log('renderLater is done');
+                    resolve('resolveLater');
+                    console.log('resolveLater is done');
                 }, 3000, value);
+            });
+        }
+        function resolveFirst(value) {
+            return new Promise((resolve) => {
+                console.log('resolveFirst value : ' + value);
+                setTimeout(function (value) {
+                    render(value);
+                    resolve('resolveFirst');
+                    console.log('resolveFirst is done');
+                }, 1000, value);
+            });
+        }
+        function resolveLast(value) {
+            return new Promise((resolve) => {
+                console.log('resolveLast value : ' + value);
+                setTimeout(function (value) {
+                    render(value);
+                    resolve('resolveLast');
+                    console.log('resolveLast is done');
+                }, 1000, value);
             });
         }
         // mutate read-only properties via defined methods
         cow.sound.subscribe(console.log);
         cow.evolveSound('Boooooh');
-        console.log(cow.speak());
-        cow.sound.subscribe(renderLate);
-        cow.sound.subscribe(renderLater);
+        // console.log(cow.speak());
+        cow.sound.subscribe(resolveLate);
+        cow.sound.subscribe(console.log);
+        cow.sound.subscribe(console.log, 3);
+        cow.sound.subscribe(resolveLater);
         cow.sound.subscribe(render);
-        cow.sound.subscribe(renderLate);
+        cow.sound.subscribe(resolveLate);
         cow.sound.subscribe(render);
-        cow.sound.subscribe(renderSoon);
+        cow.sound.subscribe(resolveSoon);
+        cow.sound.subscribe(resolveLast);
+        cow.sound.subscribe(resolveFirst, 0);
         cow.evolveSound('Ruuuuuuu-paul');
-        console.log(cow.speak());
+        // console.log(cow.speak());
         console.log('I NEED TO HAPPEN NOW');
-        renderSoon('ImNotInTheLoop');
+        // resolveSoon('ImNotInTheLoop');
         // check types
         // console.log(typeof cow);
         // console.log('is cow an Animal ? ' + isAnimal(cow));
@@ -396,3 +433,47 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 // const fragment_proxy = new Proxy(fragment, <any>fragment_observer);
 // console.log(fragment_proxy);
 // fragment_proxy.appendChild(timer);
+// function getRandomInt(max) {
+//     return Math.floor(Math.random() * Math.floor(max));
+// }
+// let subscribers = [
+//     'aaaa',
+//     'bbbbb',
+//     'cccc',
+//     'dddd',
+//     'aaaa',
+//     'bbbbb',
+//     'cccc',
+//     'dddd',
+// ];
+// let subscribers2 = [
+//     'aaaa',
+//     'bbbbb',
+//     'cccc',
+//     'dddd',
+//     'aaaa',
+//     'bbbbb',
+//     'cccc',
+//     'dddd',
+// ];
+// for (let j = 5; j < 1000; j++) {
+//     const splice_me = getRandomInt(100);
+//     // const splice_me = j;
+//     subscribers = [
+//         ...subscribers.slice(0, splice_me),
+//         splice_me,
+//         ...subscribers.slice(splice_me),
+//     ];
+//     subscribers2.splice(splice_me, 0, splice_me);
+// }
+// for (let i = 0, length = subscribers.length; i < length; i++) {
+//     console.log(
+//         subscribers[i] +
+//             ' === ' +
+//             subscribers2[i] +
+//             ' ' +
+//             (subscribers[i] === subscribers2[i])
+//     );
+// }
+// console.log(subscribers);
+// console.log(subscribers2);
