@@ -51,21 +51,28 @@
 
     /**
      * Create a new Observable object.
+     *
+     * @todo Research which approach is favored to prevent notification cascade.
+     * @todo Defer render to after all compositions/updates are done.
      */
     function newObservable<T>(value: T): Observable<T> {
         const observable: any = {
             subscribers: [],
             value: value,
 
-            notify: function (): void {
+            notify: async function (): Promise<T> {
+                // const queue = []; // rate-limit-ish
                 for (
                     let i = 0, length = this.subscribers.length;
                     i < length;
                     i++
                 ) {
-                    // console.log('notifying ' + this.subscribers[i]);
-                    this.subscribers[i](this.value);
+                    console.log('notifying ' + this.subscribers[i]);
+                    // queue.push(this.subscribers[i](this.value)); // rate-limit-ish
+                    await this.subscribers[i](this.value);
                 }
+                // await Promise.all(queue); // rate-limit-ish
+                return;
             },
 
             subscribe: function (subscriber: Subscriber<T>): void {
@@ -179,69 +186,111 @@
         // console.log(this);
 
         const cow = newAnimal('Margie', 'Mooh');
-        cow.sound.subscribe(console.log);
-        console.log(cow.name);
-        console.log(cow.speak());
-        console.log(cow.bite('you'));
-        console.log(cow);
+
+        // console.log(cow.name);
+        // console.log(cow.speak());
+        // console.log(cow.bite('you'));
+        // console.log(cow);
 
         // expecting : Cannot assign to 'name' because it is a read-only property.
         // cow.name = 'Marguerite';
 
-        // mutate read-only properties via defined methods
-        cow.evolveSound('Boooooh');
-        console.log(cow.speak());
 
-        function render( value) {
+
+        function render(value) {
             console.log(value + ' just add tagged template now ! ');
         }
-        
+
+        function renderSoon(value) {
+            return new Promise((resolve) => {
+                console.log('renderSoon value : ' + value);
+                setTimeout( function(value) {
+                    render(value);
+                    resolve('renderSoon');
+                    console.log('renderSoon is done');
+                }, 1000,value);
+            });
+        }
+
+        function renderLate(value) {
+            return new Promise((resolve) => {
+                console.log('renderLate value : ' + value);
+                setTimeout( function(value) {
+                    render(value);
+                    resolve('renderLate');
+                    console.log('renderLate is done');
+                }, 2000, value);
+            });
+        }
+
+        function renderLater(value) {
+            return new Promise((resolve) => {
+                console.log('renderLater value : ' + value);
+                setTimeout( function(value) {
+                    render(value);
+                    resolve('renderLater');
+                    console.log('renderLater is done');
+                }, 3000, value);
+            });
+        }
+
+        // mutate read-only properties via defined methods
+        cow.sound.subscribe(console.log);
+        cow.evolveSound('Boooooh');
+        console.log(cow.speak());
+        cow.sound.subscribe(renderLate);
+        cow.sound.subscribe(renderLater);
         cow.sound.subscribe(render);
+        cow.sound.subscribe(renderLate);
+        cow.sound.subscribe(render);
+        cow.sound.subscribe(renderSoon);
         cow.evolveSound('Ruuuuuuu-paul');
         console.log(cow.speak());
+        console.log('I NEED TO HAPPEN NOW');
+        renderSoon('ImNotInTheLoop');
 
         // check types
         // console.log(typeof cow);
-        console.log('is cow an Animal ? ' + isAnimal(cow));
-        console.log(
-            'is cow a Carnivorous Animal ? ' + isCarnivourousAnimal(cow)
-        );
+        // console.log('is cow an Animal ? ' + isAnimal(cow));
+        // console.log(
+        //     'is cow a Carnivorous Animal ? ' + isCarnivourousAnimal(cow)
+        // );
 
-        // extend a copy
-        console.log('extending copy_cow withCarnivorous');
-        const copy_cow = extendCopy(cow, withCarnivorous);
-        console.log(
-            'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
-        );
-        // expecting : TypeError: cow.eat is not a function
+        // // extend a copy
+        // console.log('extending copy_cow withCarnivorous');
+        // const copy_cow = extendCopy(cow, withCarnivorous);
+        // console.log(
+        //     'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
+        // );
+        // // expecting : TypeError: cow.eat is not a function
+        // // console.log(cow.eat('the farmer'));
+        // console.log(
+        //     'is copy_cow a Carnivourous Animal ? ' +
+        //         isCarnivourousAnimal(copy_cow)
+        // );
+        // console.log(copy_cow.eat('the farmer'));
+
+        // // extend
+        // console.log('extending cow withCarnivorous');
+        // extend(cow, withCarnivorous);
+        // console.log(
+        //     'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
+        // );
         // console.log(cow.eat('the farmer'));
-        console.log(
-            'is copy_cow a Carnivourous Animal ? ' +
-                isCarnivourousAnimal(copy_cow)
-        );
-        console.log(copy_cow.eat('the farmer'));
 
-        // extend
-        console.log('extending cow withCarnivorous');
-        extend(cow, withCarnivorous);
-        console.log(
-            'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
-        );
-        console.log(cow.eat('the farmer'));
+        // // final
+        // const cow_final = Object.seal(newAnimal('Marguerite', 'Mooh'));
+        // console.log(cow_final.name);
+        // console.log(cow_final.speak());
+        // cow_final.evolveSound('Boooooh');
+        // console.log(cow_final.speak());
+        // // expecting : TypeError: can't define property "eat": Object is not extensible
+        // // extend(cowSealed, withCarnivorous);
 
-        // final
-        const cow_final = Object.seal(newAnimal('Marguerite', 'Mooh'));
-        console.log(cow_final.name);
-        console.log(cow_final.speak());
-        cow_final.evolveSound('Boooooh');
-        console.log(cow_final.speak());
-        // expecting : TypeError: can't define property "eat": Object is not extensible
-        // extend(cowSealed, withCarnivorous);
-
-        // immutable
-        const cow_immutable = Object.freeze(newAnimal('Marguerite', 'Mooh'));
-        console.log(cow_immutable.name);
-        console.log(cow_immutable.speak());
+        // // immutable
+        // const cow_immutable = Object.freeze(newAnimal('Marguerite', 'Mooh'));
+        // console.log(cow_immutable.name);
+        // console.log(cow_immutable.speak());
         // expecting : TypeError: "sound" is read-only
         // cowFrozen.evolveSound('Boooooh');
 
