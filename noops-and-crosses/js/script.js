@@ -32,6 +32,7 @@
      * @todo Defer render to after all compositions/updates are done.
      * @todo Consider using a binary heap for finer grain control of subscribers
      *       priority.
+     * @todo Add unsubscribe method.
      */
     function newObservable(value) {
         const observable = {
@@ -39,9 +40,9 @@
             value: value,
             notify: async function () {
                 // const queue = []; // rate-limit-ish
-                // console.log(this.subscribers);
+                console.log(this.subscribers);
                 for (let i = 0, length = this.subscribers.length; i < length; i++) {
-                    // console.log('notifying ' + this.subscribers[i]);
+                    console.log('notifying ' + this.subscribers[i]);
                     // queue.push(this.subscribers[i](this.value)); // rate-limit-ish
                     await this.subscribers[i](this.value);
                 }
@@ -72,6 +73,22 @@
             },
         };
         return observable;
+    }
+    /**
+     * Set a 2-way link between given Observable and given DOM node.
+     *
+     * @todo Consider that the node emitting the original event probably
+     *       does not need to be notified back/updated if it is only
+     *       dependency.
+     * @todo Add unlink function.
+     */
+    function link(observable, node, property = 'value', event = 'input') {
+        console.log(arguments);
+        node[property] = observable.get();
+        observable.subscribe(
+        // () => (node[property] = observable.get())
+        () => (node[property] = observable.value));
+        node.addEventListener(event, () => observable.set(node[property]));
     }
     /**
      * Define Animal helper trait.
@@ -127,125 +144,6 @@
      * DOMContentLoaded loaded !
      */
     window.addEventListener('DOMContentLoaded', function (event) {
-        // console.log(this);
-        const cow = newAnimal('Margie', 'Mooh');
-        // console.log(cow.name);
-        // console.log(cow.speak());
-        // console.log(cow.bite('you'));
-        // console.log(cow);
-        // expecting : Cannot assign to 'name' because it is a read-only property.
-        // cow.name = 'Marguerite';
-        function render(value) {
-            console.log(value + ' just add tagged template now ! ');
-        }
-        function resolveSoon(value) {
-            return new Promise((resolve) => {
-                console.log('resolveSoon value : ' + value);
-                setTimeout(function (value) {
-                    render(value);
-                    resolve('resolveSoon');
-                    console.log('resolveSoon is done');
-                }, 1000, value);
-            });
-        }
-        function resolveLate(value) {
-            return new Promise((resolve) => {
-                console.log('resolveLate value : ' + value);
-                setTimeout(function (value) {
-                    render(value);
-                    resolve('resolveLate');
-                    console.log('resolveLate is done');
-                }, 2000, value);
-            });
-        }
-        function resolveLater(value) {
-            return new Promise((resolve) => {
-                console.log('resolveLater value : ' + value);
-                setTimeout(function (value) {
-                    render(value);
-                    resolve('resolveLater');
-                    console.log('resolveLater is done');
-                }, 3000, value);
-            });
-        }
-        function resolveFirst(value) {
-            return new Promise((resolve) => {
-                console.log('resolveFirst value : ' + value);
-                setTimeout(function (value) {
-                    render(value);
-                    resolve('resolveFirst');
-                    console.log('resolveFirst is done');
-                }, 1000, value);
-            });
-        }
-        function resolveLast(value) {
-            return new Promise((resolve) => {
-                console.log('resolveLast value : ' + value);
-                setTimeout(function (value) {
-                    render(value);
-                    resolve('resolveLast');
-                    console.log('resolveLast is done');
-                }, 1000, value);
-            });
-        }
-        // mutate read-only properties via defined methods
-        cow.sound.subscribe(console.log);
-        cow.evolveSound('Boooooh');
-        // console.log(cow.speak());
-        cow.sound.subscribe(resolveLate);
-        cow.sound.subscribe(console.log);
-        cow.sound.subscribe(console.log, 3);
-        cow.sound.subscribe(resolveLater);
-        cow.sound.subscribe(render);
-        cow.sound.subscribe(resolveLate);
-        cow.sound.subscribe(render);
-        cow.sound.subscribe(resolveSoon);
-        cow.sound.subscribe(resolveLast);
-        cow.sound.subscribe(resolveFirst, 0);
-        cow.evolveSound('Ruuuuuuu-paul');
-        // console.log(cow.speak());
-        console.log('I NEED TO HAPPEN NOW');
-        // resolveSoon('ImNotInTheLoop');
-        // check types
-        // console.log(typeof cow);
-        // console.log('is cow an Animal ? ' + isAnimal(cow));
-        // console.log(
-        //     'is cow a Carnivorous Animal ? ' + isCarnivourousAnimal(cow)
-        // );
-        // // extend a copy
-        // console.log('extending copy_cow withCarnivorous');
-        // const copy_cow = extendCopy(cow, withCarnivorous);
-        // console.log(
-        //     'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
-        // );
-        // // expecting : TypeError: cow.eat is not a function
-        // // console.log(cow.eat('the farmer'));
-        // console.log(
-        //     'is copy_cow a Carnivourous Animal ? ' +
-        //         isCarnivourousAnimal(copy_cow)
-        // );
-        // console.log(copy_cow.eat('the farmer'));
-        // // extend
-        // console.log('extending cow withCarnivorous');
-        // extend(cow, withCarnivorous);
-        // console.log(
-        //     'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
-        // );
-        // console.log(cow.eat('the farmer'));
-        // // final
-        // const cow_final = Object.seal(newAnimal('Marguerite', 'Mooh'));
-        // console.log(cow_final.name);
-        // console.log(cow_final.speak());
-        // cow_final.evolveSound('Boooooh');
-        // console.log(cow_final.speak());
-        // // expecting : TypeError: can't define property "eat": Object is not extensible
-        // // extend(cowSealed, withCarnivorous);
-        // // immutable
-        // const cow_immutable = Object.freeze(newAnimal('Marguerite', 'Mooh'));
-        // console.log(cow_immutable.name);
-        // console.log(cow_immutable.speak());
-        // expecting : TypeError: "sound" is read-only
-        // cowFrozen.evolveSound('Boooooh');
         //------------------------------------------------- tagged templates
         // function render() {
         //     console.log('render');
@@ -265,36 +163,45 @@
             // tag`${template}`;
             // node.textContent = template;
         }
+        //------------------------------------------ subscribing and linking
         const fragment = document.createDocumentFragment();
         const timer = document.createElement('p');
+        const input = document.createElement('input');
+        const output = document.createElement('input');
+        input.type = 'text';
+        output.type = 'text';
         fragment.appendChild(timer);
+        fragment.appendChild(input);
+        fragment.appendChild(output);
         document.body.appendChild(fragment);
+        const observable_state = newObservable('init');
+        // 1-way
+        observable_state.subscribe((value) => (timer.textContent = value));
+        // 2-way link
+        link(observable_state, input);
+        link(observable_state, output, 'value', 'change');
         const p1 = 'templates';
         const p2 = 'more';
         const start = Date.now();
-        // const observer_config = {
-        //     attributes: true,
-        //     childList: true,
-        //     subtree: true,
-        //     characterData: true,
-        // };
-        // const report = function (mutations, observer) {
-        //     console.log(mutations);
-        //     console.log(observer);
-        // };
-        // const observer = new MutationObserver(report);
-        // observer.observe(timer, observer_config);
-        // tag`tagged ${p1} look ${p2} powerful every second :`;
-        // setInterval(tick, 1000, timer, start, tag, `tagged ${p1} look ${p2} powerful every second :`);
-        // setInterval(tick, 1000, , start, );
-        // console.log(timer);
-        timer.textContent = 'party';
-        timer.textContent = 'dparty';
-        // fragment.appendChild(timer);
-        // timer.textContent ="part";
-        // setInterval(tick, 1000, timer, start );
+        setInterval(tick, 1000, timer, start);
     }); /* DOMContentLoaded */
 })(); /* IIFE */
+// console.log(this);
+// const cow = newAnimal('Margie', 'Mooh');
+// console.log(cow.name);
+// console.log(cow.speak());
+// console.log(cow.bite('you'));
+// console.log(cow);
+// expecting : Cannot assign to 'name' because it is a read-only property.
+// cow.name = 'Marguerite';
+/**
+ * Keep Subscriber simple, build the callback from partial application
+ * instead of moving arguments around.
+ */
+// interface Subscriber<T> {
+//     callback : (value: T) => void;
+//     args: any[];
+// }
 // function extend2(object, trait) {
 //   console.log(Object.keys(trait).length);
 //   console.log([...Object.keys(trait)]);
@@ -470,3 +377,152 @@
 // }
 // console.log(subscribers);
 // console.log(subscribers2);
+// check types
+// console.log(typeof cow);
+// console.log('is cow an Animal ? ' + isAnimal(cow));
+// console.log(
+//     'is cow a Carnivorous Animal ? ' + isCarnivourousAnimal(cow)
+// );
+// // extend a copy
+// console.log('extending copy_cow withCarnivorous');
+// const copy_cow = extendCopy(cow, withCarnivorous);
+// console.log(
+//     'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
+// );
+// // expecting : TypeError: cow.eat is not a function
+// // console.log(cow.eat('the farmer'));
+// console.log(
+//     'is copy_cow a Carnivourous Animal ? ' +
+//         isCarnivourousAnimal(copy_cow)
+// );
+// console.log(copy_cow.eat('the farmer'));
+// // extend
+// console.log('extending cow withCarnivorous');
+// extend(cow, withCarnivorous);
+// console.log(
+//     'is cow a Carnivourous Animal ? ' + isCarnivourousAnimal(cow)
+// );
+// console.log(cow.eat('the farmer'));
+// // final
+// const cow_final = Object.seal(newAnimal('Marguerite', 'Mooh'));
+// console.log(cow_final.name);
+// console.log(cow_final.speak());
+// cow_final.evolveSound('Boooooh');
+// console.log(cow_final.speak());
+// // expecting : TypeError: can't define property "eat": Object is not extensible
+// // extend(cowSealed, withCarnivorous);
+// // immutable
+// const cow_immutable = Object.freeze(newAnimal('Marguerite', 'Mooh'));
+// console.log(cow_immutable.name);
+// console.log(cow_immutable.speak());
+// expecting : TypeError: "sound" is read-only
+// cowFrozen.evolveSound('Boooooh');
+// function render(value) {
+//     console.log(value + ' just add tagged template now ! ');
+// }
+// function resolveSoon(value) {
+//     return new Promise((resolve) => {
+//         console.log('resolveSoon value : ' + value);
+//         setTimeout(
+//             function (value) {
+//                 render(value);
+//                 resolve('resolveSoon');
+//                 console.log('resolveSoon is done');
+//             },
+//             1000,
+//             value
+//         );
+//     });
+// }
+// function resolveLate(value) {
+//     return new Promise((resolve) => {
+//         console.log('resolveLate value : ' + value);
+//         setTimeout(
+//             function (value) {
+//                 render(value);
+//                 resolve('resolveLate');
+//                 console.log('resolveLate is done');
+//             },
+//             2000,
+//             value
+//         );
+//     });
+// }
+// function resolveLater(value) {
+//     return new Promise((resolve) => {
+//         console.log('resolveLater value : ' + value);
+//         setTimeout(
+//             function (value) {
+//                 render(value);
+//                 resolve('resolveLater');
+//                 console.log('resolveLater is done');
+//             },
+//             3000,
+//             value
+//         );
+//     });
+// }
+// function resolveFirst(value) {
+//     return new Promise((resolve) => {
+//         console.log('resolveFirst value : ' + value);
+//         setTimeout(
+//             function (value) {
+//                 render(value);
+//                 resolve('resolveFirst');
+//                 console.log('resolveFirst is done');
+//             },
+//             1000,
+//             value
+//         );
+//     });
+// }
+// function resolveLast(value) {
+//     return new Promise((resolve) => {
+//         console.log('resolveLast value : ' + value);
+//         setTimeout(
+//             function (value) {
+//                 render(value);
+//                 resolve('resolveLast');
+//                 console.log('resolveLast is done');
+//             },
+//             1000,
+//             value
+//         );
+//     });
+// }
+// // mutate read-only properties via defined methods
+// cow.sound.subscribe(console.log);
+// cow.evolveSound('Boooooh');
+// // console.log(cow.speak());
+// cow.sound.subscribe(resolveLate);
+// cow.sound.subscribe(console.log);
+// cow.sound.subscribe(console.log, 3);
+// cow.sound.subscribe(resolveLater);
+// cow.sound.subscribe(render);
+// cow.sound.subscribe(resolveLate);
+// cow.sound.subscribe(render);
+// cow.sound.subscribe(resolveSoon);
+// cow.sound.subscribe(resolveLast);
+// cow.sound.subscribe(resolveFirst, 0);
+// cow.evolveSound('Ruuuuuuu-paul');
+// // console.log(cow.speak());
+// console.log('I NEED TO HAPPEN NOW');
+// // resolveSoon('ImNotInTheLoop');
+// const observer_config = {
+//     attributes: true,
+//     childList: true,
+//     subtree: true,
+//     characterData: true,
+// };
+// const report = function (mutations, observer) {
+//     console.log(mutations);
+//     console.log(observer);
+// };
+// const observer = new MutationObserver(report);
+// observer.observe(timer, observer_config);
+// tag`tagged ${p1} look ${p2} powerful every second :`;
+// setInterval(tick, 1000, timer, start, tag, `tagged ${p1} look ${p2} powerful every second :`);
+// setInterval(tick, 1000, , start, );
+// console.log(timer);
+// fragment.appendChild(timer);
+// timer.textContent ="part";
