@@ -11,6 +11,49 @@
         });
     }
     /**
+     * Extend given object with given trait, stacking existing properties.
+     *
+     *   Merge objects.
+     *   Append to arrays.
+     *   Clobber scalars.
+     *
+     * @note Changing the 'shape' of an existing property would most likely a
+     *       recipe for disaster.
+     *
+     * @todo Look for ways to make an access to the original property shape
+     *       yield something acceptable.
+     * @todo Consider only stacking on non-scalar properties !!!!!
+     */
+    function cram(object, trait) {
+        Object.keys(trait).forEach(function (key) {
+            switch (typeof object[key]) {
+                case 'object':
+                    if (Array.isArray(object[key])) {
+                        [...object[key], trait[key]];
+                    }
+                    else {
+                        extend(object[key], trait[key]);
+                    }
+                    break;
+                case undefined:
+                // break;
+                default:
+                    /* undefined and scalars */
+                    object[key] = trait[key];
+                    break;
+            }
+            // if (object[key] === undefined) {
+            //     object[key] = trait[key];
+            // } else {
+            //     object[key] = [
+            //         ...Object.values(object[key]),
+            //         trait[key],
+            //     ];
+            // }
+        });
+        return object;
+    }
+    /**
      * Extend a shallow copy of given object with given trait, clobbering
      * existing properties.
      */
@@ -73,6 +116,14 @@
             },
         };
         return observable;
+    }
+    /**
+     * Define Observable trait.
+     */
+    function withObservable(name, value) {
+        const trait = { observable: {} }; //  Record<string, Observable<T>>
+        trait.observable[name] = newObservable(value);
+        return trait;
     }
     /**
      * Set a 2-way link between given Observable and given DOM node.
@@ -180,10 +231,17 @@
         // 2-way link
         link(observable_state, input);
         link(observable_state, output, 'value', 'change');
-        const p1 = 'templates';
-        const p2 = 'more';
         const start = Date.now();
         setInterval(tick, 1000, timer, start);
+        const base_object = extendCopy({}, withObservable('observable_extension', 'notice me !'));
+        console.log(base_object);
+        cram(base_object, withObservable('another_observe', 'let me in'));
+        console.log(base_object);
+        cram(base_object, withObservable('yet_another', 'make some room'));
+        console.log(JSON.stringify(base_object));
+        console.log(base_object.observable.observable_extension);
+        console.log(base_object.observable.another_observe);
+        console.log(base_object.observable.yet_another);
     }); /* DOMContentLoaded */
 })(); /* IIFE */
 // console.log(this);
