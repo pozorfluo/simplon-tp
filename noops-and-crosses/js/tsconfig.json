@@ -1,8 +1,13 @@
 {
     "compilerOptions": {
         "target": "es2017",
-        "module": "commonjs"
+        // "module": "None",
+        // "outFile": "./build/script.js",
+        // "removeComments": true,
     },
+    // "include": [
+    //     "modules/**/*"
+    // ],
     "exclude": [
         "node_modules"
     ]
