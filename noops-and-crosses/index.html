@@ -11,11 +11,11 @@
     </head>
     <body>
         <section class="board">
+                <div class="square">X</div>
                 <div class="square"></div>
+                <div class="square">O</div>
                 <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
+                <div class="square">X</div>
                 <div class="square"></div>
                 <div class="square"></div>
                 <div class="square"></div>
@@ -24,10 +24,10 @@
 
 
 
-        <p data-pin="global_timer" data-property="textContent">global_timer</p>
-        <p data-pin="control_timer" data-property="textContent">control_timer</p>
-        <p data-pin="p1_timer" data-property="textContent">p1_timer</p>
-        <p data-pin="p2_timer" data-property="textContent">p2_timer</p>
+        <!-- <p data-pin="global_timer" data-property="textContent">global_timer</p>
+        <p data-pin="control_timer" data-property="textContent">control_timer</p> -->
+        <p class="timer active" data-pin="p1_timer" data-property="textContent">X</p>
+        <p class="timer" data-pin="p2_timer" data-property="textContent">O</p>
         <!-- <input type="text" data-pin="p1_timer" readonly/>
         <input type="text" data-pin="p2_timer"/>
         <input type="text" data-link="global_timer" value="on input"/>
