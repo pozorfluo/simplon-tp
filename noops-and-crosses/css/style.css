@@ -1,0 +1,105 @@
+:root {
+    --color-bg : #5c06d6;
+    --color-fg : #1ed760;
+    --color-fg-muted : #1ed75f7f;
+    --color-black : #333333;
+    --row-count: 3;
+    --col-count: 3;
+    --square-container: 75vmin;
+    --square-h: min(
+        calc(var(--square-container) / var(--row-count)),
+        calc(var(--square-container) / var(--col-count))
+    );
+    --square-radius: calc(var(--square-h) / 32);
+    --square-hover-radius: calc(var(--square-h) / 16);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-bg);
+}
+
+
+.board {
+    perspective: 1000px;
+    z-index: 3;
+    height: var(--square-container);
+    width: var(--square-container);
+    margin: 0 auto;
+    background-color: var(--color-fg);
+}
+
+.square {
+    position: relative;
+    width: var(--square-h);
+    height: var(--square-h);
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    border-radius: var(--square-radius);
+    /* border: var(--square-radius) solid var(--color-fg); */
+    margin: var(--square-radius);
+    opacity: 1;
+    z-index: -3;
+    transition: all 0.2s ease-in;
+    transform-style: preserve-3d;
+    transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    transition: 0.5s;
+    transition-timing-function: cubic-bezier(0.74, -0.73, 0.2, 1.67);
+}
+
+.square:hover {
+    border-radius: var(--square-hover-radius);
+    z-index: 3;
+    box-shadow: 2px 1px 0px 0px var(--color-fg-muted), 
+    4px 3px 11px 0px var(--color-fg);/* rgb(148, 90, 148);*/
+    position: relative;
+    transform: scale3d(1.15, 1.15, 1.05);
+    transition: 0s;
+    transition-timing-function: cubic-bezier(0.74, -0.73, 0.2, 1.67);
+}
+
+.col-1 {
+    width: 8.33%;
+}
+.col-2 {
+    width: 16.66%;
+}
+.col-3 {
+    width: 25%;
+}
+.col-4 {
+    width: 33.33%;
+}
+.col-5 {
+    width: 41.66%;
+}
+.col-6 {
+    width: 50%;
+}
+.col-7 {
+    width: 58.33%;
+}
+.col-8 {
+    width: 66.66%;
+}
+.col-9 {
+    width: 75%;
+}
+.col-10 {
+    width: 83.33%;
+}
+.col-11 {
+    width: 91.66%;
+}
+.col-12 {
+    width: 100%;
+}
+
+[class*='col-'] {
+    float: left;
+    border: 0;
+}
