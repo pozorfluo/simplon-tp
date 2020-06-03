@@ -413,12 +413,12 @@
         id: number;
         elapsed: number;
         start: number;
-        sync: Timer | undefined;
+        // sync: Timer | undefined;
         readonly observable: { value: Observable<string> };
         tag: () => this; // template: TemplateStringsArray
         toggle: () => this;
         reset: () => this;
-        syncWith: (timer: Timer) => this;
+        syncWith: (ref_timer: Timer) => this;
     }
 
     /**
@@ -429,51 +429,41 @@
             id: 0,
             elapsed: 0,
             start: 0,
-            sync: undefined,
+            // sync: undefined,
             tag: function (): Timer {
                 const formatted_time = new Date(
-                    Date.now() - this.start + this.elapsed
+                    performance.now() - this.start + this.elapsed
                 )
                     .toISOString()
                     .slice(11, -5);
-                // this.observable.value.set(formatted_time);
-                this.observable.value.set(
-                    Date.now() - this.start + this.elapsed
-                );
+                this.observable.value.set(formatted_time);
                 return this;
             },
             toggle: function (): Timer {
-                // console.log(this.id);
                 if (this.id === 0) {
-                    this.start = Date.now();
+                    this.start = performance.now();
                     const that = this;
                     this.id = setInterval(function (): void {
                         that.tag();
-                    }, 1000);
+                    }, 500);
                 } else {
                     clearInterval(this.id);
-                    // this.elapsed += Date.now() - this.start;
-                    /**
-                     * @note Round to nearest second to keep setInterval simple.
-                     */
-                    this.elapsed +=
-                        Math.floor((Date.now() - this.start) / 1000) *
-                        1000;
+                    this.tag();
+                    this.elapsed += performance.now() - this.start;
                     this.id = 0;
                 }
                 return this;
             },
             reset: function (): Timer {
                 this.elapsed = 0;
-                this.start = Date.now();
+                this.start = performance.now();
                 return this;
             },
-            syncWith: function (ref_timer: Timer): Timer {
-                // this.id = another_timer.id;
-                // this.elapsed = another_timer.elapsed;
-                // this.start = another_timer.start;
-                // this.tag();
-                this.sync = ref_timer;
+            syncWith: function (another_timer: Timer): Timer {
+                this.elapsed = another_timer.elapsed;
+                this.start = another_timer.start;
+                this.tag();
+                // this.sync = ref_timer;
                 return this;
             },
         };
@@ -493,23 +483,21 @@
         // const p1_timer = newObservable<string>('init');
         // const p2_timer = newObservable<string>('init');
 
-        const global_timer = newTimer().toggle();
-        const p1_timer = newTimer().syncWith(global_timer);
-        const p2_timer = newTimer().syncWith(global_timer).toggle();
+        const p1_timer = newTimer().toggle();
+        const p2_timer = newTimer();
 
-        const control_timer = newObservable<string>('0');
-        p1_timer.observable.value.subscribe((value) => {
-            control_timer.set(value + p2_timer.observable.value.get());
-        });
-        p2_timer.observable.value.subscribe((value) => {
-            control_timer.set(value + p1_timer.observable.value.get());
-        });
+        /* derived computed value test */
+        // const control_timer = newObservable<string>('0');
+        // p1_timer.observable.value.subscribe((value) => {
+        //     control_timer.set(value + p2_timer.observable.value.get());
+        // });
+        // p2_timer.observable.value.subscribe((value) => {
+        //     control_timer.set(p1_timer.observable.value.get() + value);
+        // });
 
         const timer_context = newContext()
-            .put('global_timer', global_timer.observable.value)
             .put('p1_timer', p1_timer.observable.value)
             .put('p2_timer', p2_timer.observable.value)
-            .put('control_timer', control_timer)
             .musterPins()
             .musterLinks()
             .activatePins()
