@@ -471,3 +471,82 @@
 //     return object.evolveSound !== undefined;
 //     // return <Animal & Evolvable>object.evolveSound !== undefined;
 // }
+
+
+        // const base_object = extendCopy(
+        //     {},
+        //     withObservable<string>(
+        //         'observable_extension',
+        //         'notice me !'
+        //     )
+        // );
+        // // console.log(base_object);
+        // cram(
+        //     base_object,
+        //     withObservable<string>('another_observe', 'let me in')
+        // );
+        // // console.log(base_object);
+        // cram(
+        //     base_object,
+        //     withObservable<string>('yet_another', 'make some room')
+        // );
+        // console.log(JSON.stringify(base_object));
+        // console.log(base_object.observable.observable_extension);
+        // console.log(base_object.observable.another_observe);
+        // console.log(base_object.observable.yet_another);
+
+                // const fragment = document.createDocumentFragment();
+        // const p1_timer = document.createElement('p');
+        // const p2_timer = document.createElement('p');
+        // const input = document.createElement('input');
+        // const output = document.createElement('input');
+        // input.type = 'text';
+        // output.type = 'text';
+        // fragment.appendChild(p1_timer);
+        // fragment.appendChild(input);
+        // fragment.appendChild(output);
+        // document.body.appendChild(fragment);
+
+        // 1-way
+        // observable_state.subscribe(
+        //     (value) => (timer.textContent = value)
+        // );
+
+        // 2-way link
+        // link<string>(observable_state, input);
+        // link<string>(observable_state, output, 'value', 'change');
+
+        // /**
+        //  *  !!! PAY ATTENTION this is METHOD CHAINING !!!
+        //  *
+        //  * Test_context mutates along the way for now.
+        //  */
+        // test_context
+        //     .put('timer', observable_state)
+        //     .remove('timer')
+        //     .put('timer', observable_state)
+        //     .merge({
+        //         timer: observable_state,
+        //         timer2: observable_state,
+        //         timer3: observable_state,
+        //     })
+        //     .remove('timer2');
+
+        // const another_context = newContext();
+        // another_context
+        //     .put('another_timer', observable_state)
+        //     .merge(test_context);
+
+                //------------------------------------------------- tagged templates
+        // function render() {
+        //     console.log('render');
+        //     console.log(this);
+        // }
+
+        // function tag(chunks, ...placeholders) {
+        //     console.log('Tagged templates are amazing !');
+        //     console.log('array of all string chunks in the template :');
+        //     console.log(chunks);
+        //     console.log('array of all placeholders in the template :');
+        //     console.log(placeholders);
+        // }

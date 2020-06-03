@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-
+    //---------------------------------------------------------------- komrad.ts
     type Trait = Object;
 
     /**
@@ -64,6 +64,7 @@
         return <Base & Extension>extended_copy;
     }
 
+    //------------------------------------------------------------------ solo.ts
     /**
      * Define Subscriber callback.
      */
@@ -73,7 +74,6 @@
 
     /**
      * Define Observable object.
-     *
      */
     interface Observable<T> {
         subscribers: Subscriber<T>[];
@@ -110,13 +110,13 @@
 
             notify: async function (): Promise<T> {
                 // const queue = []; // rate-limit-ish
-                console.log(this.subscribers);
+                // console.log(this.subscribers);
                 for (
                     let i = 0, length = this.subscribers.length;
                     i < length;
                     i++
                 ) {
-                    console.log('notifying ' + this.subscribers[i]);
+                    // console.log('notifying ' + this.subscribers[i]);
                     // queue.push(this.subscribers[i](this.value)); // rate-limit-ish
                     await this.subscribers[i](this.value);
                 }
@@ -277,7 +277,7 @@
      *       Context, record its name as a string placeholder.
      *
      * @todo Consider using a dictionnary and an identifier per pin.
-     * @todo Consider make it a Context method.
+     * @todo Consider making it a method of Context object.
      */
     function musterPins(context: Context): Pin<any>[] {
         const pin_nodes = [...document.querySelectorAll('[data-pin]')];
@@ -309,7 +309,7 @@
      *       Context, record its name as a string placeholder.
      *
      * @todo Consider using a dictionnary and an identifier per pin.
-     * @todo Consider make it a Context method.
+     * @todo Consider making it a method of Context object.
      */
     function musterLinks(context: Context): Link<any>[] {
         const link_nodes = [
@@ -342,6 +342,7 @@
      * Activate a given pin collection.
      *
      * @todo Deal with incomple Observable-less pins
+     * @todo Consider making it a method of Context object.
      */
     function activatePins(pins: Pin<any>[]): void {
         for (let i = 0, length = pins.length; i < length; i++) {
@@ -357,6 +358,7 @@
      * Activate a given pin collection.
      *
      * @todo Deal with incomple Observable-less pins
+     * @todo Consider making it a method of Context object.
      */
     function activateLinks(links: Link<any>[]): void {
         for (let i = 0, length = links.length; i < length; i++) {
@@ -371,111 +373,132 @@
         }
     }
 
-    //------------------------------------------------------------------- main ---
+    //-------------------------------------------------------- noops-and-crosses
+    /**
+     * Define Timer object.
+     *
+     * @var id interval ID
+     */
+    interface Timer {
+        id: number;
+        elapsed: number;
+        start: number;
+        readonly observable: { value: Observable<string> };
+        tag: () => this; // template: TemplateStringsArray
+        toggle: () => this;
+        reset: () => this;
+        syncWith: (timer: Timer) => this;
+    }
+
+    /**
+     * Create new Timer object.
+     */
+    function newTimer(): Timer & Observable<string> {
+        const timer: any = {
+            id: 0,
+            elapsed: 0,
+            // start: start_time !== undefined ? start_time : Date.now(),
+            start: 0,
+            // observable : {
+            //     value : newObservable<string>('')
+            // },
+            tag: function (): Timer {
+                const formatted_time = new Date(
+                    Date.now() - this.start + this.elapsed
+                )
+                    .toISOString()
+                    .slice(11, -5);
+                // console.log(formatted_time);
+                // console.log(this.start);
+                this.observable.value.set(
+                    'time elapsed : ' + formatted_time
+                );
+                return this;
+            },
+            toggle: function (): Timer {
+                console.log(this.id);
+                if (this.id === 0) {
+                    // console.log(this.tag.bind(this))
+                    // this.id = setInterval(this.tag, 1000);
+                    // this.id = setInterval(this.tag.bind(this), 1000);
+                    // console.log(this);
+                    // this.id = setInterval(this.tag, 1000, this);
+                    // this.id = setInterval(() =>  {this.tag()}, 1000);
+                    this.start = Date.now();
+                    const that = this;
+                    this.id = setInterval(function () :void {
+                        that.tag();
+                    }, 1000);
+
+                } else {
+                    clearInterval(this.id);
+                    this.elapsed = Date.now() - this.start;
+                    this.id = 0;
+                }
+                return this;
+            },
+            reset: function (): Timer {
+                this.elapsed = 0;
+                this.start = Date.now();
+                return this;
+            },
+            syncWith: function (another_timer: Timer): Timer {
+                this.id = another_timer.id;
+                this.elapsed = another_timer.elapsed;
+                this.start = another_timer.start;
+                this.tag();
+                return this;
+            },
+        };
+        extend(timer, withObservable<string>('value', ''));
+        return <Timer & Observable<string>>timer;
+    }
+
+    //----------------------------------------------------------------- main ---
     /**
      * DOMContentLoaded loaded !
      */
     window.addEventListener('DOMContentLoaded', function (
         event: Event
     ) {
-        //------------------------------------------------- tagged templates
-        // function render() {
-        //     console.log('render');
-        //     console.log(this);
-        // }
-
-        function tag(chunks, ...placeholders) {
-            console.log('Tagged templates are amazing !');
-            console.log('array of all string chunks in the template :');
-            console.log(chunks);
-            console.log('array of all placeholders in the template :');
-            console.log(placeholders);
-        }
-
-        function tick(target, time, tag, template) {
-            target.set('time elapsed :' + (Date.now() - time));
-            // console.log(template);
-            // console.log(tag);
-            // tag`${template}`;
-            // node.textContent = template;
-        }
-
         //------------------------------------------ subscribing and linking
-        const fragment = document.createDocumentFragment();
-        const timer = document.createElement('p');
-        const input = document.createElement('input');
-        const output = document.createElement('input');
-        input.type = 'text';
-        output.type = 'text';
-        fragment.appendChild(timer);
-        fragment.appendChild(input);
-        fragment.appendChild(output);
-        document.body.appendChild(fragment);
+        // const global_timer = newObservable<string>('init');
+        // const p1_timer = newObservable<string>('init');
+        // const p2_timer = newObservable<string>('init');
 
-        const observable_state = newObservable<string>('init');
-
-        // 1-way
-        observable_state.subscribe(
-            (value) => (timer.textContent = value)
+        const global_timer = newTimer();
+        // const p1_timer = newTimer().syncWith(global_timer);
+        // const p2_timer = newTimer().syncWith(global_timer);
+        console.log(global_timer);
+        global_timer;
+        const timer_context = newContext().put(
+            'global_timer',
+            global_timer.observable.value
         );
 
-        // 2-way link
-        link<string>(observable_state, input);
-        link<string>(observable_state, output, 'value', 'change');
+        // .put('p1_timer', p1_timer.observable.value)
+        // .put('p2_timer', p2_timer.observable.value);
 
-        const start = Date.now();
+        const timer_pins = musterPins(timer_context);
+        activatePins(timer_pins);
+        activateLinks(musterLinks(timer_context));
+        // const start = Date.now();
+        // let global_timer_id = 0;
+        // setInterval(tick, 1500, p1_timer, start);
+        // setInterval(tick, 2000, p2_timer, start);
 
-        const base_object = extendCopy(
-            {},
-            withObservable<string>(
-                'observable_extension',
-                'notice me !'
-            )
+        const play_button = document.querySelector('button[name=play]');
+
+        //------------------------------------------------ play_button click
+        play_button.addEventListener(
+            'click',
+            function (event: Event): void {
+                console.log(global_timer);
+                global_timer.toggle() ;
+                event.stopPropagation();
+            },
+            false
         );
-        // console.log(base_object);
-        cram(
-            base_object,
-            withObservable<string>('another_observe', 'let me in')
-        );
-        // console.log(base_object);
-        cram(
-            base_object,
-            withObservable<string>('yet_another', 'make some room')
-        );
-        // console.log(JSON.stringify(base_object));
-        // console.log(base_object.observable.observable_extension);
-        // console.log(base_object.observable.another_observe);
-        // console.log(base_object.observable.yet_another);
-
-        const test_context = newContext();
-
-        /**
-         *  !!! PAY ATTENTION this is METHOD CHAINING !!!
-         *
-         * Test_context mutates along the way for now.
-         */
-        test_context
-            .put('timer', observable_state)
-            .remove('timer')
-            .put('timer', observable_state)
-            .merge({
-                timer: observable_state,
-                timer2: observable_state,
-                timer3: observable_state,
-            })
-            .remove('timer2');
-
-        const another_context = newContext();
-        another_context
-            .put('another_timer', observable_state)
-            .merge(test_context);
-        // console.log(another_context);
-
-        // activatePins(musterPins(test_context));
-        activateLinks(musterLinks(test_context));
-        // console.log(musterLinks(another_context));
-        setInterval(tick, 1000, observable_state, start);
-
         /**
          * @todo Render single component.
          * @todo Batch renders.
