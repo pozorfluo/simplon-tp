@@ -472,81 +472,197 @@
 //     // return <Animal & Evolvable>object.evolveSound !== undefined;
 // }
 
+// const base_object = extendCopy(
+//     {},
+//     withObservable<string>(
+//         'observable_extension',
+//         'notice me !'
+//     )
+// );
+// // console.log(base_object);
+// cram(
+//     base_object,
+//     withObservable<string>('another_observe', 'let me in')
+// );
+// // console.log(base_object);
+// cram(
+//     base_object,
+//     withObservable<string>('yet_another', 'make some room')
+// );
+// console.log(JSON.stringify(base_object));
+// console.log(base_object.observable.observable_extension);
+// console.log(base_object.observable.another_observe);
+// console.log(base_object.observable.yet_another);
 
-        // const base_object = extendCopy(
-        //     {},
-        //     withObservable<string>(
-        //         'observable_extension',
-        //         'notice me !'
-        //     )
-        // );
-        // // console.log(base_object);
-        // cram(
-        //     base_object,
-        //     withObservable<string>('another_observe', 'let me in')
-        // );
-        // // console.log(base_object);
-        // cram(
-        //     base_object,
-        //     withObservable<string>('yet_another', 'make some room')
-        // );
-        // console.log(JSON.stringify(base_object));
-        // console.log(base_object.observable.observable_extension);
-        // console.log(base_object.observable.another_observe);
-        // console.log(base_object.observable.yet_another);
+// const fragment = document.createDocumentFragment();
+// const p1_timer = document.createElement('p');
+// const p2_timer = document.createElement('p');
+// const input = document.createElement('input');
+// const output = document.createElement('input');
+// input.type = 'text';
+// output.type = 'text';
+// fragment.appendChild(p1_timer);
+// fragment.appendChild(input);
+// fragment.appendChild(output);
+// document.body.appendChild(fragment);
 
-                // const fragment = document.createDocumentFragment();
-        // const p1_timer = document.createElement('p');
-        // const p2_timer = document.createElement('p');
-        // const input = document.createElement('input');
-        // const output = document.createElement('input');
-        // input.type = 'text';
-        // output.type = 'text';
-        // fragment.appendChild(p1_timer);
-        // fragment.appendChild(input);
-        // fragment.appendChild(output);
-        // document.body.appendChild(fragment);
+// 1-way
+// observable_state.subscribe(
+//     (value) => (timer.textContent = value)
+// );
 
-        // 1-way
-        // observable_state.subscribe(
-        //     (value) => (timer.textContent = value)
-        // );
+// 2-way link
+// link<string>(observable_state, input);
+// link<string>(observable_state, output, 'value', 'change');
 
-        // 2-way link
-        // link<string>(observable_state, input);
-        // link<string>(observable_state, output, 'value', 'change');
+// /**
+//  *  !!! PAY ATTENTION this is METHOD CHAINING !!!
+//  *
+//  * Test_context mutates along the way for now.
+//  */
+// test_context
+//     .put('timer', observable_state)
+//     .remove('timer')
+//     .put('timer', observable_state)
+//     .merge({
+//         timer: observable_state,
+//         timer2: observable_state,
+//         timer3: observable_state,
+//     })
+//     .remove('timer2');
 
-        // /**
-        //  *  !!! PAY ATTENTION this is METHOD CHAINING !!!
-        //  *
-        //  * Test_context mutates along the way for now.
-        //  */
-        // test_context
-        //     .put('timer', observable_state)
-        //     .remove('timer')
-        //     .put('timer', observable_state)
-        //     .merge({
-        //         timer: observable_state,
-        //         timer2: observable_state,
-        //         timer3: observable_state,
-        //     })
-        //     .remove('timer2');
+// const another_context = newContext();
+// another_context
+//     .put('another_timer', observable_state)
+//     .merge(test_context);
 
-        // const another_context = newContext();
-        // another_context
-        //     .put('another_timer', observable_state)
-        //     .merge(test_context);
+//------------------------------------------------- tagged templates
+// function render() {
+//     console.log('render');
+//     console.log(this);
+// }
 
-                //------------------------------------------------- tagged templates
-        // function render() {
-        //     console.log('render');
-        //     console.log(this);
-        // }
+// function tag(chunks, ...placeholders) {
+//     console.log('Tagged templates are amazing !');
+//     console.log('array of all string chunks in the template :');
+//     console.log(chunks);
+//     console.log('array of all placeholders in the template :');
+//     console.log(placeholders);
+// }
 
-        // function tag(chunks, ...placeholders) {
-        //     console.log('Tagged templates are amazing !');
-        //     console.log('array of all string chunks in the template :');
-        //     console.log(chunks);
-        //     console.log('array of all placeholders in the template :');
-        //     console.log(placeholders);
-        // }
+// function tick(target, time, tag, template) {
+//     const formatted_time = new Date(Date.now() - time).toISOString().slice(11, -5);
+//     target.set(
+//         'time elapsed : ' + formatted_time
+//         // + formatted_time.getMinutes()
+//         // + ':'
+//         // + formatted_time.getSeconds()
+//       );
+//     // console.log(template);
+//     // console.log(tag);
+//     // tag`${template}`;
+//     // node.textContent = template;
+// }
+
+// /**
+//  * Collect data pins currently in the DOM for a given Context.
+//  *
+//  * @note If requested observable source is NOT found or available in given
+//  *       Context, record its name as a string placeholder.
+//  *
+//  * @todo Consider using a dictionnary and an identifier per pin.
+//  * @todo Consider making it a method of Context object.
+//  */
+// function musterPins(context: Context): Pin<any>[] {
+//     const pin_nodes = [...document.querySelectorAll('[data-pin]')];
+//     const length = pin_nodes.length;
+//     const pins = Array(length);
+
+//     for (let i = 0; i < length; i++) {
+//         const source = pin_nodes[i].getAttribute('data-pin');
+//         const target = pin_nodes[i].getAttribute('data-property');
+//         const type = pin_nodes[i].getAttribute('data-type');
+//         pins[i] = {
+//             source:
+//                 context.observables[source] !== undefined
+//                     ? context.observables[source]
+//                     : source,
+//             target: target !== null ? target : 'value',
+//             type: type !== null ? type : 'string',
+//             node: pin_nodes[i],
+//         };
+//     }
+
+//     return <Pin<any>[]>pins;
+// }
+
+// /**
+//  * Collect data links currently in the DOM for a given Context.
+//  *
+//  * @note If requested observable source is NOT found or available in given
+//  *       Context, record its name as a string placeholder.
+//  *
+//  * @todo Consider using a dictionnary and an identifier per pin.
+//  * @todo Consider making it a method of Context object.
+//  */
+// function musterLinks(context: Context): Link<any>[] {
+//     const link_nodes = [
+//         ...document.querySelectorAll('[data-link]'),
+//     ];
+//     const length = link_nodes.length;
+//     const links = Array(length);
+
+//     for (let i = 0; i < length; i++) {
+//         const source = link_nodes[i].getAttribute('data-link');
+//         const event = link_nodes[i].getAttribute('data-event');
+//         const target = link_nodes[i].getAttribute('data-property');
+//         const type = link_nodes[i].getAttribute('data-type');
+//         links[i] = {
+//             source:
+//                 context.observables[source] !== undefined
+//                     ? context.observables[source]
+//                     : source,
+//             target: target !== null ? target : 'value',
+//             event: event !== null ? event : 'input',
+//             type: type !== null ? type : 'string',
+//             node: link_nodes[i],
+//         };
+//     }
+
+//     return <Link<any>[]>links;
+// }
+
+// /**
+//  * Activate a given pin collection.
+//  *
+//  * @todo Deal with incomple Observable-less pins
+//  * @todo Consider making it a method of Context object.
+//  */
+// function activatePins(pins: Pin<any>[]): void {
+//     for (let i = 0, length = pins.length; i < length; i++) {
+//         if (typeof pins[i].source !== 'string') {
+//             (<Observable<any>>pins[i].source).subscribe(
+//                 (value) => (pins[i].node[pins[i].target] = value)
+//             );
+//         }
+//     }
+// }
+
+// /**
+//  * Activate a given Link collection.
+//  *
+//  * @todo Deal with incomple Observable-less pins
+//  * @todo Consider making it a method of Context object.
+//  */
+// function activateLinks(links: Link<any>[]): void {
+//     for (let i = 0, length = links.length; i < length; i++) {
+//         if (typeof links[i].source !== 'string') {
+//             link(
+//                 <Observable<any>>links[i].source,
+//                 links[i].node,
+//                 links[i].target,
+//                 links[i].event
+//             );
+//         }
+//     }
+// }

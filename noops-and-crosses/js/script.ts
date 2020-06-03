@@ -164,87 +164,6 @@
         trait.observable[name] = newObservable<T>(value);
         return <Observable<T> & Trait>trait;
     }
-
-    /**
-     * Set a 2-way link between given Observable and given DOM node.
-     *
-     * @todo Consider that the node emitting the original event probably
-     *       does not need to be notified back/updated if it is only
-     *       dependency.
-     * @todo Add unlink function.
-     */
-    function link<T>(
-        observable: Observable<T>,
-        node: Node,
-        property = 'value',
-        event = 'input'
-    ): void {
-        // console.log(arguments);
-        node[property] = observable.get();
-        observable.subscribe(
-            // () => (node[property] = observable.get())
-            () => (node[property] = observable.value)
-        );
-        node.addEventListener(event, () =>
-            observable.set(node[property])
-        );
-    }
-
-    /**
-     * Define Context object.
-     */
-    interface Context {
-        readonly observables: { [name: string]: Observable<any> };
-        put: (name: string, observable: Observable<any>) => Context;
-        remove: (name: string) => Context;
-        merge: (
-            another_context:
-                | Context
-                | { [name: string]: Observable<any> }
-        ) => Context;
-
-        [extension: string]: any; // open for extension.
-    }
-
-    /**
-     * Create a new Context object.
-     *
-     * @note put and merge will clobber existing entries.
-     */
-    function newContext(): Context {
-        const context: any = {
-            observables: {},
-
-            put: function (
-                name: string,
-                observable: Observable<any>
-            ): Context {
-                this.observables[name] = observable;
-                return this;
-            },
-
-            remove: function (name: string): Context {
-                if (this.observables[name] !== undefined) {
-                    delete this.observables[name];
-                }
-                return this;
-            },
-
-            merge: function (
-                another_context:
-                    | Context
-                    | { [name: string]: Observable<any> }
-            ): Context {
-                if (another_context.observables !== undefined) {
-                    another_context = another_context.observables;
-                }
-                extend(this.observables, another_context);
-                return this;
-            },
-        };
-        return <Context>context;
-    }
-
     /**
      * Define Pin object.
      *
@@ -271,106 +190,217 @@
     }
 
     /**
-     * Collect data pins currently in the DOM for a given Context.
+     * Set a 2-way link between given Observable and given DOM node.
      *
-     * @note If requested observable source is NOT found or available in given
-     *       Context, record its name as a string placeholder.
-     *
-     * @todo Consider using a dictionnary and an identifier per pin.
-     * @todo Consider making it a method of Context object.
+     * @todo Consider that the node emitting the original event probably
+     *       does not need to be notified back/updated if it is only
+     *       dependency.
+     * @todo Add unlink function.
      */
-    function musterPins(context: Context): Pin<any>[] {
-        const pin_nodes = [...document.querySelectorAll('[data-pin]')];
-        const length = pin_nodes.length;
-        const pins = Array(length);
-
-        for (let i = 0; i < length; i++) {
-            const source = pin_nodes[i].getAttribute('data-pin');
-            const target = pin_nodes[i].getAttribute('data-property');
-            const type = pin_nodes[i].getAttribute('data-type');
-            pins[i] = {
-                source:
-                    context.observables[source] !== undefined
-                        ? context.observables[source]
-                        : source,
-                target: target !== null ? target : 'value',
-                type: type !== null ? type : 'string',
-                node: pin_nodes[i],
-            };
-        }
-
-        return <Pin<any>[]>pins;
+    function link<T>(
+        observable: Observable<T>,
+        node: Node,
+        property = 'value',
+        event = 'input'
+    ): void {
+        // console.log(arguments);
+        node[property] = observable.get();
+        observable.subscribe(
+            // () => (node[property] = observable.get())
+            () => {node[property] = observable.value}
+        );
+        node.addEventListener(event, () =>
+            observable.set(node[property])
+        );
     }
 
     /**
-     * Collect data links currently in the DOM for a given Context.
+     * Define Context object.
      *
-     * @note If requested observable source is NOT found or available in given
-     *       Context, record its name as a string placeholder.
-     *
-     * @todo Consider using a dictionnary and an identifier per pin.
-     * @todo Consider making it a method of Context object.
+     * @todo Consider promoting observables definition to interface
+     *       ObservableCollection.
      */
-    function musterLinks(context: Context): Link<any>[] {
-        const link_nodes = [
-            ...document.querySelectorAll('[data-link]'),
-        ];
-        const length = link_nodes.length;
-        const links = Array(length);
-
-        for (let i = 0; i < length; i++) {
-            const source = link_nodes[i].getAttribute('data-link');
-            const event = link_nodes[i].getAttribute('data-event');
-            const target = link_nodes[i].getAttribute('data-property');
-            const type = link_nodes[i].getAttribute('data-type');
-            links[i] = {
-                source:
-                    context.observables[source] !== undefined
-                        ? context.observables[source]
-                        : source,
-                target: target !== null ? target : 'value',
-                event: event !== null ? event : 'input',
-                type: type !== null ? type : 'string',
-                node: link_nodes[i],
-            };
-        }
-
-        return <Link<any>[]>links;
+    interface Context {
+        readonly observables: { [name: string]: Observable<any> };
+        readonly pins: Pin<any>[];
+        readonly links: Link<any>[];
+        put: (name: string, observable: Observable<any>) => this;
+        remove: (name: string) => this;
+        merge: (
+            another_context:
+                | Context
+                | { [name: string]: Observable<any> }
+        ) => Context;
+        musterPins: () => this;
+        musterLinks: () => this;
+        activatePins: () => this;
+        activateLinks: () => this;
+        [extension: string]: any; // open for extension.
     }
 
     /**
-     * Activate a given pin collection.
+     * Create a new Context object.
      *
-     * @todo Deal with incomple Observable-less pins
-     * @todo Consider making it a method of Context object.
+     * @note put and merge will clobber existing entries.
      */
-    function activatePins(pins: Pin<any>[]): void {
-        for (let i = 0, length = pins.length; i < length; i++) {
-            if (typeof pins[i].source !== 'string') {
-                (<Observable<any>>pins[i].source).subscribe(
-                    (value) => (pins[i].node[pins[i].target] = value)
-                );
-            }
-        }
-    }
+    function newContext(): Context {
+        const context: any = {
+            observables: {},
+            pins: [],
+            links: [],
+            put: function (
+                name: string,
+                observable: Observable<any>
+            ): Context {
+                this.observables[name] = observable;
+                return this;
+            },
 
-    /**
-     * Activate a given pin collection.
-     *
-     * @todo Deal with incomple Observable-less pins
-     * @todo Consider making it a method of Context object.
-     */
-    function activateLinks(links: Link<any>[]): void {
-        for (let i = 0, length = links.length; i < length; i++) {
-            if (typeof links[i].source !== 'string') {
-                link(
-                    <Observable<any>>links[i].source,
-                    links[i].node,
-                    links[i].target,
-                    links[i].event
-                );
-            }
-        }
+            remove: function (name: string): Context {
+                if (this.observables[name] !== undefined) {
+                    delete this.observables[name];
+                }
+                return this;
+            },
+
+            merge: function (
+                another_context:
+                    | Context
+                    | { [name: string]: Observable<any> }
+            ): Context {
+                if (another_context.observables !== undefined) {
+                    another_context = another_context.observables;
+                }
+                extend(this.observables, another_context);
+                return this;
+            },
+
+            /**
+             * Collect data pins currently in the DOM for this Context.
+             *
+             * @note If requested observable source is NOT found or available in
+             *       this Context, record its name as a string placeholder.
+             *
+             * @todo Consider using a dictionnary and an identifier per pin.
+             */
+            musterPins: function (): Context {
+                const pin_nodes = [
+                    ...document.querySelectorAll('[data-pin]'),
+                ];
+                const length = pin_nodes.length;
+                const pins = Array(length);
+
+                for (let i = 0; i < length; i++) {
+                    const source = pin_nodes[i].getAttribute(
+                        'data-pin'
+                    );
+                    const target = pin_nodes[i].getAttribute(
+                        'data-property'
+                    );
+                    const type = pin_nodes[i].getAttribute('data-type');
+                    pins[i] = {
+                        source:
+                            this.observables[source] !== undefined
+                                ? this.observables[source]
+                                : source,
+                        target: target !== null ? target : 'value',
+                        type: type !== null ? type : 'string',
+                        node: pin_nodes[i],
+                    };
+                }
+                this.pins = <Pin<any>[]>pins;
+                return this;
+            },
+            /**
+             * Collect data links currently in the DOM for this Context.
+             *
+             * @note If requested observable source is NOT found or available in
+             *       this Context, record its name as a string placeholder.
+             *
+             * @todo Consider using a dictionnary and an identifier per pin.
+             */
+            musterLinks: function (): Context {
+                const link_nodes = [
+                    ...document.querySelectorAll('[data-link]'),
+                ];
+                const length = link_nodes.length;
+                const links = Array(length);
+
+                for (let i = 0; i < length; i++) {
+                    const source = link_nodes[i].getAttribute(
+                        'data-link'
+                    );
+                    const event = link_nodes[i].getAttribute(
+                        'data-event'
+                    );
+                    const target = link_nodes[i].getAttribute(
+                        'data-property'
+                    );
+                    const type = link_nodes[i].getAttribute(
+                        'data-type'
+                    );
+                    links[i] = {
+                        source:
+                            this.observables[source] !== undefined
+                                ? this.observables[source]
+                                : source,
+                        target: target !== null ? target : 'value',
+                        event: event !== null ? event : 'input',
+                        type: type !== null ? type : 'string',
+                        node: link_nodes[i],
+                    };
+                }
+                this.links = <Link<any>[]>links;
+                return this;
+            },
+            /**
+             * Activate a given pin collection.
+             *
+             * @todo Deal with incomple Observable-less pins
+             */
+            activatePins: function (): Context {
+                for (
+                    let i = 0, length = this.pins.length;
+                    i < length;
+                    i++
+                ) {
+                    if (typeof this.pins[i].source !== 'string') {
+                        (<Observable<any>>(
+                            this.pins[i].source
+                        )).subscribe(
+                            (value) =>
+                                {this.pins[i].node[
+                                    this.pins[i].target
+                                ] = value}
+                        );
+                    }
+                }
+                return this;
+            },
+            /**
+             * Activate a given Link collection.
+             *
+             * @todo Deal with incomple Observable-less pins
+             */
+            activateLinks: function (): Context {
+                for (
+                    let i = 0, length = this.links.length;
+                    i < length;
+                    i++
+                ) {
+                    if (typeof this.links[i].source !== 'string') {
+                        link(
+                            <Observable<any>>this.links[i].source,
+                            this.links[i].node,
+                            this.links[i].target,
+                            this.links[i].event
+                        );
+                    }
+                }
+                return this;
+            },
+        };
+        return <Context>context;
     }
 
     //-------------------------------------------------------- noops-and-crosses
@@ -383,6 +413,7 @@
         id: number;
         elapsed: number;
         start: number;
+        sync: Timer | undefined;
         readonly observable: { value: Observable<string> };
         tag: () => this; // template: TemplateStringsArray
         toggle: () => this;
@@ -397,42 +428,37 @@
         const timer: any = {
             id: 0,
             elapsed: 0,
-            // start: start_time !== undefined ? start_time : Date.now(),
             start: 0,
-            // observable : {
-            //     value : newObservable<string>('')
-            // },
+            sync: undefined,
             tag: function (): Timer {
                 const formatted_time = new Date(
                     Date.now() - this.start + this.elapsed
                 )
                     .toISOString()
                     .slice(11, -5);
-                // console.log(formatted_time);
-                // console.log(this.start);
+                // this.observable.value.set(formatted_time);
                 this.observable.value.set(
-                    'time elapsed : ' + formatted_time
+                    Date.now() - this.start + this.elapsed
                 );
                 return this;
             },
             toggle: function (): Timer {
-                console.log(this.id);
+                // console.log(this.id);
                 if (this.id === 0) {
-                    // console.log(this.tag.bind(this))
-                    // this.id = setInterval(this.tag, 1000);
-                    // this.id = setInterval(this.tag.bind(this), 1000);
-                    // console.log(this);
-                    // this.id = setInterval(this.tag, 1000, this);
-                    // this.id = setInterval(() =>  {this.tag()}, 1000);
                     this.start = Date.now();
                     const that = this;
-                    this.id = setInterval(function () :void {
+                    this.id = setInterval(function (): void {
                         that.tag();
                     }, 1000);
-
                 } else {
                     clearInterval(this.id);
-                    this.elapsed = Date.now() - this.start;
+                    // this.elapsed += Date.now() - this.start;
+                    /**
+                     * @note Round to nearest second to keep setInterval simple.
+                     */
+                    this.elapsed +=
+                        Math.floor((Date.now() - this.start) / 1000) *
+                        1000;
                     this.id = 0;
                 }
                 return this;
@@ -442,11 +468,12 @@
                 this.start = Date.now();
                 return this;
             },
-            syncWith: function (another_timer: Timer): Timer {
-                this.id = another_timer.id;
-                this.elapsed = another_timer.elapsed;
-                this.start = another_timer.start;
-                this.tag();
+            syncWith: function (ref_timer: Timer): Timer {
+                // this.id = another_timer.id;
+                // this.elapsed = another_timer.elapsed;
+                // this.start = another_timer.start;
+                // this.tag();
+                this.sync = ref_timer;
                 return this;
             },
         };
@@ -461,40 +488,42 @@
     window.addEventListener('DOMContentLoaded', function (
         event: Event
     ) {
-        //------------------------------------------ subscribing and linking
+        //----------------------------------------------------------- timers
         // const global_timer = newObservable<string>('init');
         // const p1_timer = newObservable<string>('init');
         // const p2_timer = newObservable<string>('init');
 
-        const global_timer = newTimer();
-        // const p1_timer = newTimer().syncWith(global_timer);
-        // const p2_timer = newTimer().syncWith(global_timer);
-        console.log(global_timer);
-        global_timer;
-        const timer_context = newContext().put(
-            'global_timer',
-            global_timer.observable.value
-        );
+        const global_timer = newTimer().toggle();
+        const p1_timer = newTimer().syncWith(global_timer);
+        const p2_timer = newTimer().syncWith(global_timer).toggle();
 
-        // .put('p1_timer', p1_timer.observable.value)
-        // .put('p2_timer', p2_timer.observable.value);
+        const control_timer = newObservable<string>('0');
+        p1_timer.observable.value.subscribe((value) => {
+            control_timer.set(value + p2_timer.observable.value.get());
+        });
+        p2_timer.observable.value.subscribe((value) => {
+            control_timer.set(value + p1_timer.observable.value.get());
+        });
 
-        const timer_pins = musterPins(timer_context);
-        activatePins(timer_pins);
-        activateLinks(musterLinks(timer_context));
-        // const start = Date.now();
-        // let global_timer_id = 0;
-        // setInterval(tick, 1500, p1_timer, start);
-        // setInterval(tick, 2000, p2_timer, start);
+        const timer_context = newContext()
+            .put('global_timer', global_timer.observable.value)
+            .put('p1_timer', p1_timer.observable.value)
+            .put('p2_timer', p2_timer.observable.value)
+            .put('control_timer', control_timer)
+            .musterPins()
+            .musterLinks()
+            .activatePins()
+            .activateLinks();
 
+
+
+        //------------------------------------------------------ play_button
         const play_button = document.querySelector('button[name=play]');
-
-        //------------------------------------------------ play_button click
         play_button.addEventListener(
             'click',
             function (event: Event): void {
-                console.log(global_timer);
-                global_timer.toggle() ;
+                p1_timer.toggle();
+                p2_timer.toggle();
                 event.stopPropagation();
             },
             false
