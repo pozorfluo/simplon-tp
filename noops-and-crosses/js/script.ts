@@ -179,7 +179,7 @@
         property = 'value',
         event = 'input'
     ): void {
-        console.log(arguments);
+        // console.log(arguments);
         node[property] = observable.get();
         observable.subscribe(
             // () => (node[property] = observable.get())
@@ -303,6 +303,42 @@
     }
 
     /**
+     * Collect data links currently in the DOM for a given Context.
+     *
+     * @note If requested observable source is NOT found or available in given
+     *       Context, record its name as a string placeholder.
+     *
+     * @todo Consider using a dictionnary and an identifier per pin.
+     * @todo Consider make it a Context method.
+     */
+    function musterLinks(context: Context): Link<any>[] {
+        const link_nodes = [
+            ...document.querySelectorAll('[data-link]'),
+        ];
+        const length = link_nodes.length;
+        const links = Array(length);
+
+        for (let i = 0; i < length; i++) {
+            const source = link_nodes[i].getAttribute('data-link');
+            const event = link_nodes[i].getAttribute('data-event');
+            const target = link_nodes[i].getAttribute('data-property');
+            const type = link_nodes[i].getAttribute('data-type');
+            links[i] = {
+                source:
+                    context.observables[source] !== undefined
+                        ? context.observables[source]
+                        : source,
+                target: target !== null ? target : 'value',
+                event: event !== null ? event : 'input',
+                type: type !== null ? type : 'string',
+                node: link_nodes[i],
+            };
+        }
+
+        return <Link<any>[]>links;
+    }
+
+    /**
      * Activate a given pin collection.
      *
      * @todo Deal with incomple Observable-less pins
@@ -312,6 +348,24 @@
             if (typeof pins[i].source !== 'string') {
                 (<Observable<any>>pins[i].source).subscribe(
                     (value) => (pins[i].node[pins[i].target] = value)
+                );
+            }
+        }
+    }
+
+    /**
+     * Activate a given pin collection.
+     *
+     * @todo Deal with incomple Observable-less pins
+     */
+    function activateLinks(links: Link<any>[]): void {
+        for (let i = 0, length = links.length; i < length; i++) {
+            if (typeof links[i].source !== 'string') {
+                link(
+                    <Observable<any>>links[i].source,
+                    links[i].node,
+                    links[i].target,
+                    links[i].event
                 );
             }
         }
@@ -371,8 +425,6 @@
 
         const start = Date.now();
 
-        setInterval(tick, 1000, observable_state, start);
-
         const base_object = extendCopy(
             {},
             withObservable<string>(
@@ -380,20 +432,20 @@
                 'notice me !'
             )
         );
-        console.log(base_object);
+        // console.log(base_object);
         cram(
             base_object,
             withObservable<string>('another_observe', 'let me in')
         );
-        console.log(base_object);
+        // console.log(base_object);
         cram(
             base_object,
             withObservable<string>('yet_another', 'make some room')
         );
-        console.log(JSON.stringify(base_object));
-        console.log(base_object.observable.observable_extension);
-        console.log(base_object.observable.another_observe);
-        console.log(base_object.observable.yet_another);
+        // console.log(JSON.stringify(base_object));
+        // console.log(base_object.observable.observable_extension);
+        // console.log(base_object.observable.another_observe);
+        // console.log(base_object.observable.yet_another);
 
         const test_context = newContext();
 
@@ -417,9 +469,13 @@
         another_context
             .put('another_timer', observable_state)
             .merge(test_context);
-        console.log(another_context);
+        // console.log(another_context);
 
-        activatePins(musterPins(test_context));
+        // activatePins(musterPins(test_context));
+        activateLinks(musterLinks(test_context));
+        // console.log(musterLinks(another_context));
+        setInterval(tick, 1000, observable_state, start);
+
         /**
          * @todo Render single component.
          * @todo Batch renders.
