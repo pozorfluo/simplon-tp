@@ -284,34 +284,25 @@
             id: 0,
             elapsed: 0,
             start: 0,
-            tick: 0,
             // sync: undefined,
             tag: function () {
-                const tick = (performance.now() - this.tick);
-                if (tick > 999) {
-                    const formatted_time = new Date(performance.now() - this.start + this.elapsed)
-                        .toISOString()
-                        .slice(11, -5);
-                    this.observable.value.set(formatted_time);
-                    this.tick = performance.now();
-                }
-                this.id = requestAnimationFrame(() => { return this.tag(); });
+                const formatted_time = new Date(performance.now() - this.start + this.elapsed)
+                    .toISOString()
+                    .slice(11, -5);
+                this.observable.value.set(formatted_time);
                 return this;
             },
             toggle: function () {
                 if (this.id === 0) {
                     this.start = performance.now();
-                    this.id = requestAnimationFrame(() => { return this.tag(); });
-                    // console.log('toggle : this.id = ' + this.id); 
-                    // const that = this;
-                    // this.id = setInterval(function (): void {
-                    //     that.tag();
-                    // }, 500);
+                    const that = this;
+                    this.id = setInterval(function () {
+                        that.tag();
+                    }, 500);
                 }
                 else {
-                    // clearInterval(this.id);
-                    cancelAnimationFrame(this.id);
-                    // this.tag(); 
+                    clearInterval(this.id);
+                    this.tag();
                     this.elapsed += performance.now() - this.start;
                     this.id = 0;
                 }
@@ -319,8 +310,7 @@
             },
             reset: function () {
                 if (this.id !== 0) {
-                    // clearInterval(this.id);
-                    cancelAnimationFrame(this.id);
+                    clearInterval(this.id);
                     this.id = 0;
                 }
                 this.elapsed = 0;
