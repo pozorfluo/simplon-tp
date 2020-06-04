@@ -374,14 +374,14 @@
             /**
              * Reference given pin collection as this context pin collection.
              */
-            setPins: function (pins: Pin<any>[]) : Context {
+            setPins: function (pins: Pin<any>[]): Context {
                 this.pins = pins;
                 return this;
             },
             /**
              * Reference given link collection as this context link collection.
              */
-            setLinks: function (links: Link<any>[]) : Context {
+            setLinks: function (links: Link<any>[]): Context {
                 this.links = links;
                 return this;
             },
@@ -450,6 +450,8 @@
         toggle: () => this;
         reset: () => this;
         syncWith: (ref_timer: Timer) => this;
+        isOn: () => boolean;
+        [extension: string]: any; // open for extension.
     }
 
     /**
@@ -486,8 +488,13 @@
                 return this;
             },
             reset: function (): Timer {
+                if (this.id !== 0) {
+                    clearInterval(this.id);
+                    this.id = 0;
+                }
                 this.elapsed = 0;
                 this.start = performance.now();
+                this.tag();
                 return this;
             },
             syncWith: function (another_timer: Timer): Timer {
@@ -497,9 +504,89 @@
                 // this.sync = ref_timer;
                 return this;
             },
+            isOn: function (): boolean {
+                return !(this.id === 0);
+            },
         };
         extend(timer, withObservable<string>('value', ''));
         return <Timer & Observable<string>>timer;
+    }
+
+    /**
+     * Define Board object.
+     */
+    interface Board {
+        x: number;
+        o: number;
+        turn: string;
+        draw: number;
+        wins: number[];
+        check: () => this;
+        play: (position: number) => this;
+        reset: () => this;
+        [extension: string]: any; // open for extension.
+    }
+
+    /**
+     * Create new Board object.
+     */
+    function newBoard(): Board {
+        const board: any = {
+            x: 0b000000000,
+            o: 0b000000000,
+            turn: 'x',
+            draw: 0b111111111,
+            wins: [
+                0b111000000, // horizontal
+                0b000111000, // horizontal
+                0b000000111, // horizontal
+                0b100100100, // vertical
+                0b010010010, // vertical
+                0b001001001, // vertical
+                0b100010001, // diagonal
+                0b001010100, // diagonal
+            ],
+
+            check: function (): Board {
+                /* Win ? */
+                for (let condition of this.wins) {
+                    if ((this[this.turn] & condition) === condition) {
+                        console.log(this.turn + ' won ! ');
+                        return this;
+                    }
+                }
+                /* Draw ? */
+                if ((this.x | this.o) === this.draw) {
+                    console.log('Draw !');
+                    return this;
+                }
+                /* Next turn !*/
+                this.turn = this.turn === 'x' ? 'o' : 'x';
+                return this;
+            },
+            play: function (position: number): Board {
+                const mask = 1 << position;
+                if (!(this.x & mask) && !(this.o & mask)) {
+                    this[this.turn] |= mask;
+                    console.log(this.turn + ' : ' + this[this.turn]);
+                    return this.check();
+                }
+                return this;
+            },
+            reset: function (): Board {
+                this.x = 0b000000000;
+                this.o = 0b000000000;
+                this.turn = 'x';
+                this.observable.x.set(this.x);
+                this.observable.o.set(this.o);
+                this.observable.turn.set(this.turn);
+                return this;
+            },
+        };
+        extend(board, withObservable<number>('x', 0b000000000));
+        extend(board, withObservable<number>('o', 0b000000000));
+        extend(board, withObservable<string>('turn', 'x'));
+        return <Board & Observable<number> & Observable<string>>board;
     }
 
     //----------------------------------------------------------------- main ---
@@ -510,13 +597,9 @@
         event: Event
     ) {
         //----------------------------------------------------------- timers
-        // const global_timer = newObservable<string>('init');
-        // const p1_timer = newObservable<string>('init');
-        // const p2_timer = newObservable<string>('init');
-
-        const p1_timer = newTimer().toggle();
-        const p2_timer = newTimer();
-
+        const timer_x = newTimer();
+        const timer_o = newTimer();
+        const board = newBoard();
         /* derived computed value test */
         // const control_timer = newObservable<string>('0');
         // p1_timer.observable.value.subscribe((value) => {
@@ -526,23 +609,47 @@
         //     control_timer.set(p1_timer.observable.value.get() + value);
         // });
 
-        const timer_context = newContext()
-            .put('p1_timer', p1_timer.observable.value)
-            .put('p2_timer', p2_timer.observable.value)
+        const board_context = newContext()
+            .put('timer_x', timer_x.observable.value)
+            .put('timer_o', timer_o.observable.value)
+            .put('board_x', board.observable.x)
+            .put('board_o', board.observable.o)
+            .put('turn', board.observable.turn)
             .musterPins()
-            .musterLinks()
-            .activatePins()
-            .activateLinks();
+            .activatePins();
+        // .musterLinks()
+        // .activateLinks();
 
-        //------------------------------------------------------ play_button
-        const play_button = document.querySelector('button[name=play]');
-        play_button.addEventListener(
+        //------------------------------------------------------------ board
+
+        //------------------------------------------------------------- grid
+        const squares = [...document.querySelectorAll('.square')];
+        for (let i = 0, length = squares.length; i < length; i++) {
+            squares[i].addEventListener(
+                'click',
+                function (event) {
+                    board.play(i);
+                },
+                false
+            );
+        }
+
+        //------------------------------------------------------ reset_button
+        const reset_button = document.querySelector(
+            'button[name=reset]'
+        );
+        reset_button.addEventListener(
             'click',
             function (event: Event): void {
-                p1_timer.toggle();
-                p2_timer.toggle();
-                timer_context.pins[0].node.classList.toggle('active');
-                timer_context.pins[1].node.classList.toggle('active');
+                board.reset();
+                timer_x.reset().toggle();
+                timer_o.reset();
+                // console.log('x timer is on : ' + timer_x.isOn());
+                // console.log('o timer is on : ' + timer_o.isOn());
+                // p1_timer.toggle();
+                // p2_timer.toggle();
+                // timer_context.pins[0].node.classList.toggle('active');
+                // timer_context.pins[1].node.classList.toggle('active');
                 event.stopPropagation();
             },
             false
