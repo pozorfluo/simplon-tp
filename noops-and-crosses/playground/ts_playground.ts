@@ -506,12 +506,12 @@ fragment.appendChild(input);
 fragment.appendChild(output);
 document.body.appendChild(fragment);
 
-1-way
+// 1-way
 observable_state.subscribe(
     (value) => (timer.textContent = value)
 );
 
-2-way link
+// 2-way link
 link<string>(observable_state, input);
 link<string>(observable_state, output, 'value', 'change');
 
@@ -536,7 +536,7 @@ another_context
     .put('another_timer', observable_state)
     .merge(test_context);
 
-------------------------------------------------- tagged templates
+// ------------------------------------------------- tagged templates
 function render() {
     console.log('render');
     console.log(this);

@@ -337,9 +337,9 @@
      */
     function newBoard() {
         const board = {
-            x: 0b000000000,
-            o: 0b000000000,
-            turn: 'x',
+            x: newObservable(0b000000000),
+            o: newObservable(0b000000000),
+            turn: newObservable('x'),
             draw: 0b111111111,
             wins: [
                 0b111000000,
@@ -354,42 +354,44 @@
             check: function () {
                 /* Win ? */
                 for (let condition of this.wins) {
-                    if ((this[this.turn] & condition) === condition) {
-                        console.log(this.turn + ' won ! ');
+                    if ((this[this.turn.value].value & condition) ===
+                        condition) {
+                        console.log(this.turn.value + ' won ! ');
                         return this;
                     }
                 }
                 /* Draw ? */
-                if ((this.x | this.o) === this.draw) {
+                if ((this.x.value | this.o.value) === this.draw) {
                     console.log('Draw !');
                     return this;
                 }
                 /* Next turn !*/
-                this.turn = this.turn === 'x' ? 'o' : 'x';
+                this.turn.set(this.turn.value === 'x' ? 'o' : 'x');
                 return this;
             },
             play: function (position) {
+                console.log(this);
                 const mask = 1 << position;
-                if (!(this.x & mask) && !(this.o & mask)) {
-                    this[this.turn] |= mask;
-                    console.log(this.turn + ' : ' + this[this.turn]);
+                if (!(this.x.value & mask) && !(this.o.value & mask)) {
+                    this[this.turn.value].set(this[this.turn.value].value | mask);
+                    console.log(this.turn.value +
+                        ' : ' +
+                        this[this.turn.value].value);
                     return this.check();
                 }
                 return this;
             },
             reset: function () {
-                this.x = 0b000000000;
-                this.o = 0b000000000;
-                this.turn = 'x';
-                this.observable.x.set(this.x);
-                this.observable.o.set(this.o);
-                this.observable.turn.set(this.turn);
+                this.x.set(0b000000000);
+                this.o.set(0b000000000);
+                this.turn.set('x');
                 return this;
             },
         };
-        extend(board, withObservable('x', 0b000000000));
-        extend(board, withObservable('o', 0b000000000));
-        extend(board, withObservable('turn', 'x'));
+        // extend(board, withObservable<number>('x', 0b000000000));
+        // extend(board, withObservable<number>('o', 0b000000000));
+        // extend(board, withObservable<string>('turn', 'x'));
+        // return <Board & Observable<number> & Observable<string>>board;
         return board;
     }
     //----------------------------------------------------------------- main ---
@@ -412,13 +414,17 @@
         const board_context = newContext()
             .put('timer_x', timer_x.observable.value)
             .put('timer_o', timer_o.observable.value)
-            .put('board_x', board.observable.x)
-            .put('board_o', board.observable.o)
-            .put('turn', board.observable.turn)
+            .put('board_x', board.x)
+            .put('board_o', board.o)
+            .put('turn', board.turn)
             .musterPins()
             .activatePins();
         // .musterLinks()
         // .activateLinks();
+        /**
+         * @todo Add turn subscriber who toggles timers.
+         * @todo Add board_? subscribers who render/update the DOM.
+         */
         //------------------------------------------------------------ board
         //------------------------------------------------------------- grid
         const squares = [...document.querySelectorAll('.square')];
