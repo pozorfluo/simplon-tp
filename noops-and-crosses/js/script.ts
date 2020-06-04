@@ -554,7 +554,6 @@
                         (this[this.turn.value].value & condition) ===
                         condition
                     ) {
-                        // console.log(this.turn.value + ' won ! ');
                         this.turn.set('win');
                         return this;
                     }
@@ -562,7 +561,6 @@
                 /* Draw ? */
                 if ((this.x.value | this.o.value) === this.draw) {
                     this.turn.set('draw');
-                    // console.log('Draw !');
                     return this;
                 }
                 /* Next turn !*/
@@ -570,19 +568,20 @@
                 return this;
             },
             play: function (position: number): Board {
-                console.log(this);
-                const mask = 1 << position;
-                if (!(this.x.value & mask) && !(this.o.value & mask)) {
-                    this[this.turn.value].set(
-                        this[this.turn.value].value | mask
-                    );
-                    console.log(
-                        this.turn.value +
-                            ' : ' +
-                            this[this.turn.value].value
-                    );
-
-                    return this.check();
+                if (
+                    this.turn.value === 'x' ||
+                    this.turn.value === 'o'
+                ) {
+                    const mask = 1 << position;
+                    if (
+                        !(this.x.value & mask) &&
+                        !(this.o.value & mask)
+                    ) {
+                        this[this.turn.value].set(
+                            this[this.turn.value].value | mask
+                        );
+                        return this.check();
+                    }
                 }
                 return this;
             },
@@ -607,19 +606,53 @@
         const timer_o = newTimer();
         const board = newBoard();
 
+        const view_context = newContext();
+        for (let i = 0; i < 9; i++) {
+            const name = i.toString();
+            view_context.put(name, newObservable<string>(name));
+        }
+
         const board_context = newContext()
             .put('timer_x', timer_x.observable.value)
             .put('timer_o', timer_o.observable.value)
             .put('board_x', board.x)
             .put('board_o', board.o)
             .put('turn', board.turn)
+            .merge(view_context)
             .musterPins()
             .activatePins();
         // .musterLinks()
         // .activateLinks();
-        
+        console.log(board_context);
+
         const timer_x_container = document.querySelector('.timer-x');
         const timer_o_container = document.querySelector('.timer-o');
+
+        /**
+         * Translate board state to observable view context.
+         */
+        const boardView = function (value: number): void {
+            const x = board.x.value;
+            const o = board.o.value;
+            for (let i = 0; i < 9; i++) {
+                const mask = 1 << i;
+                const name = i.toString();
+                if (x & mask) {
+                    view_context.observables[name].set('X');
+                } else {
+                    if (o & mask) {
+                        view_context.observables[name].set('O');
+                    } else {
+                        view_context.observables[name].set('');
+                    }
+                }
+            }
+        };
+        /**
+         * Add Board state subscriber to refresh.
+         */
+        board_context.observables.board_x.subscribe(boardView);
+        board_context.observables.board_o.subscribe(boardView);
 
         /**
          * Add turn subscriber to toggles timers.
@@ -635,30 +668,30 @@
                     timer_o_container.classList.toggle('active');
                     return;
                 case 'draw':
-                        msg = ': Draw game !'
+                    msg = ': Draw game !';
                     break;
                 case 'win':
-                        msg = 'wins !'
+                    msg = 'wins !';
                     break;
                 default:
-                        msg = ': something weird happened !'
+                    msg = ': something weird happened !';
                     break;
             }
-                if (timer_x.isOn()) {
-                    timer_x.toggle();
-                    timer_x.observable.value.set(msg);
-                }
-                if (timer_o.isOn()) {
-                    timer_o.toggle();
-                    timer_o.observable.value.set(msg);
-                }
+            if (timer_x.isOn()) {
+                timer_x.toggle();
+                timer_x.observable.value.set(msg);
+            }
+            if (timer_o.isOn()) {
+                timer_o.toggle();
+                timer_o.observable.value.set(msg);
+            }
         });
 
         //------------------------------------------------------------- grid
         const squares = [...document.querySelectorAll('.square')];
         for (let i = 0, length = squares.length; i < length; i++) {
             squares[i].addEventListener(
-                'click',
+                'mousedown',
                 function (event) {
                     board.play(i);
                 },
@@ -675,9 +708,9 @@
             function (event: Event): void {
                 board.reset();
                 timer_x.reset().toggle();
+                timer_o.reset();
                 timer_x_container.classList.add('active');
                 timer_o_container.classList.remove('active');
-                timer_o.reset();
                 event.stopPropagation();
             },
             false
@@ -697,3 +730,15 @@
 // p2_timer.observable.value.subscribe((value) => {
 //     control_timer.set(p1_timer.observable.value.get() + value);
 // });
+// console.log(event);
+//                     const square = <Node>(event.target);
+//                     switch(board.play(i).turn.value) {
+//                         case 'x':
+//                             square.textContent = 'O';
+//                             break;
+//                             case 'o':
+//                                 square.textContent = 'X';
+//                             break;
+//                         default:
+//                             break;
+//                     }
