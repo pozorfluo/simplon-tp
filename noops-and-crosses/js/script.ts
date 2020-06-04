@@ -554,13 +554,15 @@
                         (this[this.turn.value].value & condition) ===
                         condition
                     ) {
-                        console.log(this.turn.value + ' won ! ');
+                        // console.log(this.turn.value + ' won ! ');
+                        this.turn.set('win');
                         return this;
                     }
                 }
                 /* Draw ? */
                 if ((this.x.value | this.o.value) === this.draw) {
-                    console.log('Draw !');
+                    this.turn.set('draw');
+                    // console.log('Draw !');
                     return this;
                 }
                 /* Next turn !*/
@@ -591,10 +593,6 @@
                 return this;
             },
         };
-        // extend(board, withObservable<number>('x', 0b000000000));
-        // extend(board, withObservable<number>('o', 0b000000000));
-        // extend(board, withObservable<string>('turn', 'x'));
-        // return <Board & Observable<number> & Observable<string>>board;
         return <Board>board;
     }
 
@@ -605,18 +603,9 @@
     window.addEventListener('DOMContentLoaded', function (
         event: Event
     ) {
-        //----------------------------------------------------------- timers
-        const timer_x = newTimer();
+        const timer_x = newTimer().toggle();
         const timer_o = newTimer();
         const board = newBoard();
-        /* derived computed value test */
-        // const control_timer = newObservable<string>('0');
-        // p1_timer.observable.value.subscribe((value) => {
-        //     control_timer.set(value + p2_timer.observable.value.get());
-        // });
-        // p2_timer.observable.value.subscribe((value) => {
-        //     control_timer.set(p1_timer.observable.value.get() + value);
-        // });
 
         const board_context = newContext()
             .put('timer_x', timer_x.observable.value)
@@ -628,12 +617,42 @@
             .activatePins();
         // .musterLinks()
         // .activateLinks();
+        
+        const timer_x_container = document.querySelector('.timer-x');
+        const timer_o_container = document.querySelector('.timer-o');
 
         /**
-         * @todo Add turn subscriber who toggles timers.
-         * @todo Add board_? subscribers who render/update the DOM.
+         * Add turn subscriber to toggles timers.
          */
-        //------------------------------------------------------------ board
+        board_context.observables.turn.subscribe((value) => {
+            let msg = '';
+            switch (value) {
+                case 'x':
+                case 'o':
+                    timer_x.toggle();
+                    timer_o.toggle();
+                    timer_x_container.classList.toggle('active');
+                    timer_o_container.classList.toggle('active');
+                    return;
+                case 'draw':
+                        msg = ': Draw game !'
+                    break;
+                case 'win':
+                        msg = 'wins !'
+                    break;
+                default:
+                        msg = ': something weird happened !'
+                    break;
+            }
+                if (timer_x.isOn()) {
+                    timer_x.toggle();
+                    timer_x.observable.value.set(msg);
+                }
+                if (timer_o.isOn()) {
+                    timer_o.toggle();
+                    timer_o.observable.value.set(msg);
+                }
+        });
 
         //------------------------------------------------------------- grid
         const squares = [...document.querySelectorAll('.square')];
@@ -656,13 +675,9 @@
             function (event: Event): void {
                 board.reset();
                 timer_x.reset().toggle();
+                timer_x_container.classList.add('active');
+                timer_o_container.classList.remove('active');
                 timer_o.reset();
-                // console.log('x timer is on : ' + timer_x.isOn());
-                // console.log('o timer is on : ' + timer_o.isOn());
-                // p1_timer.toggle();
-                // p2_timer.toggle();
-                // timer_context.pins[0].node.classList.toggle('active');
-                // timer_context.pins[1].node.classList.toggle('active');
                 event.stopPropagation();
             },
             false
@@ -673,3 +688,12 @@
          */
     }); /* DOMContentLoaded */
 })(); /* IIFE */
+
+/* derived computed value test */
+// const control_timer = newObservable<string>('0');
+// p1_timer.observable.value.subscribe((value) => {
+//     control_timer.set(value + p2_timer.observable.value.get());
+// });
+// p2_timer.observable.value.subscribe((value) => {
+//     control_timer.set(p1_timer.observable.value.get() + value);
+// });

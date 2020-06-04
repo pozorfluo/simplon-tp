@@ -27,7 +27,8 @@ body {
     background-color: var(--color-bg);
 }
 
-.timer {
+.timer-x,
+.timer-o {
     width: var(--board-width);
     height: calc(var(--text) * 1.5);
     opacity: 0.5;
@@ -37,7 +38,16 @@ body {
     font-size: var(--text);
     line-height: calc(var(--text) * 1.5);
 }
-.timer.active {
+
+.timer-x::before {
+    content: 'X  ';
+}
+.timer-o::before {
+    content: 'O  ';
+}
+.timer-x.active,
+.timer-o.active
+ {
     opacity: 1;
     background-color: var(--color-fg-muted);
 }
