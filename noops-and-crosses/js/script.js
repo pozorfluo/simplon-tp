@@ -83,7 +83,7 @@
                 /**
                  * @todo consider ES2020 Promise.allSettled
                  */
-                return;
+                return this;
             },
             subscribe: function (subscriber, priority) {
                 if (priority === undefined) {
@@ -92,16 +92,23 @@
                 else {
                     this.subscribers.splice(priority, 0, subscriber);
                 }
+                return this;
+            },
+            flush: function () {
+                this.subscribers = [];
+                return this;
             },
             get: function () {
-                /* Notify that a read is happening here if necessary */
+                /* Notify that a read is happening here if necessary. */
                 return this.value;
             },
             set: function (value) {
+                /* The buck stops here. */
                 if (value !== this.value) {
                     this.value = value;
                     this.notify();
-                } /* the buck stops here */
+                }
+                return this;
             },
         };
         return observable;
@@ -127,7 +134,9 @@
         node[property] = observable.get();
         observable.subscribe(
         // () => (node[property] = observable.get())
-        () => { node[property] = observable.value; });
+        () => {
+            node[property] = observable.value;
+        });
         node.addEventListener(event, () => observable.set(node[property]));
     }
     /**
@@ -150,6 +159,9 @@
                 }
                 return this;
             },
+            /**
+             * Merge observables from another given context.
+             */
             merge: function (another_context) {
                 if (another_context.observables !== undefined) {
                     another_context = another_context.observables;
@@ -158,7 +170,7 @@
                 return this;
             },
             /**
-             * Collect data pins currently in the DOM for this Context.
+             * Collect data pins declared in the DOM for this Context.
              *
              * @note If requested observable source is NOT found or available in
              *       this Context, record its name as a string placeholder.
@@ -188,7 +200,7 @@
                 return this;
             },
             /**
-             * Collect data links currently in the DOM for this Context.
+             * Collect data links declared in the DOM for this Context.
              *
              * @note If requested observable source is NOT found or available in
              *       this Context, record its name as a string placeholder.
@@ -220,9 +232,23 @@
                 return this;
             },
             /**
-             * Activate a given pin collection.
+             * Reference given pin collection as this context pin collection.
+             */
+            setPins: function (pins) {
+                this.pins = pins;
+                return this;
+            },
+            /**
+             * Reference given link collection as this context link collection.
+             */
+            setLinks: function (links) {
+                this.links = links;
+                return this;
+            },
+            /**
+             * Activate this context pin collection.
              *
-             * @todo Deal with incomple Observable-less pins
+             * @todo Deal with incomple Observable-less pins.
              */
             activatePins: function () {
                 for (let i = 0, length = this.pins.length; i < length; i++) {
@@ -235,9 +261,9 @@
                 return this;
             },
             /**
-             * Activate a given Link collection.
+             * Activate this context link collection.
              *
-             * @todo Deal with incomple Observable-less pins
+             * @todo Deal with incomple Observable-less links.
              */
             activateLinks: function () {
                 for (let i = 0, length = this.links.length; i < length; i++) {
@@ -329,6 +355,8 @@
         play_button.addEventListener('click', function (event) {
             p1_timer.toggle();
             p2_timer.toggle();
+            timer_context.pins[0].node.classList.toggle('active');
+            timer_context.pins[1].node.classList.toggle('active');
             event.stopPropagation();
         }, false);
         /**

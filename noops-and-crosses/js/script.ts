@@ -64,7 +64,7 @@
         return <Base & Extension>extended_copy;
     }
 
-    //------------------------------------------------------------------ solo.ts
+    //------------------------------------------------------------------ odno.ts
     /**
      * Define Subscriber callback.
      */
@@ -78,14 +78,15 @@
     interface Observable<T> {
         subscribers: Subscriber<T>[];
         value: T;
-        notify: () => void;
+        notify: () => Promise<this>;
         subscribe: (
             subscriber: Subscriber<T>,
             priority?: number
-        ) => void;
-        unsubscribe: (subscriber: Subscriber<T>) => void;
+        ) => this;
+        // unsubscribe: (subscriber: Subscriber<T>) => void;
+        flush: () => this;
         get: () => T;
-        set: (value: T) => void;
+        set: (value: T) => this;
         [extension: string]: any; // open for extension.
     }
 
@@ -108,7 +109,7 @@
             subscribers: [],
             value: value,
 
-            notify: async function (): Promise<T> {
+            notify: async function (): Promise<Observable<T>> {
                 // const queue = []; // rate-limit-ish
                 // console.log(this.subscribers);
                 for (
@@ -124,30 +125,38 @@
                 /**
                  * @todo consider ES2020 Promise.allSettled
                  */
-                return;
+                return this;
             },
 
             subscribe: function (
                 subscriber: Subscriber<T>,
                 priority?: number
-            ): void {
+            ): Observable<T> {
                 if (priority === undefined) {
                     this.subscribers.push(subscriber);
                 } else {
                     this.subscribers.splice(priority, 0, subscriber);
                 }
+                return this;
+            },
+
+            flush: function (): Observable<T> {
+                this.subscribers = [];
+                return this;
             },
 
             get: function (): T {
-                /* Notify that a read is happening here if necessary */
+                /* Notify that a read is happening here if necessary. */
                 return this.value;
             },
 
-            set: function (value: T): void {
+            set: function (value: T): Observable<T> {
+                /* The buck stops here. */
                 if (value !== this.value) {
                     this.value = value;
                     this.notify();
-                } /* the buck stops here */
+                }
+                return this;
             },
         };
         return <Observable<T>>observable;
@@ -207,7 +216,9 @@
         node[property] = observable.get();
         observable.subscribe(
             // () => (node[property] = observable.get())
-            () => {node[property] = observable.value}
+            () => {
+                node[property] = observable.value;
+            }
         );
         node.addEventListener(event, () =>
             observable.set(node[property])
@@ -219,6 +230,8 @@
      *
      * @todo Consider promoting observables definition to interface
      *       ObservableCollection.
+     * @todo Add deactivatePins method.
+     * @todo Add deactivateLinks method.
      */
     interface Context {
         readonly observables: { [name: string]: Observable<any> };
@@ -233,6 +246,8 @@
         ) => Context;
         musterPins: () => this;
         musterLinks: () => this;
+        setPins: (pins: Pin<any>[]) => this;
+        setLinks: (links: Link<any>[]) => this;
         activatePins: () => this;
         activateLinks: () => this;
         [extension: string]: any; // open for extension.
@@ -263,6 +278,9 @@
                 return this;
             },
 
+            /**
+             * Merge observables from another given context.
+             */
             merge: function (
                 another_context:
                     | Context
@@ -276,7 +294,7 @@
             },
 
             /**
-             * Collect data pins currently in the DOM for this Context.
+             * Collect data pins declared in the DOM for this Context.
              *
              * @note If requested observable source is NOT found or available in
              *       this Context, record its name as a string placeholder.
@@ -312,7 +330,7 @@
                 return this;
             },
             /**
-             * Collect data links currently in the DOM for this Context.
+             * Collect data links declared in the DOM for this Context.
              *
              * @note If requested observable source is NOT found or available in
              *       this Context, record its name as a string placeholder.
@@ -354,9 +372,23 @@
                 return this;
             },
             /**
-             * Activate a given pin collection.
+             * Reference given pin collection as this context pin collection.
+             */
+            setPins: function (pins: Pin<any>[]) : Context {
+                this.pins = pins;
+                return this;
+            },
+            /**
+             * Reference given link collection as this context link collection.
+             */
+            setLinks: function (links: Link<any>[]) : Context {
+                this.links = links;
+                return this;
+            },
+            /**
+             * Activate this context pin collection.
              *
-             * @todo Deal with incomple Observable-less pins
+             * @todo Deal with incomple Observable-less pins.
              */
             activatePins: function (): Context {
                 for (
@@ -367,20 +399,19 @@
                     if (typeof this.pins[i].source !== 'string') {
                         (<Observable<any>>(
                             this.pins[i].source
-                        )).subscribe(
-                            (value) =>
-                                {this.pins[i].node[
-                                    this.pins[i].target
-                                ] = value}
-                        );
+                        )).subscribe((value) => {
+                            this.pins[i].node[
+                                this.pins[i].target
+                            ] = value;
+                        });
                     }
                 }
                 return this;
             },
             /**
-             * Activate a given Link collection.
+             * Activate this context link collection.
              *
-             * @todo Deal with incomple Observable-less pins
+             * @todo Deal with incomple Observable-less links.
              */
             activateLinks: function (): Context {
                 for (
@@ -503,8 +534,6 @@
             .activatePins()
             .activateLinks();
 
-
-
         //------------------------------------------------------ play_button
         const play_button = document.querySelector('button[name=play]');
         play_button.addEventListener(
@@ -512,6 +541,8 @@
             function (event: Event): void {
                 p1_timer.toggle();
                 p2_timer.toggle();
+                timer_context.pins[0].node.classList.toggle('active');
+                timer_context.pins[1].node.classList.toggle('active');
                 event.stopPropagation();
             },
             false
