@@ -284,25 +284,34 @@
             id: 0,
             elapsed: 0,
             start: 0,
+            tick: 0,
             // sync: undefined,
             tag: function () {
-                const formatted_time = new Date(performance.now() - this.start + this.elapsed)
-                    .toISOString()
-                    .slice(11, -5);
-                this.observable.value.set(formatted_time);
+                const tick = (performance.now() - this.tick);
+                if (tick > 999) {
+                    const formatted_time = new Date(performance.now() - this.start + this.elapsed)
+                        .toISOString()
+                        .slice(11, -5);
+                    this.observable.value.set(formatted_time);
+                    this.tick = performance.now();
+                }
+                this.id = requestAnimationFrame(() => { return this.tag(); });
                 return this;
             },
             toggle: function () {
                 if (this.id === 0) {
                     this.start = performance.now();
-                    const that = this;
-                    this.id = setInterval(function () {
-                        that.tag();
-                    }, 500);
+                    this.id = requestAnimationFrame(() => { return this.tag(); });
+                    // console.log('toggle : this.id = ' + this.id); 
+                    // const that = this;
+                    // this.id = setInterval(function (): void {
+                    //     that.tag();
+                    // }, 500);
                 }
                 else {
-                    clearInterval(this.id);
-                    this.tag();
+                    // clearInterval(this.id);
+                    cancelAnimationFrame(this.id);
+                    // this.tag(); 
                     this.elapsed += performance.now() - this.start;
                     this.id = 0;
                 }
@@ -310,7 +319,8 @@
             },
             reset: function () {
                 if (this.id !== 0) {
-                    clearInterval(this.id);
+                    // clearInterval(this.id);
+                    cancelAnimationFrame(this.id);
                     this.id = 0;
                 }
                 this.elapsed = 0;
@@ -501,23 +511,3 @@
          */
     }); /* DOMContentLoaded */
 })(); /* IIFE */
-/* derived computed value test */
-// const control_timer = newObservable<string>('0');
-// p1_timer.observable.value.subscribe((value) => {
-//     control_timer.set(value + p2_timer.observable.value.get());
-// });
-// p2_timer.observable.value.subscribe((value) => {
-//     control_timer.set(p1_timer.observable.value.get() + value);
-// });
-// console.log(event);
-//                     const square = <Node>(event.target);
-//                     switch(board.play(i).turn.value) {
-//                         case 'x':
-//                             square.textContent = 'O';
-//                             break;
-//                             case 'o':
-//                                 square.textContent = 'X';
-//                             break;
-//                         default:
-//                             break;
-//                     }
