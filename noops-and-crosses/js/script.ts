@@ -623,13 +623,15 @@
             .activatePins();
         // .musterLinks()
         // .activateLinks();
-        console.log(board_context);
 
         const timer_x_container = document.querySelector('.timer-x');
         const timer_o_container = document.querySelector('.timer-o');
 
         /**
          * Translate board state to observable view context.
+         * 
+         * @todo Update diff subscriber only, even if setting an observable to
+         *       its current value does not cause further notify calls.
          */
         const boardView = function (value: number): void {
             const x = board.x.value;
