@@ -8,7 +8,7 @@
 
     /**
      * Extend given object with given trait, clobbering existing properties.
-     * 
+     *
      * @todo Look for ways to update type hint in-place !
      */
     function extend<Base>(object: Base, trait: Trait): void {
@@ -69,7 +69,7 @@
 
     //------------------------------------------------------------------ odno.ts
     /**
-     * Single-page party !
+     * Single-page party system !
      */
 
     /**
@@ -103,6 +103,10 @@
      * @note Optional parameter priority in subscribe method is the index where
      *       given Subscriber is going to be 'spliced' in the subscribers list.
      *       If no paramater is supplied, given Subscriber is appended.
+     * 
+     * @note To resolve notifications according to subscribers priority and 
+     *       insertion order, notify() Awaits each subscriber's callback in 
+     *       turn.                                                
      *
      * @todo Research which approach is favored to prevent notification cascade.
      * @todo Defer render to after all compositions/updates are done.
@@ -209,7 +213,7 @@
      * Set a 2-way link between given Observable and given DOM node.
      *
      * @todo Consider that the node emitting the original event probably
-     *       does not need to be notified back/updated if it is only
+     *       does not need to be notified back/updated if it is its only
      *       dependency.
      * @todo Add unlink function.
      */
@@ -519,12 +523,16 @@
         return <Timer & Observable<string>>timer;
     }
 
+    /**
+     * Define Turn enum.
+     */
     const enum Turn {
         x = 'x',
         o = 'o',
         win = 'w',
         draw = 'd',
     }
+
     /**
      * Define Board object.
      */
@@ -576,8 +584,10 @@
                     this.turn.set(Turn.draw);
                     return this;
                 }
-                /* Next turn !*/
-                this.turn.set(this.turn.value === Turn.x ? Turn.o : Turn.x);
+                /* Next turn ! */
+                this.turn.set(
+                    this.turn.value === Turn.x ? Turn.o : Turn.x
+                );
                 return this;
             },
             play: function (position: number): Board {
@@ -634,6 +644,7 @@
             .merge(view_context)
             .musterPins()
             .activatePins();
+        /* No links used for this game */
         // .musterLinks()
         // .activateLinks();
 
@@ -664,13 +675,13 @@
             }
         };
         /**
-         * Add Board state subscriber to refresh.
+         * Add Board state subscriber to refresh view.
          */
         board_context.observables.board_x.subscribe(boardView);
         board_context.observables.board_o.subscribe(boardView);
 
         /**
-         * Add turn subscriber to toggles timers.
+         * Add turn subscriber to toggle timers.
          */
         board_context.observables.turn.subscribe((value) => {
             let msg = '';
