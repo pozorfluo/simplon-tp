@@ -519,13 +519,19 @@
         return <Timer & Observable<string>>timer;
     }
 
+    const enum Turn {
+        x = 'x',
+        o = 'o',
+        win = 'w',
+        draw = 'd',
+    }
     /**
      * Define Board object.
      */
     interface Board {
         x: Observable<number>;
         o: Observable<number>;
-        turn: Observable<string>;
+        turn: Observable<Turn>;
         draw: number;
         wins: number[];
         check: () => this;
@@ -538,10 +544,10 @@
      * Create new Board object.
      */
     function newBoard(): Board {
-        const board: any = {
+        const board: Board = {
             x: newObservable<number>(0b000000000),
             o: newObservable<number>(0b000000000),
-            turn: newObservable<string>('x'),
+            turn: newObservable<Turn>(Turn.x),
             draw: 0b111111111,
             wins: [
                 0b111000000, // horizontal
@@ -561,23 +567,23 @@
                         (this[this.turn.value].value & condition) ===
                         condition
                     ) {
-                        this.turn.set('win');
+                        this.turn.set(Turn.win);
                         return this;
                     }
                 }
                 /* Draw ? */
                 if ((this.x.value | this.o.value) === this.draw) {
-                    this.turn.set('draw');
+                    this.turn.set(Turn.draw);
                     return this;
                 }
                 /* Next turn !*/
-                this.turn.set(this.turn.value === 'x' ? 'o' : 'x');
+                this.turn.set(this.turn.value === Turn.x ? Turn.o : Turn.x);
                 return this;
             },
             play: function (position: number): Board {
                 if (
-                    this.turn.value === 'x' ||
-                    this.turn.value === 'o'
+                    this.turn.value === Turn.x ||
+                    this.turn.value === Turn.o
                 ) {
                     const mask = 1 << position;
                     if (
@@ -595,11 +601,11 @@
             reset: function (): Board {
                 this.x.set(0b000000000);
                 this.o.set(0b000000000);
-                this.turn.set('x');
+                this.turn.set(Turn.x);
                 return this;
             },
         };
-        return <Board>board;
+        return board;
     }
 
     //----------------------------------------------------------------- main ---
@@ -669,17 +675,17 @@
         board_context.observables.turn.subscribe((value) => {
             let msg = '';
             switch (value) {
-                case 'x':
-                case 'o':
+                case Turn.x:
+                case Turn.o:
                     timer_x.toggle();
                     timer_o.toggle();
                     timer_x_container.classList.toggle('active');
                     timer_o_container.classList.toggle('active');
                     return;
-                case 'draw':
+                case Turn.draw:
                     msg = ': Draw game !';
                     break;
-                case 'win':
+                case Turn.win:
                     msg = 'wins !';
                     break;
                 default:

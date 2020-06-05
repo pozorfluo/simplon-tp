@@ -339,7 +339,7 @@
         const board = {
             x: newObservable(0b000000000),
             o: newObservable(0b000000000),
-            turn: newObservable('x'),
+            turn: newObservable("x" /* x */),
             draw: 0b111111111,
             wins: [
                 0b111000000,
@@ -356,22 +356,22 @@
                 for (let condition of this.wins) {
                     if ((this[this.turn.value].value & condition) ===
                         condition) {
-                        this.turn.set('win');
+                        this.turn.set("w" /* win */);
                         return this;
                     }
                 }
                 /* Draw ? */
                 if ((this.x.value | this.o.value) === this.draw) {
-                    this.turn.set('draw');
+                    this.turn.set("d" /* draw */);
                     return this;
                 }
                 /* Next turn !*/
-                this.turn.set(this.turn.value === 'x' ? 'o' : 'x');
+                this.turn.set(this.turn.value === "x" /* x */ ? "o" /* o */ : "x" /* x */);
                 return this;
             },
             play: function (position) {
-                if (this.turn.value === 'x' ||
-                    this.turn.value === 'o') {
+                if (this.turn.value === "x" /* x */ ||
+                    this.turn.value === "o" /* o */) {
                     const mask = 1 << position;
                     if (!(this.x.value & mask) &&
                         !(this.o.value & mask)) {
@@ -384,7 +384,7 @@
             reset: function () {
                 this.x.set(0b000000000);
                 this.o.set(0b000000000);
-                this.turn.set('x');
+                this.turn.set("x" /* x */);
                 return this;
             },
         };
@@ -452,17 +452,17 @@
         board_context.observables.turn.subscribe((value) => {
             let msg = '';
             switch (value) {
-                case 'x':
-                case 'o':
+                case "x" /* x */:
+                case "o" /* o */:
                     timer_x.toggle();
                     timer_o.toggle();
                     timer_x_container.classList.toggle('active');
                     timer_o_container.classList.toggle('active');
                     return;
-                case 'draw':
+                case "d" /* draw */:
                     msg = ': Draw game !';
                     break;
-                case 'win':
+                case "w" /* win */:
                     msg = 'wins !';
                     break;
                 default:
