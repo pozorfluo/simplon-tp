@@ -1,18 +1,25 @@
 {
     "compilerOptions": {
         "target": "es2017",
+        "strict": true,
+        "alwaysStrict": true,
         "strictNullChecks" : true,
+        "strictPropertyInitialization": true,
         "noImplicitReturns": true,
         "noImplicitAny": true,
+        "noImplicitThis": true,
+        // "noUnusedLocals": true,
         "moduleResolution": "node",
         "esModuleInterop": true,
         "module": "CommonJS",
-        "declaration": true
+        "types": ["node", "jest"],
+        // "typeRoots": ["./node_modules/@types"],
+        "outDir": "js"
     },
     "files": [
-        "js/script.ts"
+        "js/src/script.ts"
     ],
     "exclude": [
         "node_modules",
-    ]
+    ],
 }

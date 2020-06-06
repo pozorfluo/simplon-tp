@@ -11,9 +11,14 @@ export type Trait = object;
  *
  * @todo Look for ways to update type hint in-place !
  */
-export function extend<T>(object: object, trait: Trait & T): void {
-    Object.keys(trait).forEach(function (key: keyof Trait) {
-        object[key] = trait[key];
+export function extend<
+    Base,
+    Extension,
+    B extends keyof Base,
+    E extends keyof Extension
+>(object: Base, trait: Trait & Extension): void {
+    Object.keys(trait).forEach(function (key) {
+        (<any>object)[<B>key] = trait[<E>key];
     });
 }
 
@@ -31,23 +36,23 @@ export function extend<T>(object: object, trait: Trait & T): void {
 export function cram<
     Base,
     Extension,
-    K extends keyof Extension,
-    N extends keyof Base
+    B extends keyof Base,
+    E extends keyof Extension
 >(object: Base, trait: Trait & Extension): Base & Extension {
     Object.keys(trait).forEach(function (key) {
-        switch (typeof object[<N>key]) {
+        switch (typeof object[<B>key]) {
             case 'object':
-                if (Array.isArray(object[<N>key])) {
-                    [...(<any>object[<N>key]), trait[<K>key]];
+                if (Array.isArray(object[<B>key])) {
+                    [...(<any>object[<B>key]), trait[<E>key]];
                 } else {
-                    extend(<any>object[<N>key], <any>trait[<K>key]);
+                    extend(<any>object[<B>key], <any>trait[<E>key]);
                 }
                 break;
             case undefined:
             // break;
             default:
                 /* undefined and scalars */
-                (<any>object)[<N>key] = trait[<K>key];
+                (<any>object)[<B>key] = trait[<E>key];
                 break;
         }
     });
@@ -518,7 +523,6 @@ function newTimer(): Timer & Observable<string> {
     return <Timer & Observable<string>>timer;
 }
 
-
 /**
  * Define Turn enum.
  */
@@ -733,6 +737,7 @@ window.addEventListener('DOMContentLoaded', function (event: Event) {
      */
 }); /* DOMContentLoaded */
 // })(); /* IIFE */
+
 
 
 export function sum(a: number, b: number): number {
