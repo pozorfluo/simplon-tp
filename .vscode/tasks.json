@@ -4,14 +4,28 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "tsc: watch - noops-and-crosses/tsconfig.json",
             "type": "typescript",
             "tsconfig": "noops-and-crosses/tsconfig.json",
             "option": "watch",
+            "group": "build",
             "problemMatcher": [
                 "$tsc-watch"
-            ],
+            ]
+        },
+        {
+            "label":"bundle",
+            "command": "watchify",
             "group": "build",
-            "label": "tsc: watch - noops-and-crosses/tsconfig.json",
+            "isBackground": true,
+            "args": [
+                "js/script.js",
+                "-o",
+                "dist/bundle.js"
+            ],
+            "options": {
+              "cwd": "${workspaceFolder}/noops-and-crosses",
+            }
         }
     ]
 }

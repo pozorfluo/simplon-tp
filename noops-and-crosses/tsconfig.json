@@ -5,7 +5,8 @@
         "noImplicitReturns": true,
         "noImplicitAny": true,
         "moduleResolution": "node",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "module": "UMD"
     },
     "files": [
         "js/script.ts"

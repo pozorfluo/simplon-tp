@@ -1,5 +1,16 @@
-const komrad = (function () {
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports"], factory);
+    }
+})(function (require, exports) {
+    // (function () {
     'use strict';
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.sum = exports.cram = exports.extend = void 0;
     /**
      * Extend given object with given trait, clobbering existing properties.
      *
@@ -10,6 +21,7 @@ const komrad = (function () {
             object[key] = trait[key];
         });
     }
+    exports.extend = extend;
     /**
      * Extend given object with given trait, stacking existing properties as
      * follow :
@@ -42,6 +54,7 @@ const komrad = (function () {
         });
         return object;
     }
+    exports.cram = cram;
     /**
      * Extend a shallow copy of given object with given trait, clobbering
      * existing properties.
@@ -284,7 +297,7 @@ const komrad = (function () {
             activatePins: function () {
                 for (let i = 0, length = this.pins.length; i < length; i++) {
                     if (typeof this.pins[i].source !== 'string') {
-                        (this.pins[i].source).subscribe((value) => {
+                        this.pins[i].source.subscribe((value) => {
                             this.pins[i].node[this.pins[i].target] = value;
                             // console.log('pin['+i+'] notified.');
                         });
@@ -386,8 +399,7 @@ const komrad = (function () {
             check: function () {
                 /* Win ? */
                 for (let condition of this.wins) {
-                    if ((this[this.turn.value].value & condition) ===
-                        condition) {
+                    if ((this[this.turn.value].value & condition) === condition) {
                         this.turn.set("w" /* win */);
                         return this;
                     }
@@ -402,11 +414,9 @@ const komrad = (function () {
                 return this;
             },
             play: function (position) {
-                if (this.turn.value === "x" /* x */ ||
-                    this.turn.value === "o" /* o */) {
+                if (this.turn.value === "x" /* x */ || this.turn.value === "o" /* o */) {
                     const mask = 1 << position;
-                    if (!(this.x.value & mask) &&
-                        !(this.o.value & mask)) {
+                    if (!(this.x.value & mask) && !(this.o.value & mask)) {
                         this[this.turn.value].set(this[this.turn.value].value | mask);
                         return this.check();
                     }
@@ -534,9 +544,9 @@ const komrad = (function () {
          * @todo Batch renders.
          */
     }); /* DOMContentLoaded */
-})(); /* IIFE */
-function sum(a, b) {
-    return a + b;
-}
-//   module.exports.sum = sum;
-module.exports.komrad = komrad;
+    // })(); /* IIFE */
+    function sum(a, b) {
+        return a + b;
+    }
+    exports.sum = sum;
+});
