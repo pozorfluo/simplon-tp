@@ -1,18 +1,18 @@
-(function () {
+const komrad = (function () {
     'use strict';
     //---------------------------------------------------------------- komrad.ts
     /**
      * Manifesto for classless object composition.
      */
-    type Trait = Object;
+    type Trait = object;
 
     /**
      * Extend given object with given trait, clobbering existing properties.
      *
      * @todo Look for ways to update type hint in-place !
      */
-    function extend<Base>(object: Base, trait: Trait): void {
-        Object.keys(trait).forEach(function (key) {
+    function extend<T>(object: object, trait: Trait & T): void {
+        Object.keys(trait).forEach(function (key: keyof Trait) {
             object[key] = trait[key];
         });
     }
@@ -28,41 +28,43 @@
      * @note Changing the 'shape' of an existing property would most likely be a
      *       recipe for disaster.
      */
-    function cram<Base, Trait>(
-        object: Base,
-        trait: Trait
-    ): Base & Trait {
+    function cram<
+        Base,
+        Extension,
+        K extends keyof Extension,
+        N extends keyof Base
+    >(object: Base, trait: Trait & Extension): Base & Extension {
         Object.keys(trait).forEach(function (key) {
-            switch (typeof object[key]) {
+            switch (typeof object[<N>key]) {
                 case 'object':
-                    if (Array.isArray(object[key])) {
-                        [...object[key], trait[key]];
+                    if (Array.isArray(object[<N>key])) {
+                        [...(<any>object[<N>key]), trait[<K>key]];
                     } else {
-                        extend(object[key], trait[key]);
+                        extend(<any>object[<N>key], <any>trait[<K>key]);
                     }
                     break;
                 case undefined:
                 // break;
                 default:
                     /* undefined and scalars */
-                    object[key] = trait[key];
+                    (<any>object)[<N>key] = trait[<K>key];
                     break;
             }
         });
-        return <Base & Trait>object;
+        return <Base & Extension>object;
     }
 
     /**
      * Extend a shallow copy of given object with given trait, clobbering
      * existing properties.
      */
-    function extendCopy<Base, Extension>(
+    function extendCopy<Base, Extension, K extends keyof Extension>(
         object: Base,
-        trait: Extension
+        trait: Trait & Extension
     ): Base & Extension {
-        const extended_copy = { ...object };
+        const extended_copy: Base = { ...object };
         Object.keys(trait).forEach(function (key) {
-            extended_copy[key] = trait[key];
+            (<any>extended_copy)[key] = trait[<K>key];
         });
         return <Base & Extension>extended_copy;
     }
@@ -103,10 +105,10 @@
      * @note Optional parameter priority in subscribe method is the index where
      *       given Subscriber is going to be 'spliced' in the subscribers list.
      *       If no paramater is supplied, given Subscriber is appended.
-     * 
-     * @note To resolve notifications according to subscribers priority and 
-     *       insertion order, notify() Awaits each subscriber's callback in 
-     *       turn.                                                
+     *
+     * @note To resolve notifications according to subscribers priority and
+     *       insertion order, notify() Awaits each subscriber's callback in
+     *       turn.
      *
      * @todo Research which approach is favored to prevent notification cascade.
      * @todo Defer render to after all compositions/updates are done.
@@ -216,23 +218,49 @@
      *       does not need to be notified back/updated if it is its only
      *       dependency.
      * @todo Add unlink function.
+     * @todo Look for an easier way of keeping tracks of writable properties per
+     *       Node descendant type.
+     * @todo Consider keeping it unsafe with a cast to <any>node.
      */
-    function link<T>(
-        observable: Observable<T>,
+
+    // type WritableProperty<T> = { [ P in keyof T] : 'readonly' extends keyof T[P] ? never : P}[keyof T];
+    // WritableProperty<Node>
+    // type WritableProperty<T> =
+    //     | 'classname'
+    //     | 'id'
+    //     | 'innerHTML'
+    //     | 'outerHTML'
+    //     | T extends HTMLFormElement
+    //     ?
+    //           | 'name'
+    //           | 'method'
+    //           | 'target'
+    //           | 'action'
+    //           | 'encoding'
+    //           | 'enctype'
+    //           | 'acceptCharset'
+    //           | 'autocomplete'
+    //           | 'noValidate'
+    //           | ''
+    //           | ''
+    //     : 'value';
+    // WritableProperty<typeof node>, //'className' | 'id' | 'innerHTML' | 'outerHTML',
+    function link(
+        observable: Observable<boolean | string | number>,
         node: Node,
-        property = 'value',
+        property: string,
         event = 'input'
     ): void {
         // console.log(arguments);
-        node[property] = observable.get();
+        (<any>node)[property] = observable.value + '';
         observable.subscribe(
             // () => (node[property] = observable.get())
             () => {
-                node[property] = observable.value;
+                (<any>node)[property] = observable.value + '';
             }
         );
         node.addEventListener(event, () =>
-            observable.set(node[property])
+            observable.set((<any>node)[property])
         );
     }
 
@@ -313,27 +341,29 @@
              * @todo Consider using a dictionnary and an identifier per pin.
              */
             musterPins: function (): Context {
-                const pin_nodes = [
+                const pin_nodes: Element[] = [
                     ...document.querySelectorAll('[data-pin]'),
                 ];
-                const length = pin_nodes.length;
-                const pins = Array(length);
+                const length: number = pin_nodes.length;
+                const pins: Pin<any>[] = Array(length);
 
                 for (let i = 0; i < length; i++) {
-                    const source = pin_nodes[i].getAttribute(
-                        'data-pin'
-                    );
-                    const target = pin_nodes[i].getAttribute(
-                        'data-property'
-                    );
-                    const type = pin_nodes[i].getAttribute('data-type');
+                    const source: string =
+                        pin_nodes[i].getAttribute('data-pin') ??
+                        'error';
+                    const target: string =
+                        pin_nodes[i].getAttribute('data-property') ??
+                        'value';
+                    const type: string =
+                        pin_nodes[i].getAttribute('data-type') ??
+                        'string';
                     pins[i] = {
                         source:
                             this.observables[source] !== undefined
                                 ? this.observables[source]
                                 : source,
-                        target: target !== null ? target : 'value',
-                        type: type !== null ? type : 'string',
+                        target: target,
+                        type: type,
                         node: pin_nodes[i],
                     };
                 }
@@ -349,37 +379,37 @@
              * @todo Consider using a dictionnary and an identifier per pin.
              */
             musterLinks: function (): Context {
-                const link_nodes = [
+                const link_nodes: Element[] = [
                     ...document.querySelectorAll('[data-link]'),
                 ];
-                const length = link_nodes.length;
-                const links = Array(length);
+                const length: number = link_nodes.length;
+                const links: Link<any>[] = Array(length);
 
                 for (let i = 0; i < length; i++) {
-                    const source = link_nodes[i].getAttribute(
-                        'data-link'
-                    );
-                    const event = link_nodes[i].getAttribute(
-                        'data-event'
-                    );
-                    const target = link_nodes[i].getAttribute(
-                        'data-property'
-                    );
-                    const type = link_nodes[i].getAttribute(
-                        'data-type'
-                    );
+                    const source: string =
+                        link_nodes[i].getAttribute('data-link') ??
+                        'error';
+                    const event: string =
+                        link_nodes[i].getAttribute('data-event') ??
+                        'input';
+                    const target: string =
+                        link_nodes[i].getAttribute('data-property') ??
+                        'value';
+                    const type: string =
+                        link_nodes[i].getAttribute('data-type') ??
+                        'string';
                     links[i] = {
                         source:
                             this.observables[source] !== undefined
                                 ? this.observables[source]
                                 : source,
-                        target: target !== null ? target : 'value',
-                        event: event !== null ? event : 'input',
-                        type: type !== null ? type : 'string',
+                        event: event,
+                        target: target,
+                        type: type,
                         node: link_nodes[i],
                     };
                 }
-                this.links = <Link<any>[]>links;
+                this.links = links;
                 return this;
             },
             /**
@@ -414,6 +444,7 @@
                             this.pins[i].node[
                                 this.pins[i].target
                             ] = value;
+                            // console.log('pin['+i+'] notified.');
                         });
                     }
                 }
@@ -620,7 +651,7 @@
 
     //----------------------------------------------------------------- main ---
     /**
-     * DOMContentLoaded loaded !
+     * Run the app !
      */
     window.addEventListener('DOMContentLoaded', function (
         event: Event
@@ -648,8 +679,12 @@
         // .musterLinks()
         // .activateLinks();
 
-        const timer_x_container = document.querySelector('.timer-x');
-        const timer_o_container = document.querySelector('.timer-o');
+        const timer_x_container: Element =
+            document.querySelector('.timer-x') ??
+            document.createElement('p');
+        const timer_o_container: Element =
+            document.querySelector('.timer-o') ??
+            document.createElement('p');
 
         /**
          * Translate board state to observable view context.
@@ -726,9 +761,10 @@
         }
 
         //------------------------------------------------------ reset_button
-        const reset_button = document.querySelector(
-            'button[name=reset]'
-        );
+        const reset_button: Element =
+            document.querySelector('button[name=reset]') ??
+            document.createElement('button');
+
         reset_button.addEventListener(
             'click',
             function (event: Event): void {
@@ -747,3 +783,10 @@
          */
     }); /* DOMContentLoaded */
 })(); /* IIFE */
+
+
+function sum(a:number, b:number):number {
+    return a + b;
+  }
+//   module.exports.sum = sum;
+  module.exports.komrad = komrad;

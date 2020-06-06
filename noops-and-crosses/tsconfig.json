@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "strictNullChecks" : true,
+        "noImplicitReturns": true,
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true
+    },
+    "files": [
+        "js/script.ts"
+    ],
+    "exclude": [
+        "node_modules",
+    ]
+}

@@ -5,13 +5,13 @@
     "tasks": [
         {
             "type": "typescript",
-            "tsconfig": "noops-and-crosses/js/tsconfig.json",
+            "tsconfig": "noops-and-crosses/tsconfig.json",
             "option": "watch",
             "problemMatcher": [
                 "$tsc-watch"
             ],
             "group": "build",
-            "label": "tsc: watch - noops-and-crosses/js/tsconfig.json"
+            "label": "tsc: watch - noops-and-crosses/tsconfig.json",
         }
     ]
 }

@@ -1,4 +1,4 @@
-(function () {
+const komrad = (function () {
     'use strict';
     /**
      * Extend given object with given trait, clobbering existing properties.
@@ -59,6 +59,10 @@
      * @note Optional parameter priority in subscribe method is the index where
      *       given Subscriber is going to be 'spliced' in the subscribers list.
      *       If no paramater is supplied, given Subscriber is appended.
+     *
+     * @note To resolve notifications according to subscribers priority and
+     *       insertion order, notify() Awaits each subscriber's callback in
+     *       turn.
      *
      * @todo Research which approach is favored to prevent notification cascade.
      * @todo Defer render to after all compositions/updates are done.
@@ -125,17 +129,42 @@
      * Set a 2-way link between given Observable and given DOM node.
      *
      * @todo Consider that the node emitting the original event probably
-     *       does not need to be notified back/updated if it is only
+     *       does not need to be notified back/updated if it is its only
      *       dependency.
      * @todo Add unlink function.
+     * @todo Look for an easier way of keeping tracks of writable properties per
+     *       Node descendant type.
+     * @todo Consider keeping it unsafe with a cast to <any>node.
      */
-    function link(observable, node, property = 'value', event = 'input') {
+    // type WritableProperty<T> = { [ P in keyof T] : 'readonly' extends keyof T[P] ? never : P}[keyof T];
+    // WritableProperty<Node>
+    // type WritableProperty<T> =
+    //     | 'classname'
+    //     | 'id'
+    //     | 'innerHTML'
+    //     | 'outerHTML'
+    //     | T extends HTMLFormElement
+    //     ?
+    //           | 'name'
+    //           | 'method'
+    //           | 'target'
+    //           | 'action'
+    //           | 'encoding'
+    //           | 'enctype'
+    //           | 'acceptCharset'
+    //           | 'autocomplete'
+    //           | 'noValidate'
+    //           | ''
+    //           | ''
+    //     : 'value';
+    // WritableProperty<typeof node>, //'className' | 'id' | 'innerHTML' | 'outerHTML',
+    function link(observable, node, property, event = 'input') {
         // console.log(arguments);
-        node[property] = observable.get();
+        node[property] = observable.value + '';
         observable.subscribe(
         // () => (node[property] = observable.get())
         () => {
-            node[property] = observable.value;
+            node[property] = observable.value + '';
         });
         node.addEventListener(event, () => observable.set(node[property]));
     }
@@ -178,21 +207,22 @@
              * @todo Consider using a dictionnary and an identifier per pin.
              */
             musterPins: function () {
+                var _a, _b, _c;
                 const pin_nodes = [
                     ...document.querySelectorAll('[data-pin]'),
                 ];
                 const length = pin_nodes.length;
                 const pins = Array(length);
                 for (let i = 0; i < length; i++) {
-                    const source = pin_nodes[i].getAttribute('data-pin');
-                    const target = pin_nodes[i].getAttribute('data-property');
-                    const type = pin_nodes[i].getAttribute('data-type');
+                    const source = (_a = pin_nodes[i].getAttribute('data-pin')) !== null && _a !== void 0 ? _a : 'error';
+                    const target = (_b = pin_nodes[i].getAttribute('data-property')) !== null && _b !== void 0 ? _b : 'value';
+                    const type = (_c = pin_nodes[i].getAttribute('data-type')) !== null && _c !== void 0 ? _c : 'string';
                     pins[i] = {
                         source: this.observables[source] !== undefined
                             ? this.observables[source]
                             : source,
-                        target: target !== null ? target : 'value',
-                        type: type !== null ? type : 'string',
+                        target: target,
+                        type: type,
                         node: pin_nodes[i],
                     };
                 }
@@ -208,23 +238,24 @@
              * @todo Consider using a dictionnary and an identifier per pin.
              */
             musterLinks: function () {
+                var _a, _b, _c, _d;
                 const link_nodes = [
                     ...document.querySelectorAll('[data-link]'),
                 ];
                 const length = link_nodes.length;
                 const links = Array(length);
                 for (let i = 0; i < length; i++) {
-                    const source = link_nodes[i].getAttribute('data-link');
-                    const event = link_nodes[i].getAttribute('data-event');
-                    const target = link_nodes[i].getAttribute('data-property');
-                    const type = link_nodes[i].getAttribute('data-type');
+                    const source = (_a = link_nodes[i].getAttribute('data-link')) !== null && _a !== void 0 ? _a : 'error';
+                    const event = (_b = link_nodes[i].getAttribute('data-event')) !== null && _b !== void 0 ? _b : 'input';
+                    const target = (_c = link_nodes[i].getAttribute('data-property')) !== null && _c !== void 0 ? _c : 'value';
+                    const type = (_d = link_nodes[i].getAttribute('data-type')) !== null && _d !== void 0 ? _d : 'string';
                     links[i] = {
                         source: this.observables[source] !== undefined
                             ? this.observables[source]
                             : source,
-                        target: target !== null ? target : 'value',
-                        event: event !== null ? event : 'input',
-                        type: type !== null ? type : 'string',
+                        event: event,
+                        target: target,
+                        type: type,
                         node: link_nodes[i],
                     };
                 }
@@ -255,6 +286,7 @@
                     if (typeof this.pins[i].source !== 'string') {
                         (this.pins[i].source).subscribe((value) => {
                             this.pins[i].node[this.pins[i].target] = value;
+                            // console.log('pin['+i+'] notified.');
                         });
                     }
                 }
@@ -365,7 +397,7 @@
                     this.turn.set("d" /* draw */);
                     return this;
                 }
-                /* Next turn !*/
+                /* Next turn ! */
                 this.turn.set(this.turn.value === "x" /* x */ ? "o" /* o */ : "x" /* x */);
                 return this;
             },
@@ -392,9 +424,10 @@
     }
     //----------------------------------------------------------------- main ---
     /**
-     * DOMContentLoaded loaded !
+     * Run the app !
      */
     window.addEventListener('DOMContentLoaded', function (event) {
+        var _a, _b, _c;
         const timer_x = newTimer().toggle();
         const timer_o = newTimer();
         const board = newBoard();
@@ -412,10 +445,11 @@
             .merge(view_context)
             .musterPins()
             .activatePins();
+        /* No links used for this game */
         // .musterLinks()
         // .activateLinks();
-        const timer_x_container = document.querySelector('.timer-x');
-        const timer_o_container = document.querySelector('.timer-o');
+        const timer_x_container = (_a = document.querySelector('.timer-x')) !== null && _a !== void 0 ? _a : document.createElement('p');
+        const timer_o_container = (_b = document.querySelector('.timer-o')) !== null && _b !== void 0 ? _b : document.createElement('p');
         /**
          * Translate board state to observable view context.
          *
@@ -442,12 +476,12 @@
             }
         };
         /**
-         * Add Board state subscriber to refresh.
+         * Add Board state subscriber to refresh view.
          */
         board_context.observables.board_x.subscribe(boardView);
         board_context.observables.board_o.subscribe(boardView);
         /**
-         * Add turn subscriber to toggles timers.
+         * Add turn subscriber to toggle timers.
          */
         board_context.observables.turn.subscribe((value) => {
             let msg = '';
@@ -486,7 +520,7 @@
             }, false);
         }
         //------------------------------------------------------ reset_button
-        const reset_button = document.querySelector('button[name=reset]');
+        const reset_button = (_c = document.querySelector('button[name=reset]')) !== null && _c !== void 0 ? _c : document.createElement('button');
         reset_button.addEventListener('click', function (event) {
             board.reset();
             timer_x.reset().toggle();
@@ -501,3 +535,8 @@
          */
     }); /* DOMContentLoaded */
 })(); /* IIFE */
+function sum(a, b) {
+    return a + b;
+}
+//   module.exports.sum = sum;
+module.exports.komrad = komrad;

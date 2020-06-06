@@ -1,0 +1,28 @@
+{
+  "name": "noops-and-crosses",
+  "version": "1.0.0",
+  "description": "student game",
+  "main": "script.js",
+  "dependencies": {
+    "jest": "^26.0.1",
+    "typescript": "^3.9.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "ts-jest": "^26.1.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pozorfluo/simplon-tp/tree/master/noops-and-crosses"
+  },
+  "keywords": [
+    "classless",
+    "spa",
+    "example"
+  ],
+  "author": "pozorfluo",
+  "license": "ISC"
+}
