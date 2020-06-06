@@ -518,6 +518,7 @@ function newTimer(): Timer & Observable<string> {
     return <Timer & Observable<string>>timer;
 }
 
+
 /**
  * Define Turn enum.
  */

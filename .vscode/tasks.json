@@ -21,7 +21,7 @@
             "args": [
                 "js/script.js",
                 "-o",
-                "dist/bundle.js"
+                "js/dist/bundle.js"
             ],
             "options": {
               "cwd": "${workspaceFolder}/noops-and-crosses",
