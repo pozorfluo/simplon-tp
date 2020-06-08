@@ -14,7 +14,7 @@ import {
  * 
  * @var id interval ID
  */
-interface Timer {
+export interface Timer {
     id: number;
     elapsed: number;
     start: number;
@@ -31,7 +31,7 @@ interface Timer {
 /**
  * Create new Timer object.
  */
-function newTimer(): Timer & Observable<string> {
+export function newTimer(): Timer & Observable<string> {
     const timer: any = {
         id: 0,
         elapsed: 0,

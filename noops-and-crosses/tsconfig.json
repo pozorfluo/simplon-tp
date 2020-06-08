@@ -13,7 +13,7 @@
         "esModuleInterop": true,
         "module": "CommonJS",
         "types": ["node", "jest"],
-        // "typeRoots": ["./node_modules/@types"],
+        // "typeRoots": ["./noops-and-crosses/node_modules/@types"],
         "outDir": "js"
     },
     "files": [
